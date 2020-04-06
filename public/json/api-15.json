@@ -1,0 +1,76 @@
+[
+    {
+        "chart1": [
+            {
+                "year": 2010,
+                "value": 10
+            },
+            {
+                "year": 2020,
+                "value": 14
+            },
+            {
+                "year": 2003,
+                "value": 16
+            },
+            {
+                "year": 2004,
+                "value": 28
+            }
+        ],
+        "chart2": [
+            {
+                "year": 2010,
+                "value": 10
+            },
+            {
+                "year": 2020,
+                "value": 1
+            },
+            {
+                "year": 2003,
+                "value": 16
+            },
+            {
+                "year": 2004,
+                "value": 52
+            }
+        ],
+        "chart3": [
+            {
+                "year": 2010,
+                "value": 10
+            },
+            {
+                "year": 2020,
+                "value": 14
+            },
+            {
+                "year": 2003,
+                "value": 16
+            },
+            {
+                "year": 2004,
+                "value": 18
+            }
+        ],
+        "chart4": [
+            {
+                "year": 2010,
+                "value": 10
+            },
+            {
+                "year": 2020,
+                "value": 41
+            },
+            {
+                "year": 2003,
+                "value": 16
+            },
+            {
+                "year": 2004,
+                "value": 28
+            }
+        ]
+    }
+]

@@ -1,0 +1,12 @@
+{
+    "type": 9,
+    "encumbered": {
+        "countSecurity": 2
+    },
+    "valid": {
+        "countValid": 132
+    },
+    "application": {
+        "countApplication": 22
+    }
+}

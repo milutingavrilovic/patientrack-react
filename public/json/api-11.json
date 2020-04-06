@@ -1,0 +1,15 @@
+[
+    {
+        "id": 2,
+        "asset": "",
+        "lawyer_id": 1,
+        "comment": "",
+        "created_at": "2020-04-02T11:55:37.000Z",
+        "company_lawyer": {
+            "first_name": "Test",
+            "last_name": "Lawyer",
+            "email_address": "test.lawyer@gmail.com",
+            "telephone": "777-888-1147"
+        }
+    }
+]

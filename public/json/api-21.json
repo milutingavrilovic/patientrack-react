@@ -1,0 +1,16 @@
+{
+    "user": {
+        "id": 9,
+        "first_name": "Karina",
+        "last_name": "Levitian",
+        "email_address": "null",
+        "role": {
+            "name": "Manager"
+        },
+        "organisation": {
+            "name": "LOOKOUT, INC.",
+            "logo": "https://backyard.synpat.com/public/upload/company_logo/optimize/4385_img_1552691723.png",
+            "id": 46
+        }
+    }
+}
