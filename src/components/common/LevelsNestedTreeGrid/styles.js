@@ -32,10 +32,10 @@ export default makeStyles((theme) => ({
   listItem: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'flex-start !important',
     color: '#d6d6d6',
     fontSize: '1.2019rem',
-    padding: '5px 0 0 5px',
+    padding: '5px 0 0 5px !important',
     fontStyle: 'normal',
     fontWeight: 400,
     lineHeight: 1.5
