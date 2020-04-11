@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
+
 import {
-  ListItem, Typography
+  ListItem
 } from "@material-ui/core";
+
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
 import CustomList from "./CustomList";
+import useStyles from "./styles";
 
 function CustomListItem(props) {
   const {depth} = props;
-  const [isOpened, setOpened] = useState(depth === 0 ? 1 : 0);
-  
+  const [isOpened, setOpened] = useState(depth === 0);
+  const classes = useStyles();
+
   const getLabel = () => {
     switch (depth) {
       case 0: case 1:
@@ -23,7 +27,7 @@ function CustomListItem(props) {
   };
 
   return (
-    <ListItem style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+    <ListItem className={classes.listItem}>
       <div
         onClick={() => {
           setOpened(!isOpened);
@@ -32,14 +36,22 @@ function CustomListItem(props) {
       >
 
         {
-          props.depth !== 3 && (isOpened ? <ArrowDropDown/> : <ArrowRight/>)
+          props.child && (isOpened ? <ArrowDropDown/> : <ArrowRight/>)
         }
-        <Typography style={{paddingLeft: 10, fontSize: 12}}>
+        <span
+          style={{
+            paddingLeft: depth === 3 ? '0.8rem' : 0
+          }}
+        >
           { getLabel()}
-        </Typography>
+        </span>
       </div>
       {
-         (isOpened && props.child) ? <CustomList data={props.child} depth={props.depth + 1}/>: ''
+         (isOpened && props.child)
+         ?
+           <CustomList data={props.child} depth={props.depth + 1}/>
+         :
+           ''
       }
     </ListItem>
   )

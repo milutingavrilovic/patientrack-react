@@ -2,64 +2,76 @@ import React, { useState } from "react";
 import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
 import TabsContainer from "../Tabs/TabsContainer";
-import Timeline from 'react-visjs-timeline'
-
+import Timeline from 'react-visjs-timeline';
 import {connect} from 'react-redux';
-
-const options = {
-  width: '100%',
-  height: '60px',
-  stack: false,
-  showMinorLabels: true,
-  showCurrentTime: true,
-  zoomMin: 10,
-  type: 'background',
-  format: {
-    minorLabels: {
-      minute: 'h:mma',
-      hour: 'ha'
-    }
-  }
-};
+import {Link} from 'react-router-dom';
 
 function TimeLineContainer(props) {
   const classes = useStyles();
   const [activeTabId, setActiveTabId] = useState(0);
-  const items = props.timeLine.assignment_assignors.map(item => {
-    const startDate = new Date(item.exec_dt);
-    return {
-      start: startDate,
-      end: new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1),
-      content: item.raw_name
-    };
-  });
-
-  console.log('timeline', items);
+  const [showSwitcher, setShowSwitcher] = useState(0);
 
   return (
-    <div className={classes.timeLineContainer}>
+    <div
+      className     = {classes.timeLineContainer}
+      onMouseOver   = {() => {setShowSwitcher(true)}}
+      onMouseLeave  = {() => {setShowSwitcher(false)}}
+    >
       <div className={classes.container}>
-        <Timeline
-          options={options}
-          items={items}
-        />
+        {
+          activeTabId === 0 &&
+          <Timeline
+            items={props.timeLine.assignment_assignee ? props.timeLine.assignment_assignee.map(item => {
+              return {
+                id: item.id,
+                content: item.raw_name,
+                start: item.exec_dt,
+                type: 'box',
+                scaleType: 'day'
+              }
+            }) : []}
+          />
+        }
+        {
+          activeTabId === 1 &&
+          <Timeline
+            items={(props.assets && props.assets.box) ? props.assets.box.map(item => {
+              return {
+                id: item.id,
+                content: item.name,
+                start: item.execution_date,
+                type: 'box',
+                scaleType: 'day'
+              }
+            }) : []}
+          />
+        }
+        {
+          activeTabId === 2 &&
+          <Link
+            className={classes.outsource}
+            to={props.assetsOutsource.url}
+          >
+            {props.assetsOutsource.url}
+          </Link>
+        }
       </div>
-
-      <i className={"fa fa-user"}/>
 
       <TabsContainer
         activeTabId={activeTabId}
         setActiveTabId={setActiveTabId}
         tabs={['Time', 'Illust', 'PTO']}
       />
-      <FullWidthSwitcher widget={"timeline"}/>
+      <FullWidthSwitcher show={showSwitcher} widget={"timeline"}/>
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    timeLine: state.patientReducer.timeLine
+    timeLine: state.patenTrack.timeLine,
+    assetsOutsource: state.patenTrack.assetsOutsource,
+    assets: state.patenTrack.assets
   };
 };
 

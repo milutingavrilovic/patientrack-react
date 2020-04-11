@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import patientReducer from './patientReducer';
+import patenTrackReducer from './patenTrackReducer';
 
 const rootReducer = combineReducers({
-  authReducer,
-  patientReducer
+  auth: authReducer,
+  patenTrack: patenTrackReducer
 });
 
 export default rootReducer;

@@ -1,32 +1,43 @@
 import { makeStyles } from "@material-ui/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   nestedTree: {
     position: 'relative',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 1
+    flexGrow: 1,
+    height: 400
   },
   container: {
-    backgroundColor: '#222222',
-    margin: 4,
+    backgroundColor: theme.color.background,
+    margin: 5,
     color: 'white',
-    overflow: 'auto',
-    flexGrow: 1
-  },
-  scrollbar: {
-    maxHeight: 450,
-    minHeight: 450
+    flexGrow: 1,
+    overflow: 'hidden',
+    height: '100%',
+    border: '1px solid #363636',
   },
   typography: {
     lineHeight: 2,
   },
-  listContainer: {
-    overflow: 'auto',
-  },
   flexColumn: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  list: {
+    height: '100%',
+    padding: 5
+  },
+  listItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    color: '#d6d6d6',
+    fontSize: '1.2019rem',
+    padding: '5px 0 0 5px',
+    fontStyle: 'normal',
+    fontWeight: 400,
+    lineHeight: 1.5
   }
 }));

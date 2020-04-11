@@ -1,30 +1,56 @@
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
+  transactionsContainer: {
+    position: 'relative',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    height: '100%'
+  },
   container: {
-    backgroundColor: '#222222',
-    borderWidth: 4,
-    borderColor: 'black',
-    borderStyle: 'solid',
+    backgroundColor: theme.color.background,
+    margin: 5,
     padding: theme.spacing(2),
     color: 'white',
-    height: 150
+    border: '1px solid #363636',
+    flexGrow: 1
   },
   typography: {
     lineHeight: 2,
-    fontSize: 14,
+    fontSize: '1.2rem',
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    padding: '0 10px'
+  },
+  typographyExpand: {
+    lineHeight: 2,
+    fontSize: '2.2rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0 10px'
   },
   heading: {
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    fontSize: '1.375rem',
+    textAlign: 'center',
+    margin: 0
   },
-  value: {
-    fontSize: 30
+  headingExpand: {
+    paddingBottom: theme.spacing(2),
+    fontSize: '3.375rem',
+    textAlign: 'center',
+    margin: 0
   },
-  transactonWrapper: {
+  context: {
     display: 'flex',
-    justifyContent: 'space-around'
+    flexDirection: 'column'
+  },
+  contextExpand: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 500,
+    margin: '0 auto'
   }
 }));

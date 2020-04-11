@@ -1,23 +1,25 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import {
   List
 } from "@material-ui/core";
 import CustomListItem from "./CustomListItem";
-
-import {connect} from 'react-redux';
+import useStyle from './styles';
 
 function CustomList(props) {
+  const classes = useStyle();
+
   return (
-    <List style={{height: '100%'}}>
+    <List className={classes.list}>
       {
-        props.data !== undefined && props.data.length
+        props.data && props.data.length
         ?
           props.data.map((item, index) => (
             <CustomListItem
-              key={index}
-              depth={props.depth}
-              child={props.depth===0 ? item.child : props.child}
+              key     = {index}
+              depth   = {props.depth}
+              child   = {props.depth===0 ? item.child : props.child}
               {...item}
             />
           ))
@@ -35,12 +37,12 @@ const mapStateToProps = (state, ownProps) => {
     case 1:
       return {
         ...ownProps,
-        child: state.patientReducer.customersNamesCollections
+        child: state.patenTrack.customersNamesCollections
       };
     case 2:
       return {
         ...ownProps,
-        child: state.patientReducer.customersRFIDAssets
+        child: state.patenTrack.customersRFIDAssets
       };
     default:
       return {};

@@ -1,35 +1,43 @@
 import { makeStyles } from "@material-ui/styles";
 
-export default makeStyles(theme => ({
+export default makeStyles((theme) => ({
+  charts: {
+    position: 'relative',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    width: '100%'
+  },
   container: {
-    backgroundColor: '#222222',
-    padding: theme.spacing(0.5),
     color: 'white',
     flexWrap: 'wrap',
-    flexGrow: 1,
     display: 'flex',
-    alignItems: 'space-around'
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: 1200
   },
   chatsContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
-    margin: 4,
     position: 'relative',
-    flexGrow: 1
-  },
-  chartWrapper: {
-    maxWidth: 900,
-    margin: '0 auto'
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 5,
+    padding: 5,
+    border: '1px solid #363636',
   },
   typography: {
     lineHeight: 2,
   },
-  chart: {
-    width: '50%',
-    height: '50%'
-  },
   gridItem: {
-
+    width: '50%',
+    maxHeight: '50%',
+  },
+  chart: {
+    border: '1px solid #363636',
+    margin: 5,
+    backgroundColor: theme.color.background,
   }
 }));

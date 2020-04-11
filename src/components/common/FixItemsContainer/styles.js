@@ -1,49 +1,100 @@
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
+  fixItemsContainer: {
+    position: 'relative',
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    width: '100%'
+  },
   container: {
     color: 'white',
-    padding: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
     position: 'relative',
-    backgroundColor: '#222222',
-    margin: 4
+    width: '100%',
+    alignItems: 'center'
   },
   content: {
-    maxWidth: 500,
-    margin: '0 auto',
-    width: '100%'
+    width: '100%',
+    flexGrow: 1,
+    display: 'flex'
   },
-  header: {
-    fontSize: 30,
-    fontWeight: 700,
-    textAlign: 'center',
-    color: 'white',
-    marginBottom: theme.spacing(1),
+  wrapper: {
+    backgroundColor: theme.color.background,
+    width: '100%',
+    margin: 5,
+    border: '1px solid #363636',
+  },
+  context: {
+    margin: '0 auto',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column'
   },
+  scrollbar: {
+    flexGrow: 1,
+    overflow: 'hidden',
+    height: 200,
+  },
+  header: {
+    fontSize: '1.2rem',
+    fontWeight: 300,
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  columnItem: {
+    borderBottom: '1px solid #5c5c5c',
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  rowItem: {
+    border: '1px solid #5c5c5c',
+    width: '100%',
+    display: 'flex',
+  },
   itemsCount: {
-    fontSize: 40,
+    fontSize: '4.5rem',
     fontWeight: 700,
     textAlign: 'center',
+    lineHeight: 'normal',
     margin: 0
   },
-  typography: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    textAlign: 'center',
-    fontSize: 18
-  },
-  value: {
-    flexGrow: 1,
-    textAlign: 'right',
-    wordBreak: 'break-all'
-  },
   gridItem: {
-    paddingBottom: theme.spacing(0.5),
-    fontSize: 12
+    fontSize: '1rem',
+    color: theme.color.lightGray,
+    lineHeight: 1.2,
+    padding: '5px 10px',
+  },
+  gridItemHeader: {
+    fontSize: '1rem',
+    color: theme.color.lightGray,
+    lineHeight: 1.2,
+    padding: '5px 10px',
+    minWidth: 150,
+    borderRight: '1px solid #363636'
+  },
+  telephone: {
+    color: theme.color.white,
+    order: 1
+  },
+  created_dt: {
+    color: theme.color.lightGray,
+    order: 2
+  },
+  name: {
+    order: 3
+  },
+  row: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: 10
+    //padding: '0 2rem',
   }
 }));

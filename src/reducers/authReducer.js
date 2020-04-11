@@ -1,5 +1,4 @@
 import * as types from '../actions/actionTypes';
-
 import initialState from './initialState';
 
 const authReducer = (state = initialState.auth, action) => {
@@ -10,17 +9,16 @@ const authReducer = (state = initialState.auth, action) => {
         authenticated: true,
         user: Object.assign({}, action.user)
       };
-    case types.SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        authenticated: true,
-        user: Object.assign({}, action.user)
-      };
     case types.SIGN_OUT_SUCCESS:
       return {
         ...state,
         authenticated: false,
         user: Object.assign({}, {})
+      };
+    case types.SET_PROFILE:
+      return {
+        ...state,
+        profile: action.data
       };
     default:
       return state;

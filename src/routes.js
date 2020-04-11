@@ -1,12 +1,11 @@
 import React from 'react';
-import { Route, IndexRoute } from "react-router";
-import Login from "./components/auth/login";
+import {Switch, Route} from 'react-router-dom';
+import DashBoard from "./components/DashBoard/DashBoard";
+import Auth from "./components/auth";
 
 export default (
-  <Route>
-    <Route exact path="/" component={Auth}/>
-    <Route>
-      DashBoard
-    </Route>
-  </Route>
+  <Switch>
+    <Route exact path="/dashboard" component={DashBoard}/>
+    <Route path="/" component={Auth}/>
+  </Switch>
 );

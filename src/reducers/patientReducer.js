@@ -1,5 +1,4 @@
 import * as types from '../actions/actionTypes';
-
 import initialState from './initialState';
 
 const patientReducer = (state = initialState.patient, action) => {

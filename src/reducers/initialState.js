@@ -3,21 +3,24 @@ export default {
   patient: {
     currentWidget: 'all',
     validateCounter: {},
-    ownerData: [],
-    securData: [],
-    otherData: [],
+    customersData: {
+      'ownership': [],
+      'security': [],
+      'other': []
+    },
+    assetsCount: {},
     customersNamesCollections: [],
     customersRFIDAssets: [],
-    fixItemCount: 0,
-    recordItemCount: 0,
-    fixItemList: [],
-    recordItemList: [],
-    notificationsCount: 0,
+    recordItems: {},
+    alertsCount: 0,
     messagesCount: 0,
-    chartsTab1: {},
-    chartsTab2: {},
-    chartsTab3: {},
+    charts: {},
     timeLine: {},
-    transactions: []
+    transactions: [],
+    comments: '',
+    screenHeight: 0,
+    screenWidth: 0,
+    assets: {},
+    assetsOutsource: {}
   }
 };

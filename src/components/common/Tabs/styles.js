@@ -1,17 +1,28 @@
 import { makeStyles } from "@material-ui/styles";
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
+  tabsWrapper: {
+    maxWidth: 1200,
+    width: '100%',
+  },
   tabs: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    marginTop: -5,
     minHeight: 'initial',
-    marginLeft: 16,
-    marginRight: 16,
-    marginTop: -4
+    backgroundColor: theme.color.spacing,
+    position: 'relative',
   },
   tabItem: {
-    minWidth: 50,
-    fontSize: 12,
+    minWidth: 'initial',
+    fontSize: '.875rem',
+    lineHeight: '1.5rem',
     minHeight: 'initial',
-    backgroundColor: '#222',
-    marginLeft: 4,
-    marginRight: 4
+    marginLeft: 2.5,
+    marginRight: 2.5,
+    padding: '1px 0.75rem',
+    color: theme.color.lightGray,
+    border: '1px solid #363636',
+    marginBottom: 4,
+    borderTopWidth: 0
   }
 }));

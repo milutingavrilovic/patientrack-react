@@ -9,20 +9,23 @@ export default makeStyles(theme => ({
     position: 'relative',
     flexGrow: 1,
     flexDirection: 'column',
-    display: 'flex'
+    display: 'flex',
+    height: 'auto',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
   },
   container: {
-    backgroundColor: 'black',
-    padding: 4,
+    backgroundColor: theme.color.spacing,
+    padding: 5,
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'nowrap',
+    overflowX: 'hidden',
+    overflowY: 'hidden',
     [theme.breakpoints.down("md")]: {
-      height: 'auto !important'
+      height: 'auto'
     }
-  },
-  widget: {
-    backgroundColor: '#222222',
   },
   flexColumn: {
     display: 'flex',

@@ -18,7 +18,6 @@ function SignUp(props) {
   const [error, setError] = useState(null);
 
   const onSignUp = () => {
-    console.log('sign-up-button', props.actions);
     if(password !== confirmPassword)
       return;
     props.actions.signUp({
@@ -34,106 +33,115 @@ function SignUp(props) {
   };
 
   return (
-    <React.Fragment>
-      <Typography variant="h1" className={classes.greeting}>
+    <div className={classes.signUpForm}>
+      <Typography
+        variant   = "h1"
+        className = {classes.greeting}
+      >
         Welcome!
       </Typography>
-      <Typography variant="h2" className={classes.subGreeting}>
+      <Typography
+        variant   = "h2"
+        className = {classes.subGreeting}
+      >
         Create your account
       </Typography>
       <Fade in={error}>
-        <Typography color="secondary" className={classes.errorMessage}>
+        <Typography
+          color     = "secondary"
+          className = {classes.errorMessage}
+        >
           {error}
         </Typography>
       </Fade>
       <TextField
-        id="firstName"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        InputProps={{
+        id          = "firstName"
+        value       = {firstName}
+        onChange    = {(e) => setFirstName(e.target.value)}
+        InputProps  = {{
           classes: {
             underline: classes.textFieldUnderline,
             input: classes.textField,
           },
         }}
-        margin="normal"
-        placeholder="First Name"
-        type="text"
+        margin      = "normal"
+        placeholder = "First Name"
+        type        = "text"
         fullWidth
       />
       <TextField
-        id="lastName"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        InputProps={{
+        id          = "lastName"
+        value       = {lastName}
+        onChange    = {(e) => setLastName(e.target.value)}
+        InputProps  = {{
           classes: {
             underline: classes.textFieldUnderline,
             input: classes.textField,
           },
         }}
-        margin="normal"
-        placeholder="Last Name"
-        type="text"
+        margin      = "normal"
+        placeholder = "Last Name"
+        type        = "text"
         fullWidth
       />
       <TextField
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        InputProps={{
+        id          = "email"
+        value       = {email}
+        onChange    = {(e) => setEmail(e.target.value)}
+        InputProps  = {{
           classes: {
             underline: classes.textFieldUnderline,
             input: classes.textField,
           },
         }}
-        margin="normal"
-        placeholder="Email Adress"
-        type="email"
+        margin      = "normal"
+        placeholder = "Email Adress"
+        type        = "email"
         fullWidth
       />
       <TextField
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        InputProps={{
+        id          = "password"
+        value       = {password}
+        onChange    = {(e) => setPassword(e.target.value)}
+        InputProps  = {{
           classes: {
             underline: classes.textFieldUnderline,
             input: classes.textField,
           },
         }}
-        margin="normal"
-        placeholder="Password"
-        type="password"
+        margin      = "normal"
+        placeholder = "Password"
+        type        = "password"
         fullWidth
       />
       <TextField
-        id="confirmPassword"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        InputProps={{
+        id          = "confirmPassword"
+        value       = {confirmPassword}
+        onChange    = {(e) => setConfirmPassword(e.target.value)}
+        InputProps  = {{
           classes: {
             underline: classes.textFieldUnderline,
             input: classes.textField,
           },
         }}
-        margin="normal"
-        placeholder="Confirm Password"
-        type="password"
+        margin      = "normal"
+        placeholder = "Confirm Password"
+        type        = "password"
         fullWidth
       />
       <div className={classes.creatingButtonContainer}>
         <Button
-          size="large"
-          variant="contained"
-          color="primary"
+          size      = "large"
+          variant   = "contained"
+          color     = "primary"
+          className = {classes.createAccountButton}
+          onClick   = {onSignUp}
           fullWidth
-          className={classes.createAccountButton}
-          onClick={onSignUp}
         >
           Create your account
         </Button>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

@@ -29,7 +29,8 @@
     "redux-thunk": "^2.3.0",
     "tinycolor2": "^1.4.1",
     "vis": "^4.21.0-EOL",
-    "vis-timeline": "^7.3.4"
+    "vis-timeline": "^7.3.4",
+    "react-perfect-scrollbar": "^1.5.8"
   },
   "scripts": {
     "start": "react-scripts start",

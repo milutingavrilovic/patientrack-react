@@ -1,34 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
 import useStyles from "./styles";
-import {setCurrentWidget} from "../../../actions/patientTrackActions";
+import {setCurrentWidget} from "../../../actions/patenTrackActions";
 import {connect} from 'react-redux';
 
-import {
-  ZoomOutMap
-} from "@material-ui/icons";
-
 function FullWidthSwitcher(props) {
-  const [showSwitcher, setShowSwitcher] = useState(0);
   const classes = useStyles();
+  const isExpanded = props.currentWidget === props.widget;
+
   return (
     <div>
-      <div
-        className={classes.showSwitcher}
-        onMouseOver={() => {setShowSwitcher(true)}}
-        style={{backgroundColor: 'transparent'}}
-      >
-      </div>
       {
-        showSwitcher
+        props.show
         ?
           <div
-            className={classes.switcher}
-            onClick={() => {
+            className     = {classes.switcher}
+            onClick       = {() => {
               props.setCurrentWidget(props.widget);
             }}
-            onMouseLeave={() => {setShowSwitcher(false)}}
           >
-            {showSwitcher ? <ZoomOutMap style={{fontSize: 12}}/> : ''}
+            <img src={ isExpanded ? "/assets/images/inward_icon.svg" : "/assets/images/upward_icon.svg"} alt={''}/>
           </div>
         :
           ''
@@ -37,9 +27,9 @@ function FullWidthSwitcher(props) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-
+    currentWidget: state.patenTrack.currentWidget
   };
 };
 
