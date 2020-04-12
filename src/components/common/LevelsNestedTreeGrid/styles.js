@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
   },
   list: {
     height: '100%',
-    padding: 5
+    padding: '5px !important'
   },
   listItem: {
     display: 'flex',
