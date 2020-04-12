@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import {connect} from 'react-redux';
 import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
+import Loader from "../Loader/Loader";
 
 function UpdatedAssests(props) {
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'updatedAssets';
+  const {today, month, last_month} = props.assetsCount;
 
   return (
     <div
@@ -15,24 +17,34 @@ function UpdatedAssests(props) {
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
-      <div className={classes.container}>
-        <span
-          className={ isExpanded ? classes.headingExpand : classes.heading}
-        >
-          Updated Assets
-        </span>
-        <div className={ isExpanded ? classes.contextExpand : classes.context}>
-          <span>
-            Today: {props.assetsCount.today}
-          </span>
-          <span>
-            This month: {props.assetsCount.month}
-          </span>
-          <span>
-            Last month: {props.assetsCount.last_month}
-          </span>
-        </div>
-      </div>
+      {
+        props.isLoading
+        ?
+          <div className={classes.container}>
+            <Loader/>
+          </div>
+        :
+          <div className={classes.container}>
+            <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
+              <span
+                className={ isExpanded ? classes.headingExpand : classes.heading}
+              >
+                Updated Assets
+              </span>
+              <div className={ isExpanded ? classes.contextExpand : classes.context}>
+                <span>
+                  Today: {today}
+                </span>
+                <span>
+                  This month: {month}
+                </span>
+                <span>
+                  Last month: {last_month}
+                </span>
+              </div>
+            </div>
+          </div>
+      }
       <FullWidthSwitcher show={showSwitcher} widget={"updatedAssets"}/>
     </div>
   );
@@ -41,7 +53,8 @@ function UpdatedAssests(props) {
 const mapStateToProps = (state) => {
   return {
     assetsCount: state.patenTrack.assetsCount,
-    currentWidget: state.patenTrack.currentWidget
+    currentWidget: state.patenTrack.currentWidget,
+    isLoading: state.patenTrack.isLoading
   };
 };
 

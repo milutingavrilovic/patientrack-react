@@ -10,15 +10,17 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
-    flexGrow: 1
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   validateContainer: {
     position: 'relative',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    flexGrow: 1
+    flexGrow: 1,
+    height: 148
   },
   value: {
     color: '#e60000'
@@ -55,5 +57,12 @@ export default makeStyles(theme => ({
     margin: '0 auto',
     lineHeight: 1.5,
     fontSize: '2.3rem',
+  },
+  wrapper: {
+    width: '100%'
+  },
+  wrapperExpand: {
+    width: '100%',
+    minHeight: 500
   }
 }));

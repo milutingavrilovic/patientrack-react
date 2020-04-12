@@ -4,7 +4,6 @@ import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
 import TabsContainer from "../Tabs/TabsContainer";
 import Timeline from 'react-visjs-timeline';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 
 function TimeLineContainer(props) {
   const classes = useStyles();
@@ -48,12 +47,11 @@ function TimeLineContainer(props) {
         }
         {
           activeTabId === 2 &&
-          <Link
-            className={classes.outsource}
-            to={props.assetsOutsource.url}
-          >
-            {props.assetsOutsource.url}
-          </Link>
+            <div className={classes.outSourceWrapper}>
+              <div className={classes.padding}>
+                <iframe className={classes.outsource} src={props.assetsOutsource.url} title={props.assetsOutsource.url}/>
+              </div>
+            </div>
         }
       </div>
 

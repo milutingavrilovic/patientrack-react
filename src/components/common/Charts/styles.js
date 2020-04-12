@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: 1200
+    maxWidth: 1200,
   },
   chatsContainer: {
     display: 'flex',
@@ -39,5 +39,13 @@ export default makeStyles((theme) => ({
     border: '1px solid #363636',
     margin: 5,
     backgroundColor: theme.color.background,
+    position: 'relative',
+  },
+  loaderWrapper: {
+    position: 'relative',
+    height: 300,
+    width: '100%',
+    backgroundColor: '#222',
+    border: '1px solid #363636'
   }
 }));

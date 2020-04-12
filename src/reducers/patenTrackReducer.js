@@ -29,12 +29,18 @@ const patenTrackReducer = (state = initialState.patient, action) => {
     case types.SET_CUSTOMERS_NAME_COLLECTIONS:
       return {
         ...state,
-        customersNamesCollections: [...action.data]
+        customersNamesCollections: Object.assign({}, {
+          ...state.customersNamesCollections,
+          [action.name]: [...action.data]
+        })
       };
     case types.SET_CUSTOMER_RFID_ASSETS:
       return {
         ...state,
-        customersRFIDAssets: [...action.data]
+        customersRFIDAssets: Object.assign({}, {
+          ...state.customersRFIDAssets,
+          [action.rfID]: [...action.data]
+        })
       };
     case types.SET_RECORD_ITEMS:
       return {
@@ -95,6 +101,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
       return {
         ...state,
         assetsOutsource: action.data
+      };
+    case types.SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.data
       };
     default:
       return state;

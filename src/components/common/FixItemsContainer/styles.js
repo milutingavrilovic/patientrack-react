@@ -39,13 +39,20 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     overflow: 'hidden',
     height: 200,
+    position: 'relative'
+  },
+  headerWrapper: {
+    position: 'relative',
+    height: 100,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   header: {
     fontSize: '1.2rem',
     fontWeight: 300,
     textAlign: 'center',
     color: 'white',
-    marginBottom: '1rem',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -70,26 +77,23 @@ export default makeStyles(theme => ({
     fontSize: '1rem',
     color: theme.color.lightGray,
     lineHeight: 1.2,
-    padding: '5px 10px',
+    padding: '2px 10px',
   },
-  gridItemHeader: {
+  gridItemExpand: {
     fontSize: '1rem',
     color: theme.color.lightGray,
     lineHeight: 1.2,
     padding: '5px 10px',
-    minWidth: 150,
+    width: 'calc(100% / 8)',
     borderRight: '1px solid #363636'
   },
   telephone: {
     color: theme.color.white,
-    order: 1
   },
   created_dt: {
     color: theme.color.lightGray,
-    order: 2
   },
   name: {
-    order: 3
   },
   row: {
     display: 'flex',

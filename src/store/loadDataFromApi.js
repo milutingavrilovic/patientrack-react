@@ -20,8 +20,6 @@ const loadDataFromApi = (dispatch) => {
   dispatch(getCustomers('security'));
   dispatch(getCustomers('other'));
 
-  dispatch(getCustomersNameCollections());
-  dispatch(getCustomerRFIDAssets());
   dispatch(getRecordItems(0, 'count'));
   dispatch(getRecordItems(0, 'list'));
   dispatch(getRecordItems(1, 'count'));

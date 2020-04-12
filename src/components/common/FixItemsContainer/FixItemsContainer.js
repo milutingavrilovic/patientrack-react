@@ -1,19 +1,104 @@
 import React, { useState } from "react";
 import {connect} from 'react-redux';
-import { Typography } from "@material-ui/core";
 import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import classnames from 'classnames';
+import Loader from "../Loader/Loader";
 
 function FixItemsContainer(props) {
   const classes = useStyles();
   const isExpanded = props.currentWidget === 'fixItems';
   const [showSwitcher, setShowSwitcher] = useState(0);
 
-  const expandStyle = {
-    minWidth: isExpanded ? 150 : 'intial',
-    borderRight: isExpanded ? '1px solid #363636' : 'initial'
+  const renderItemList = () => {
+    if(!isExpanded) {
+      return (
+        <div className={classes.column}>
+        {
+          props.fixItemList
+            ?
+            props.fixItemList.map(item => {
+              const createdAt = new Date(item.created_at);
+
+              return (
+                <div
+                  key={item.id}
+                  className={classes.columnItem}
+                >
+                  <div className={classnames(classes.telephone, classes.gridItem)}>
+                    {item.company_lawyer.telephone}
+                  </div>
+                  <div className={classnames(classes.created_dt, classes.gridItem)}>
+                    {new Intl.DateTimeFormat('en-US').format(createdAt)}
+                  </div>
+                  <div className={classnames(classes.name, classes.gridItem)}>
+                    {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
+                  </div>
+                </div>
+              )
+            })
+            :
+            ''
+        }
+      </div>);
+    }
+    return (
+      <div className={classes.row}>
+        <div className={classes.rowItem}>
+          <span className={classes.gridItemExpand}>Id</span>
+          <span className={classes.gridItemExpand}>Asset</span>
+          <span className={classes.gridItemExpand}>LawyerId</span>
+          <span className={classes.gridItemExpand}>Comment</span>
+          <span className={classes.gridItemExpand}>Company Name</span>
+          <span className={classes.gridItemExpand}>Telephone</span>
+          <span className={classes.gridItemExpand}>Created At</span>
+          <span className={classes.gridItemExpand}>EmailAddress</span>
+        </div>
+        {
+          props.fixItemList
+            ?
+            props.fixItemList.map(item => {
+              const createdAt = new Date(item.created_at);
+
+              return (
+                <div
+                  key={item.id}
+                  className={classes.rowItem}
+                >
+                  <div className={classes.gridItemExpand}>
+                    {item.id}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {item.asset}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {item.lawyer_id}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {item.comment}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
+                  </div>
+
+                  <div className={classes.gridItemExpand}>
+                    {item.company_lawyer.telephone}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {new Intl.DateTimeFormat('en-US').format(createdAt)}
+                  </div>
+                  <div className={classes.gridItemExpand}>
+                    {item.company_lawyer.email_address}
+                  </div>
+                </div>
+              )
+            })
+            :
+            ''
+        }
+      </div>
+    );
   };
 
   return (
@@ -26,77 +111,36 @@ function FixItemsContainer(props) {
         <div className={classes.content}>
           <div className={classes.wrapper}>
             <div className={classes.context}>
-              <Typography
-                varient="h1"
-                className={classes.header}
-              >
-                Fix it:
-                <span className={classes.itemsCount}>
-                {props.fixItemCount}
+              <span className={classes.headerWrapper}>
+                {
+                  props.isLoading
+                  ?
+                    <Loader/>
+                  :
+                    <div className={classes.header}>
+                      Fix it:
+                      <span className={classes.itemsCount}>
+                        {props.fixItemCount}
+                      </span>
+                    </div>
+                }
               </span>
-              </Typography>
               <div className={classes.scrollbar}>
-                <PerfectScrollbar
-                  options={{
-                    suppressScrollX: true,
-                    minScrollbarLength: 20,
-                    maxScrollbarLength: 25
-                  }}
-                >
-                  <div className={ isExpanded ? classes.row : classes.column}>
-                    {
-                      isExpanded
-                        ?
-                        <div className={classes.rowItem}>
-                          <span className={classes.gridItemHeader}>Company Name</span>
-                          <span className={classes.gridItemHeader}>Telephone</span>
-                          <span className={classes.gridItemHeader}>Created At</span>
-                        </div>
-                        :
-                        ''
-                    }
-                    {
-                      props.fixItemList
-                      ?
-                        props.fixItemList.map(item => {
-                          const createdAt = new Date(item.created_at);
-
-                          return (
-                            <div
-                              key={item.id}
-                              className={ isExpanded ? classes.rowItem : classes.columnItem}
-                            >
-                              <div
-                                className={classnames(classes.telephone, classes.gridItem)}
-                                style={{...(isExpanded ? expandStyle : {})}}
-                              >
-                                {item.company_lawyer.telephone}
-                              </div>
-                              <div
-                                className={classnames(classes.created_dt, classes.gridItem)}
-                                style={{
-                                  ...(isExpanded ? expandStyle : {})
-                                }}
-                              >
-                                {new Intl.DateTimeFormat('en-US').format(createdAt)}
-                              </div>
-                              <div
-                                className={classnames(classes.name, classes.gridItem)}
-                                style={{
-                                  order: isExpanded ? 'initial' : 3,
-                                  ...(isExpanded ? expandStyle : {})
-                                }}
-                              >
-                                {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
-                              </div>
-                            </div>
-                          )
-                        })
-                      :
-                        ''
-                    }
-                  </div>
-                </PerfectScrollbar>
+                {
+                  props.isLoading
+                  ?
+                    <Loader/>
+                  :
+                    <PerfectScrollbar
+                      options={{
+                        suppressScrollX: true,
+                        minScrollbarLength: 20,
+                        maxScrollbarLength: 25
+                      }}
+                    >
+                      {renderItemList()}
+                    </PerfectScrollbar>
+                }
               </div>
             </div>
           </div>
@@ -113,7 +157,8 @@ const mapStateToProps = state => {
   return {
     fixItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
     fixItemList: recordItems ? recordItems.list : [],
-    currentWidget: state.patenTrack.currentWidget
+    currentWidget: state.patenTrack.currentWidget,
+    isLoading: state.patenTrack.isLoading
   };
 };
 

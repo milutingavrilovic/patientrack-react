@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
   },
   container: {
     backgroundColor: theme.color.background,
-    margin: 5,
+    margin: '5px 5px 0 5px',
     color: 'white',
     flexGrow: 1,
     overflow: 'hidden',

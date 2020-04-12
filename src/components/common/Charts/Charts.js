@@ -7,9 +7,9 @@ import TabsContainer from '../Tabs/TabsContainer';
 import { Line } from 'react-chartjs-2';
 import { connect } from 'react-redux';
 
-import {
-  Grid
-} from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import Loader from "../Loader/Loader";
+import classnames from 'classnames';
 
 const backgroundColor = 'rgb(255, 170, 0)';
 
@@ -17,8 +17,7 @@ function Charts(props) {
   const classes = useStyles();
   const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
-  const charts = props.chartsTab ? props.chartsTab[activeTabId] : {};
-
+  const charts = props.chartsTab.length ? props.chartsTab[activeTabId] : [];
   return (
     <div
       className={classes.charts}
@@ -26,39 +25,52 @@ function Charts(props) {
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
       <div className={classes.chatsContainer}>
-        <div className={classes.container}>
           {
-            charts && Object.entries(charts).map((chart, index) =>
-              <Grid
-                key={index}
-                item xs={6}
-                className={classes.gridItem}
-                style={{
-                  maxWidth: props.currentWidget === 'charts' ? 600 : 'initial',
-                  flexBasis: 'initial'
-                }}
-              >
-                <div className={classes.chart}>
-                  <Line
-                    data = {{
-                      labels: chart[1].map(item => item.year),
-                      datasets: [{
-                        label: chart[0],
-                        fill: false,
-                        lineTension: 0.5,
-                        data: chart[1].map(item => item.value),
-                        backgroundColor: backgroundColor,
-                        borderColor: backgroundColor,
-                        borderWidth: 1
-                      }]
-                    }}
-                    lg={6}
-                    xs={6}
-                  />
-                </div>
-              </Grid>)
+            !props.isLoading
+            ?
+              <div className={classes.container}>
+                {
+                  Object.entries(charts).map((chart, index) =>
+                    <Grid
+                      key={index}
+                      item xs={6}
+                      className={classes.gridItem}
+                      style={{
+                        maxWidth: props.currentWidget === 'charts' ? 600 : 'initial',
+                        flexBasis: 'initial'
+                      }}
+                    >
+                      <div
+                        className={classes.chart}
+                        style={{
+                          margin: index > 1 ? '5px 5px 0' : 5
+                        }}
+                      >
+                        <Line
+                          data = {{
+                            labels: chart[1].map(item => item.year),
+                            datasets: [{
+                              label: chart[0],
+                              fill: false,
+                              lineTension: 0.5,
+                              data: chart[1].map(item => item.value),
+                              backgroundColor: backgroundColor,
+                              borderColor: backgroundColor,
+                              borderWidth: 1
+                            }]
+                          }}
+                          lg={6}
+                          xs={6}
+                        />
+                      </div>
+                    </Grid>)
+                }
+              </div>
+            :
+              <div className={classnames(classes.container, classes.loaderWrapper)}>
+                <Loader/>
+              </div>
           }
-        </div>
 
         <TabsContainer
           activeTabId={activeTabId}
@@ -74,7 +86,8 @@ function Charts(props) {
 const mapStateToProps = state => {
   return {
     chartsTab: Object.values(state.patenTrack.charts),
-    currentWidget: state.patenTrack.currentWidget
+    currentWidget: state.patenTrack.currentWidget,
+    isLoading: state.patenTrack.isLoading
   };
 };
 

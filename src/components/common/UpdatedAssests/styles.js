@@ -17,7 +17,10 @@ export default makeStyles(theme => ({
     border: '1px solid #363636',
     flexGrow: 1,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+
   },
   heading: {
     paddingBottom: theme.spacing(1),
@@ -50,5 +53,20 @@ export default makeStyles(theme => ({
     width: '60%',
     fontWeight: 500,
     margin: '0 auto'
+  },
+  wrapper: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  wrapperExpand: {
+    width: '100%',
+    minHeight: 500,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   }
 }));

@@ -7,7 +7,6 @@ export default makeStyles((theme) => ({
   tabs: {
     paddingLeft: 8,
     paddingRight: 8,
-    marginTop: -5,
     minHeight: 'initial',
     backgroundColor: theme.color.spacing,
     position: 'relative',

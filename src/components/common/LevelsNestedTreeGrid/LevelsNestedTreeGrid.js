@@ -6,11 +6,18 @@ import CustomList from "./CustomList";
 
 import TabsContainer from "../Tabs/TabsContainer";
 import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
+import Loader from "../Loader/Loader";
 
 function LevelsNestedTreeGrid(props) {
   const classes = useStyles();
   const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
+
+  const renderCustomersData = (data) => {
+    if(props.isLoading)
+      return <Loader/>;
+    return <CustomList data={data} depth={0}/>;
+  };
 
   return (
     <div
@@ -31,13 +38,13 @@ function LevelsNestedTreeGrid(props) {
               className={classes.scrollbar}
             >
               {
-                activeTabId === 0 && <CustomList data={props.customersData.ownership} depth={0}/>
+                activeTabId === 0 && renderCustomersData(props.customersData.ownership)
               }
               {
-                activeTabId === 1 && <CustomList data={props.customersData.security} depth={0}/>
+                activeTabId === 1 && renderCustomersData(props.customersData.security)
               }
               {
-                activeTabId === 2 && <CustomList data={props.customersData.other} depth={0}/>
+                activeTabId === 2 && renderCustomersData(props.customersData.other)
               }
             </PerfectScrollbar>
           :
@@ -58,7 +65,8 @@ function LevelsNestedTreeGrid(props) {
 
 const mapStateToProps = state => {
   return {
-    customersData: state.patenTrack.customersData
+    customersData: state.patenTrack.customersData,
+    isLoading: state.patenTrack.isLoading
   };
 };
 

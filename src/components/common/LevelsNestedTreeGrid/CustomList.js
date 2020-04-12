@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 
 import {
   List
@@ -19,7 +18,6 @@ function CustomList(props) {
             <CustomListItem
               key     = {index}
               depth   = {props.depth}
-              child   = {props.depth===0 ? item.child : props.child}
               {...item}
             />
           ))
@@ -30,23 +28,4 @@ function CustomList(props) {
   )
 }
 
-const mapStateToProps = (state, ownProps) => {
-  switch (ownProps.depth) {
-    case 0:
-      return ownProps;
-    case 1:
-      return {
-        ...ownProps,
-        child: state.patenTrack.customersNamesCollections
-      };
-    case 2:
-      return {
-        ...ownProps,
-        child: state.patenTrack.customersRFIDAssets
-      };
-    default:
-      return {};
-  }
-};
-
-export default connect(mapStateToProps)(CustomList);
+export default CustomList;

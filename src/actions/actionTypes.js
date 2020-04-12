@@ -30,3 +30,5 @@ export const SET_COMMENTS = 'SET_COMMENTS';
 
 export const SET_ASSETS = 'SET_ASSETS';
 export const SET_ASSETS_OUTSOURCE = 'SET_ASSETS_OUTSOURCE';
+
+export const SET_IS_LOADING = 'SET_IS_LOADING';

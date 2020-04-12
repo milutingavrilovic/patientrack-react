@@ -11,7 +11,7 @@ export default makeStyles((theme) => ({
   },
   container: {
     backgroundColor: theme.color.background,
-    margin: 5,
+    margin: '5px 5px 0 5px',
     color: 'white',
     flexGrow: 1,
     height: '100%',
@@ -19,11 +19,20 @@ export default makeStyles((theme) => ({
   },
   outsource: {
     fontSize: '1.2rem',
-    color: theme.color.white,
+    border: 0,
+    width: '100%',
+    height: '100%',
+  },
+  outSourceWrapper: {
+    width: '100%',
+    height: '100%',
+    position: 'relative'
+  },
+  padding: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    padding: theme.spacing(2)
+    bottom: 0
   }
 }));

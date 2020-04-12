@@ -12,10 +12,12 @@ export default makeStyles(theme => ({
   container: {
     backgroundColor: theme.color.background,
     margin: 5,
-    padding: theme.spacing(2),
     color: 'white',
     border: '1px solid #363636',
-    flexGrow: 1
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   typography: {
     lineHeight: 2,
@@ -32,7 +34,7 @@ export default makeStyles(theme => ({
     padding: '0 10px'
   },
   heading: {
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
     fontSize: '1.375rem',
     textAlign: 'center',
     margin: 0
@@ -52,5 +54,12 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     maxWidth: 500,
     margin: '0 auto'
+  },
+  wrapper: {
+    width: '100%'
+  },
+  wrapperExpand: {
+    width: '100%',
+    minHeight: 500
   }
 }));

@@ -30,7 +30,8 @@ export default makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     height: 44,
-    minHeight: 44
+    minHeight: 44,
+    position: 'relative'
   },
   hide: {
     display: "none",
@@ -39,7 +40,23 @@ export default makeStyles(theme => ({
     flexGrow: 1,
   },
   headerMenu: {
-    marginTop: theme.spacing(7),
+    position: 'absolute',
+    top: 'calc(100% + 5px)',
+    background: 'black',
+    width: 400,
+    border: '2px solid #2b2b2b',
+    right: 0,
+    boxShadow: '0px 22px 15px -15px #363636;'
+  },
+  headerMenuItem: {
+    paddingLeft: theme.spacing(2),
+    lineHeight: '60px',
+    fontSize: '1.6rem',
+    height: 60,
+    borderBottom: '1px solid #262626',
+    borderTop: '1px solid #262626',
+    marginLeft: 3,
+    cursor: 'pointer'
   },
   headerMenuButton: {
     marginLeft: theme.spacing(2),
@@ -47,25 +64,11 @@ export default makeStyles(theme => ({
   },
   headerIcon: {
     fontSize: '2rem',
-    color: "rgba(255, 255, 255, 0.35)",
+    color: "rgba(255, 255, 255)",
+    lineHeight: 1.2
   },
   badge: {
     height: 10,
     width: 10
-  },
-  profileMenu: {
-    minWidth: 265,
-  },
-  profileMenuUser: {
-    display: "flex",
-    flexDirection: "column",
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
-  },
-  profileMenuLink: {
-    fontSize: 16,
-    textDecoration: "none",
-    "&:hover": {
-      cursor: "pointer",
-    },
   }
 }));
