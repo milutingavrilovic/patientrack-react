@@ -4,15 +4,15 @@ export default makeStyles(theme => ({
   container: {
     backgroundColor: theme.color.background,
     margin: 5,
-    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    padding: `1rem`,
     color: 'white',
     border: '1px solid #363636',
     display: 'flex',
-    flexDirection: 'column',
     position: 'relative',
     flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    minHeight: 60
   },
   validateContainer: {
     position: 'relative',
@@ -20,7 +20,6 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    height: 148
   },
   value: {
     color: '#e60000'
@@ -30,10 +29,11 @@ export default makeStyles(theme => ({
     color: theme.color.white,
     lineHeight: 1.5,
     padding: `${theme.spacing(1)}px 0`,
-    textAlign: 'center'
+    textAlign: 'center',
+    wordBreak: 'break-word'
   },
   titleExpand: {
-    fontSize: '3.6rem',
+    fontSize: '3.6rem !important',
     color: theme.color.white,
     lineHeight: 1.5,
     padding: `${theme.spacing(2)}px 0`,
@@ -56,13 +56,14 @@ export default makeStyles(theme => ({
     paddingBottom: theme.spacing(1),
     margin: '0 auto',
     lineHeight: 1.5,
-    fontSize: '2.3rem',
+    fontSize: '2.3rem !important',
   },
   wrapper: {
     width: '100%'
   },
   wrapperExpand: {
     width: '100%',
-    minHeight: 500
+    paddingTop: 50,
+    alignSelf: 'flex-start'
   }
 }));

@@ -31,11 +31,13 @@ export default makeStyles(theme => ({
     paddingBottom: theme.spacing(1),
     margin: 0,
     fontSize: '1.075rem',
+    wordBreak: 'break-all'
   },
   typographyExpand: {
     paddingBottom: theme.spacing(1),
     margin: 0,
     fontSize: '1.475rem',
     lineHeight: 1.5,
+    wordBreak: 'break-all'
   }
 }));

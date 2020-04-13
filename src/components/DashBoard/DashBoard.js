@@ -39,14 +39,14 @@ function DashBoard(props) {
             <Grid
               item
               className={classes.flexColumn}
-              style={{flexGrow: 1, height: 300}}
+              style={{flexGrow: 1}}
             >
               <div>
                 <ValidateCounter/>
               </div>
               <LevelsNestedTreeGrid/>
             </Grid>
-            <Grid item style={{height: 120}}>
+            <Grid item>
               <UpdatedAssests/>
             </Grid>
           </Grid>
@@ -55,7 +55,7 @@ function DashBoard(props) {
             style={{flexGrow: 1}}
           >
             <TimeLineContainer/>
-            <Grid container style={{height: 150}}>
+            <Grid container>
               <Grid item lg={3} md={3} sm={3} xs={3}>
                 <TransactionsContainer/>
               </Grid>
@@ -137,6 +137,8 @@ function DashBoard(props) {
         signOut             = {signOut}
         messagesCount       = {props.messagesCount}
         alertsCount         = {props.alertsCount}
+        width               = {props.screenWidth}
+        height              = {props.screenHeight}
       />
       <Grid
         container

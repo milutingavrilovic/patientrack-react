@@ -17,14 +17,14 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   typography: {
-    lineHeight: 2,
-    fontSize: '1.2rem',
+    lineHeight: 'inherit',
+    fontSize: 'inherit',
     display: 'flex',
     justifyContent: 'space-between',
-    padding: '0 10px'
+    padding: '0 0.5rem'
   },
   typographyExpand: {
     lineHeight: 2,
@@ -34,14 +34,15 @@ export default makeStyles(theme => ({
     padding: '0 10px'
   },
   heading: {
-    paddingBottom: theme.spacing(1),
+    paddingBottom: '0.5rem',
     fontSize: '1.375rem',
     textAlign: 'center',
-    margin: 0
+    margin: 0,
+    wordBreak: 'break-word'
   },
   headingExpand: {
     paddingBottom: theme.spacing(2),
-    fontSize: '3.375rem',
+    fontSize: '3.375rem !important',
     textAlign: 'center',
     margin: 0
   },
@@ -56,10 +57,12 @@ export default makeStyles(theme => ({
     margin: '0 auto'
   },
   wrapper: {
-    width: '100%'
+    width: '100%',
+    padding: '0 0.5rem'
   },
   wrapperExpand: {
     width: '100%',
-    minHeight: 500
+    paddingTop: 50,
+    alignSelf: 'flex-start'
   }
 }));

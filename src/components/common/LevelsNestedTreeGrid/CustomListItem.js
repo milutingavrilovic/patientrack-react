@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from 'react-redux';
 
-import { ListItem } from "@material-ui/core";
-
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
 import CustomList from "./CustomList";
 import useStyles from "./styles";
@@ -28,7 +26,7 @@ function CustomListItem(props) {
   };
 
   return (
-    <ListItem className={classes.listItem}>
+    <li className={classes.listItem}>
       <div
         onClick={() => {
           setOpened(!isOpened);
@@ -41,7 +39,7 @@ function CustomListItem(props) {
         }
         <span
           style={{
-            paddingLeft: depth === 3 ? '0.8rem' : 0
+            paddingLeft: depth === 3 ? '1rem' : 0
           }}
         >
           { getLabel()}
@@ -54,7 +52,7 @@ function CustomListItem(props) {
          :
            ''
       }
-    </ListItem>
+    </li>
   )
 }
 

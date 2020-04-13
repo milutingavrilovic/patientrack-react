@@ -18,6 +18,18 @@ function Charts(props) {
   const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
   const charts = props.chartsTab.length ? props.chartsTab[activeTabId] : [];
+
+  const getWidthChart = () => {
+    if(props.screenHeight < 400)
+      return '50%';
+    if(props.screenHeight < 500)
+      return '70%';
+    if(props.screenHeight < 700)
+      return '80%';
+    if(props.screenHeight < 800)
+      return '100%';
+  };
+
   return (
     <div
       className={classes.charts}
@@ -33,7 +45,6 @@ function Charts(props) {
                   Object.entries(charts).map((chart, index) =>
                     <Grid
                       key={index}
-                      item xs={6}
                       className={classes.gridItem}
                       style={{
                         maxWidth: props.currentWidget === 'charts' ? 600 : 'initial',
@@ -43,31 +54,42 @@ function Charts(props) {
                       <div
                         className={classes.chart}
                         style={{
-                          margin: index > 1 ? '5px 5px 0' : 5
+                          margin: index > 1 ? '5px 5px 0' : 5,
                         }}
                       >
-                        <Line
-                          data = {{
-                            labels: chart[1].map(item => item.year),
-                            datasets: [{
-                              label: chart[0],
-                              fill: false,
-                              lineTension: 0.5,
-                              data: chart[1].map(item => item.value),
-                              backgroundColor: backgroundColor,
-                              borderColor: backgroundColor,
-                              borderWidth: 1
-                            }]
+                        <div
+                          className={classes.wrap}
+                          style={{
+                            width: getWidthChart(),
+                            margin: '0 auto'
                           }}
-                          lg={6}
-                          xs={6}
-                        />
+                        >
+                          <Line
+                            data = {{
+                              labels: chart[1].map(item => item.year),
+                              datasets: [{
+                                label: chart[0],
+                                fill: false,
+                                lineTension: 0.5,
+                                data: chart[1].map(item => item.value),
+                                backgroundColor: backgroundColor,
+                                borderColor: backgroundColor,
+                                borderWidth: 1
+                              }]
+                            }}
+                            lg={6}
+                            xs={6}
+                          />
+                        </div>
                       </div>
                     </Grid>)
                 }
               </div>
             :
-              <div className={classnames(classes.container, classes.loaderWrapper)}>
+              <div
+                className={classnames(classes.container, classes.loaderWrapper)}
+                style={{height: props.screenHeight/3.5}}
+              >
                 <Loader/>
               </div>
           }
@@ -87,7 +109,8 @@ const mapStateToProps = state => {
   return {
     chartsTab: Object.values(state.patenTrack.charts),
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading
+    isLoading: state.patenTrack.isLoading,
+    screenHeight: state.patenTrack.screenHeight
   };
 };
 

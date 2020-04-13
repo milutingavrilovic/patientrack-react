@@ -5,7 +5,7 @@ import Auth from "./components/auth";
 
 export default (
   <Switch>
-    <Route exact path="/dashboard" component={DashBoard}/>
+    <Route path="/dashboard" component={DashBoard}/>
     <Route path="/" component={Auth}/>
   </Switch>
 );

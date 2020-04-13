@@ -12,23 +12,48 @@ function ValidateCounter(props) {
   const isExpanded = props.currentWidget === 'validateCounter';
   const {valid, application, encumbered} = props.validateCounter;
 
+  const getFontSize = () => {
+    if(props.screenHeight < 300 || props.screenWidth < 992)
+      return 8;
+    if(props.screenHeight < 500 || props.screenWidth < 1200)
+      return 10;
+    if(props.screenHeight < 700 || props.screenWidth < 1400)
+      return 12;
+    return 14;
+  };
+
   return (
     <div
       className={classes.validateContainer}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
-      <div className={classes.container}>
+      <div
+        className={classes.container}
+        style={{padding: `0 ${getFontSize() * 0.5}px`}}
+      >
         {
           props.isLoading
           ?
             <Loader/>
           :
             <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
-              <div className={isExpanded ? classes.titleExpand : classes.title}>
+              <div
+                className={isExpanded ? classes.titleExpand : classes.title}
+                style={{
+                  fontSize: getFontSize() * 1.6,
+                  padding: `${getFontSize() * 0.5}px 0`
+                }}
+              >
                 Validate Counter
               </div>
-              <div className={isExpanded ? classes.bodyExpand : classes.body}>
+              <div
+                className={isExpanded ? classes.bodyExpand : classes.body}
+                style={{
+                  fontSize: getFontSize(),
+                  paddingBottom: getFontSize() * 0.5
+                }}
+              >
                 <div>
                   <span>{'Valid: '}</span>
                   <span className={classes.value}>
@@ -60,7 +85,9 @@ const mapStateToProps = state => {
   return {
     validateCounter: state.patenTrack.validateCounter,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading
+    isLoading: state.patenTrack.isLoading,
+    screenHeight: state.patenTrack.screenHeight,
+    screenWidth: state.patenTrack.screenWidth
   };
 };
 

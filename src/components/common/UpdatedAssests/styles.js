@@ -12,35 +12,31 @@ export default makeStyles(theme => ({
   container: {
     backgroundColor: theme.color.background,
     margin: 5,
-    padding: theme.spacing(1),
-    color: 'white',
     border: '1px solid #363636',
     flexGrow: 1,
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
-
+    justifyContent: 'center',
+    minHeight: 40,
+    color: theme.color.white
   },
   heading: {
-    paddingBottom: theme.spacing(1),
-    fontSize: '1.2rem',
+    fontSize: 'inherit',
+    paddingBottom: 'inherit',
     alignSelf: 'center',
-    color: theme.color.lightgray
   },
   headingExpand: {
-    padding: theme.spacing(2),
+    padding: '2rem',
     fontSize: '3.2rem',
     alignSelf: 'center',
     color: theme.color.lightgray
   },
   context: {
-    padding: '0 10px',
+    padding: '0 4px',
     display: 'flex',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
     lineHeight: 1.2,
-    fontSize: '1.2rem',
     fontWeight: 500,
   },
   contextExpand: {
@@ -61,12 +57,19 @@ export default makeStyles(theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    fontSize: '1.2rem',
+    color: theme.color.white,
+    padding: '0.5rem',
   },
   wrapperExpand: {
     width: '100%',
-    minHeight: 500,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    paddingTop: 50,
+    alignSelf: 'flex-start'
+  },
+  value: {
+    padding: 'inherit'
   }
 }));

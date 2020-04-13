@@ -45,6 +45,46 @@ body {
   }
 }
 
+span {
+  word-break: break-word;
+}
+
+/*@media (min-height: 300px) {*/
+  /*html {*/
+    /*font-size: 6px;*/
+  /*}*/
+/*}*/
+
+@media (max-height: 300px) {
+  html {
+    font-size: 5px;
+  }
+}
+
+@media (min-height: 300px) {
+  html {
+    font-size: 6px;
+  }
+}
+
+@media (min-height: 500px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media (min-height: 700px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (min-height: 900px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 .ps {
   overflow: hidden !important;
   overflow-anchor: none;

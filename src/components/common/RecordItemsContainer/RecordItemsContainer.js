@@ -5,11 +5,13 @@ import FullWidthSwitcher from "../FullWidthSwitcher/FullWidthSwitcher";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import classnames from "classnames";
 import Loader from "../Loader/Loader";
+import TabsContainer from "../Tabs/TabsContainer";
 
 function RecordItemsContainer(props) {
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'recordItems';
+  const [activeTabId, setActiveTabId] = useState(0);
 
   const renderItemList = () => {
     if(!isExpanded) {
@@ -108,43 +110,89 @@ function RecordItemsContainer(props) {
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
       <div className={classes.container}>
-        <div className={classes.content}>
-          <div className={classes.wrapper}>
-            <div className={classes.context}>
-              <span className={classes.headerWrapper}>
-                {
-                  props.isLoading
+        {
+          activeTabId === 0 &&
+          <div className={classes.context}>
+          <span
+            className={classes.headerWrapper}
+            style={{minHeight: props.isLoading ? 80 : 'initial'}}
+          >
+            {
+              props.isLoading
+                ?
+                <Loader/>
+                :
+                <div className={classes.header}>
+                  Record it:
+                  <span className={classes.itemsCount}>
+                    {props.recordItemCount}
+                  </span>
+                </div>
+            }
+          </span>
+            <div className={classes.scrollbar}>
+              {
+                props.isLoading
                   ?
-                    <Loader/>
+                  <Loader/>
                   :
-                    <div className={classes.header}>
-                      Record it:
-                      <span className={classes.itemsCount}>
-                        {props.recordItemCount}
-                      </span>
-                    </div>
-                }
-              </span>
-              <div className={classes.scrollbar}>
-                {
-                  props.isLoading
-                  ?
-                    <Loader/>
-                  :
-                    <PerfectScrollbar
-                      options={{
-                        suppressScrollX: true,
-                        minScrollbarLength: 20,
-                        maxScrollbarLength: 25
-                      }}
-                    >
-                      {renderItemList()}
-                    </PerfectScrollbar>
-                }
-              </div>
+                  <PerfectScrollbar
+                    options={{
+                      suppressScrollX: true,
+                      minScrollbarLength: 20,
+                      maxScrollbarLength: 25
+                    }}
+                  >
+                    {renderItemList()}
+                  </PerfectScrollbar>
+              }
             </div>
           </div>
-        </div>
+        }
+        {
+          activeTabId === 1 &&
+          <div className={classes.context}>
+          <span
+            className={classes.headerWrapper}
+            style={{minHeight: props.isLoading ? 80 : 'initial'}}
+          >
+            {
+              props.isLoading
+                ?
+                <Loader/>
+                :
+                <div className={classes.header}>
+                  Record it:
+                  <span className={classes.itemsCount}>
+                    {props.recordItemCount}
+                  </span>
+                </div>
+            }
+          </span>
+            <div className={classes.scrollbar}>
+              {
+                props.isLoading
+                  ?
+                  <Loader/>
+                  :
+                  <PerfectScrollbar
+                    options={{
+                      suppressScrollX: true,
+                      minScrollbarLength: 20,
+                      maxScrollbarLength: 25
+                    }}
+                  >
+                    {renderItemList()}
+                  </PerfectScrollbar>
+              }
+            </div>
+          </div>
+        }
+        <TabsContainer
+          activeTabId={activeTabId}
+          setActiveTabId={setActiveTabId}
+          tabs={['To Do', 'Complete']}
+        />
       </div>
       <FullWidthSwitcher show={showSwitcher} widget={"recordItems"}/>
     </div>

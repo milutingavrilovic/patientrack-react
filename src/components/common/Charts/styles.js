@@ -43,7 +43,6 @@ export default makeStyles((theme) => ({
   },
   loaderWrapper: {
     position: 'relative',
-    height: 300,
     width: '100%',
     backgroundColor: '#222',
     border: '1px solid #363636'

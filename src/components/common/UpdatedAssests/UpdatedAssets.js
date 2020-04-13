@@ -11,40 +11,55 @@ function UpdatedAssests(props) {
   const isExpanded = props.currentWidget === 'updatedAssets';
   const {today, month, last_month} = props.assetsCount;
 
+  const getFontSize = () => {
+    if(props.screenHeight < 300 || props.screenWidth < 992)
+      return 8;
+    if(props.screenHeight < 500 || props.screenWidth < 1200)
+      return 10;
+    if(props.screenHeight < 700 || props.screenWidth < 1400)
+      return 12;
+    return 14;
+  };
+
   return (
     <div
       className     = {classes.updatedAssetContainer}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
-      {
-        props.isLoading
-        ?
-          <div className={classes.container}>
-            <Loader/>
-          </div>
-        :
-          <div className={classes.container}>
-            <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
-              <span
-                className={ isExpanded ? classes.headingExpand : classes.heading}
+      <div
+        className={classes.container}
+        style={{minHeight: props.screenHeight/8.5}}
+      >
+        {
+          props.isLoading
+            ?
+              <Loader/>
+            :
+              <div
+                className={isExpanded ? classes.wrapperExpand : classes.wrapper}
+                style={{fontSize: getFontSize()}}
               >
+                <span
+                  className={ isExpanded ? classes.headingExpand : classes.heading}
+                >
                 Updated Assets
-              </span>
-              <div className={ isExpanded ? classes.contextExpand : classes.context}>
-                <span>
-                  Today: {today}
                 </span>
-                <span>
-                  This month: {month}
-                </span>
-                <span>
-                  Last month: {last_month}
-                </span>
+                <div className={ isExpanded ? classes.contextExpand : classes.context}>
+                  <span className={classes.value}>
+                    Today: {today}
+                  </span>
+                  <span className={classes.value}>
+                    This month: {month}
+                  </span>
+                  <span className={classes.value}>
+                    Last month: {last_month}
+                  </span>
+                </div>
               </div>
-            </div>
-          </div>
-      }
+        }
+
+      </div>
       <FullWidthSwitcher show={showSwitcher} widget={"updatedAssets"}/>
     </div>
   );
@@ -54,7 +69,9 @@ const mapStateToProps = (state) => {
   return {
     assetsCount: state.patenTrack.assetsCount,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading
+    isLoading: state.patenTrack.isLoading,
+    screenHeight: state.patenTrack.screenHeight,
+    screenWidth: state.patenTrack.screenWidth
   };
 };
 

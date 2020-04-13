@@ -14,39 +14,33 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    position: 'relative',
-    width: '100%',
-    alignItems: 'center'
-  },
-  content: {
-    width: '100%',
-    flexGrow: 1,
-    display: 'flex'
-  },
-  wrapper: {
-    backgroundColor: theme.color.background,
-    width: '100%',
-    margin: 5,
-    border: '1px solid #363636',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 5,
+    left: 5,
+    right: 5,
+    bottom: 0
   },
   context: {
+    border: '1px solid #363636',
+    backgroundColor: theme.color.background,
+    width: '100%',
     margin: '0 auto',
     height: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   scrollbar: {
     flexGrow: 1,
     overflow: 'hidden',
-    height: 200,
     position: 'relative'
   },
   headerWrapper: {
     position: 'relative',
-    height: 100,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   header: {
     fontSize: '1.2rem',
