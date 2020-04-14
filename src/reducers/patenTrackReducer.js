@@ -107,6 +107,24 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         isLoading: action.data
       };
+    case types.SET_TREE_OPEN:
+      return {
+        ...state,
+        tree: Object.assign({}, {
+          ...state.tree,
+          [action.key]: action.value
+        })
+      };
+    case types.SET_CURRENT_ASSET:
+      return {
+        ...state,
+        currentAsset: action.data
+      };
+    case types.SET_SITE_LOGO:
+      return {
+        ...state,
+        siteLogo: action.data
+      };
     default:
       return state;
   }

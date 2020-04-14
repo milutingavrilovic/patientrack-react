@@ -64,6 +64,7 @@ export default makeStyles((theme) => ({
     margin: 0
   },
   listItem: {
+    cursor: 'pointer',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',

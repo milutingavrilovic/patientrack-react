@@ -1,28 +1,87 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { bindActionCreators } from "redux";
 import * as authActions from "../../actions/authActions";
+import * as patentActions from "../../actions/patenTrackActions";
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import Header from "../common/Header/Header";
+import Header from "../common/Header";
 import useStyles from "./styles";
-import {
-  Grid
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
-import ValidateCounter from "../common/ValidateCounter/ValidateCounter";
-import LevelsNestedTreeGrid from "../common/LevelsNestedTreeGrid/LevelsNestedTreeGrid";
-import UpdatedAssests from "../common/UpdatedAssests/UpdatedAssets";
-import Charts from "../common/Charts/Charts";
-import TimeLineContainer from "../common/TimeLineContainer/TimeLineContainer";
-import FixItemsContainer from "../common/FixItemsContainer/FixItemsContainer";
-import RecordItemsContainer from "../common/RecordItemsContainer/RecordItemsContainer";
-import TransactionsContainer from "../common/TransactionsContainer/TransactionsContainer";
-import CommentComponents from "../common/CommentComponents/CommentComponents";
+import ValidateCounter from "../common/ValidateCounter";
+import LevelsNestedTreeGrid from "../common/LevelsNestedTreeGrid";
+import UpdatedAssests from "../common/UpdatedAssests";
+import Charts from "../common/Charts";
+import TimeLineContainer from "../common/TimeLineContainer";
+import FixItemsContainer from "../common/FixItemsContainer";
+import RecordItemsContainer from "../common/RecordItemsContainer";
+import TransactionsContainer from "../common/TransactionsContainer";
+import CommentComponents from "../common/CommentComponents";
 
 function DashBoard(props) {
   const {authenticated} = props.auth;
-  const {signOut} = props.actions;
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
+
+  const errorProcess = (err) => {
+    if(err !== undefined && err.status === 401 && err.data === 'Authorization error')
+      setRedirect(true);
+  };
+
+  useEffect(() => {
+    props.patentActions.getMessagesCount().catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getAlertsCount().catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCharts('tab1').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCharts('tab2').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCharts('tab3').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getComments('Asset', 7584265).catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getRecordItems(0, 'count').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getRecordItems(0, 'list').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getRecordItems(1, 'count').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getRecordItems(1, 'list').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCustomers('ownership').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCustomers('security').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getCustomers('other').catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getTimeLine().catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getTransactions().catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getAssetsCount().catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getValidateCounter().catch(err => {
+      errorProcess({...err}.response);
+    });
+
+  }, []);
 
   const renderContext = () => {
     const {currentWidget} = props;
@@ -121,7 +180,7 @@ function DashBoard(props) {
     }
   };
 
-  if(!authenticated)
+  if(!authenticated || redirect)
     return (<Redirect to={"/"}/>);
 
   return (
@@ -132,14 +191,7 @@ function DashBoard(props) {
         height: props.screenHeight
       }}
     >
-      <Header
-        user                = {props.auth.profile ? props.auth.profile.user : {}}
-        signOut             = {signOut}
-        messagesCount       = {props.messagesCount}
-        alertsCount         = {props.alertsCount}
-        width               = {props.screenWidth}
-        height              = {props.screenHeight}
-      />
+      <Header/>
       <Grid
         container
         className={classes.dashboardContainer}
@@ -156,14 +208,13 @@ const mapStateToProps = state => {
     currentWidget: state.patenTrack.currentWidget,
     screenHeight: state.patenTrack.screenHeight,
     screenWidth: state.patenTrack.screenWidth,
-    messagesCount: state.patenTrack.messagesCount,
-    alertsCount: state.patenTrack.alertsCount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    actions: bindActionCreators(authActions, dispatch)
+    actions: bindActionCreators(authActions, dispatch),
+    patentActions: bindActionCreators(patentActions, dispatch)
   };
 };
 

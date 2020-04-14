@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     top: 0,
     right: 0,
     transform: 'translate(25%,-25%)',
-    zIndex: 1202,
+    zIndex: 1200009,
     cursor: 'pointer'
   }
 }));

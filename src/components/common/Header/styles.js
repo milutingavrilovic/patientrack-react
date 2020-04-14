@@ -9,9 +9,8 @@ export default makeStyles(theme => ({
     fontKerning: 'normal',
     margin: 0,
     whiteSpace: "nowrap",
-    [theme.breakpoints.down("xs")]: {
-      display: "none",
-    },
+    display: 'flex',
+    alignItems: 'center'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -47,24 +46,6 @@ export default makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     padding: theme.spacing(0.5),
   },
-  patentMenu: {
-    position: 'absolute',
-    top: 'calc(100% + 5px)',
-    background: 'black',
-    width: 400,
-    border: '2px solid #2b2b2b',
-    right: 0,
-    boxShadow: '0px 22px 15px -15px #363636;'
-  },
-  patentMenuItem: {
-    paddingLeft: theme.spacing(2),
-    lineHeight: '5rem',
-    fontSize: '1.6rem',
-    borderBottom: '1px solid #262626',
-    borderTop: '1px solid #262626',
-    marginLeft: 3,
-    cursor: 'pointer'
-  },
   headerIcon: {
     fontSize: '2rem',
     color: theme.color.lightGray,
@@ -90,6 +71,23 @@ export default makeStyles(theme => ({
     borderBottom: '1px solid #262626',
     borderTop: '1px solid #262626',
     marginLeft: 3,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    display: 'flex',
+    position: 'relative',
   },
+  userlogo: {
+    width: '3rem',
+    alignSelf:'center',
+    position: 'absolute',
+    right: 10,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    marginLeft: 10
+  },
+  companyLogo: {
+    height: '2rem'
+  },
+  siteLogo: {
+    height: '3rem'
+  }
 }));

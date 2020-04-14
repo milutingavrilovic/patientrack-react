@@ -32,3 +32,7 @@ export const SET_ASSETS = 'SET_ASSETS';
 export const SET_ASSETS_OUTSOURCE = 'SET_ASSETS_OUTSOURCE';
 
 export const SET_IS_LOADING = 'SET_IS_LOADING';
+
+export const SET_TREE_OPEN = 'SET_TREE_OPEN';
+export const SET_CURRENT_ASSET = 'SET_CURRENT_ASSET';
+export const SET_SITE_LOGO = 'SET_SITE_LOGO';

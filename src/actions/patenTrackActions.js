@@ -11,13 +11,13 @@ export const setValidateCounter = (data) => {
 export const getValidateCounter = () => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getValidateCounter()
       .then(res => {
         dispatch(setIsLoading(false));
         dispatch(setValidateCounter(res.data));
       })
-      .catch(err => {
+      .catch(err=> {
         throw(err);
       });
   };
@@ -32,29 +32,15 @@ export const setCustomers = (customerType, data) => {
   };
 };
 
-const getNameCollections = async (data, dispatch) => {
-  const func = () => {
-    for ( let i = 0; i < data.length; i ++ ) {
-      for( let j = 0 ; j < data[i].child.length; j ++) {
-        dispatch(getCustomersNameCollections(data[i].child[j].name));
-      }
-    }
-  };
-  return await func();
-};
-
 export const getCustomers = (type) => {
   setIsLoading(true);
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getCustomers(type)
       .then(res => {
-        getNameCollections(res.data, dispatch)
-          .then(() => {
-            dispatch(setCustomers(type, res.data));
-            dispatch(setIsLoading(true));
-          });
+        dispatch(setCustomers(type, res.data));
+        dispatch(setIsLoading(true));
       })
       .catch(err => {
         throw(err);
@@ -72,7 +58,7 @@ export const setAssetsCount = (data) => {
 export const getAssetsCount = () => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getAssetsCount()
       .then(res => {
         dispatch(setIsLoading(false));
@@ -94,7 +80,7 @@ export const setTransactions = (data) => {
 export const getTransactions = () => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getTransactions()
       .then(res => {
         dispatch(setIsLoading(false));
@@ -114,25 +100,12 @@ export const setCustomersNameCollections = (name, data) => {
   }
 };
 
-const getRFIDAssets = async (data, dispatch) => {
-  const func = () => {
-    for(let i = 0 ; i < data.length; i ++) {
-      dispatch(getCustomerRFIDAssets(data[i].rf_id));
-    }
-  };
-  return await func();
-};
-
-
 export const getCustomersNameCollections = (name) => {
  return dispatch => {
-    PatenTrackApi
+    return PatenTrackApi
       .getCustomersNameCollections(name)
       .then(res => {
-        getRFIDAssets(res.data, dispatch)
-          .then(() => {
-            dispatch(setCustomersNameCollections(name, res.data));
-          });
+        dispatch(setCustomersNameCollections(name, res.data));
       })
       .catch(err => {
         throw(err);
@@ -150,7 +123,7 @@ export const setCustomerRFIDAssets = (rfID, data) => {
 
 export const getCustomerRFIDAssets = (rfID) => {
   return dispatch => {
-    PatenTrackApi.getCustomerRFIDAssets(rfID)
+    return PatenTrackApi.getCustomerRFIDAssets(rfID)
       .then(res => {
         dispatch(setCustomerRFIDAssets(rfID, res.data));
       })
@@ -173,7 +146,7 @@ export const getRecordItems = (type, option) => {
   setIsLoading(true);
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getRecordItems(type, option)
       .then(res => {
         dispatch(setIsLoading(false));
@@ -220,7 +193,7 @@ export const setMessagesCount = (data) => {
 export const getMessagesCount = () => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getMessages('count')
       .then(res => {
         dispatch(setIsLoading(false));
@@ -242,7 +215,7 @@ export const setAlertsCount = (data) => {
 export const getAlertsCount = () => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getAlerts('count')
       .then(res => {
         dispatch(setIsLoading(false));
@@ -265,7 +238,7 @@ export const setCharts = (option, data) => {
 export const getCharts = (option) => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi
+    return PatenTrackApi
       .getCharts(option)
       .then(res => {
         dispatch(setIsLoading(false));
@@ -288,7 +261,7 @@ export const getTimeLine = () => {
   setIsLoading(true);
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi.getTimeLine()
+    return PatenTrackApi.getTimeLine()
       .then(res => {
         dispatch(setIsLoading(false));
         dispatch(setTimeLine(res.data))
@@ -309,7 +282,7 @@ export const setComments = (data) => {
 export const getComments = (type, value) => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi.getComments(type, value)
+    return PatenTrackApi.getComments(type, value)
       .then(res => {
         dispatch(setIsLoading(false));
         dispatch(setComments(res.data))
@@ -330,7 +303,7 @@ export const setAssets = (data) => {
 export const getAssets = (patentNumber) => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi.getAssetsByPatentNumber(patentNumber)
+    return PatenTrackApi.getAssetsByPatentNumber(patentNumber)
       .then(res => {
         dispatch(setIsLoading(false));
         dispatch(setAssets(res.data));
@@ -351,7 +324,7 @@ export const setAssetsOutsource = (data) => {
 export const getAssetsOutsource = (patentNumber) => {
   return dispatch => {
     dispatch(setIsLoading(true));
-    PatenTrackApi.geteAssetsOutsourceByPatentNumber(patentNumber)
+    return PatenTrackApi.geteAssetsOutsourceByPatentNumber(patentNumber)
       .then(res => {
         dispatch(setIsLoading(false));
         dispatch(setAssetsOutsource(res.data));
@@ -366,5 +339,39 @@ export const setIsLoading = (data) => {
   return {
     type: types.SET_IS_LOADING,
     data
+  };
+};
+
+export const setTreeOpen = (key, value) => {
+  return {
+    type: types.SET_TREE_OPEN,
+    key,
+    value
+  };
+};
+
+export const setCurrentAsset = (data) => {
+  return {
+    type: types.SET_CURRENT_ASSET,
+    data
+  };
+};
+
+export const setSiteLogo = (data) => {
+  return {
+    type: types.SET_SITE_LOGO,
+    data
+  };
+};
+
+export const getSiteLogo = () => {
+  return dispatch => {
+    return PatenTrackApi.getSiteLogo()
+      .then(res => {
+        dispatch(setSiteLogo(res.data));
+      })
+      .catch(err => {
+        return err;
+      });
   };
 };

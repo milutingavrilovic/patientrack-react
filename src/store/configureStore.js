@@ -6,7 +6,6 @@ import rootReducer from '../reducers';
 
 import jwt_decode from 'jwt-decode';
 import { loginSuccess } from "../actions/authActions";
-import loadDataFromApi from "./loadDataFromApi";
 
 const store = createStore(
   rootReducer,
@@ -18,6 +17,5 @@ const token = localStorage.getItem('token');
 if(token) {
   const decoded_token = jwt_decode(token);
   store.dispatch(loginSuccess(decoded_token));
-  loadDataFromApi(store.dispatch);
 }
 export default store;

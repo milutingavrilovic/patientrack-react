@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 import AuthApi from '../api/authApi';
 import jwt_decode from 'jwt-decode';
-import loadDataFromApi from "../store/loadDataFromApi";
 
 const setToken = async (token) => {
   return await localStorage.setItem('token', token);
@@ -29,7 +28,7 @@ export const setProfile = (data) => {
 
 export const getProfile = () => {
   return dispatch => {
-    AuthApi.getProfile()
+    return AuthApi.getProfile()
       .then(res => {
         dispatch(setProfile(res.data));
       })
@@ -46,7 +45,6 @@ export const login = (user) => {
         setToken(res.data.accessToken);
         const decoded_token = jwt_decode(res.data.accessToken);
         dispatch(loginSuccess(decoded_token));
-        loadDataFromApi(dispatch);
       })
       .catch(err => {
         throw(err);

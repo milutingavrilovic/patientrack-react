@@ -21,7 +21,6 @@ export default makeStyles((theme) => ({
     padding: '1px 0.75rem',
     color: theme.color.lightGray,
     border: '1px solid #363636',
-    marginBottom: 4,
     borderTopWidth: 0
   }
 }));

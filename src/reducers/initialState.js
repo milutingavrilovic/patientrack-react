@@ -23,6 +23,9 @@ export default {
     isLoading: false,
     updatedAssets: {},
     validateCounter: {},
-    assetsCount: {}
+    assetsCount: {},
+    tree: {},
+    currentAsset: '9167550',
+    siteLogo: {}
   }
 };

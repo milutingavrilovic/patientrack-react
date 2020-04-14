@@ -27,7 +27,7 @@ export default makeStyles(theme => ({
   },
   headingExpand: {
     padding: '2rem',
-    fontSize: '3.2rem',
+    fontSize: '3.2rem !important',
     alignSelf: 'center',
     color: theme.color.lightgray
   },

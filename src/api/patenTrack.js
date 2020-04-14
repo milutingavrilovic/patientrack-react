@@ -67,6 +67,10 @@ class PatenTrackApi {
   static geteAssetsOutsourceByPatentNumber(patentNumber) {
     return axios.get(`${base_api_url}/assets/${patentNumber}/outsource`, getHeader());
   }
+
+  static getSiteLogo() {
+    return axios.get(`${base_api_url}/site_logo`, getHeader());
+  }
 }
 
 export default PatenTrackApi;

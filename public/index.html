@@ -41,5 +41,23 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <div id='illustration_container'>
+      <div id='illustration_modal'>
+        <div class="modal-content">
+          <div id='assignment_details'>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </body>
+  <script>
+    window.onclick = function(event) {
+      const modal = document.getElementById('illustration_modal');
+      if (event.target === modal) {
+        modal.classList.remove('show');
+      }
+    }
+  </script>
 </html>
