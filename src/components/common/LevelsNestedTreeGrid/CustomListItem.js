@@ -52,12 +52,10 @@ function CustomListItem(props) {
             props.getAssetsOutsource(label);
             props.getAssets(label);
           }
-
           props.setTreeOpen(getLabel(depth, props), !props.isOpened);
         }}
         style={{display: 'flex'}}
       >
-
         {
           depth !== 3 && (props.isOpened ? <ArrowDropDown/> : <ArrowRight/>)
         }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef  } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import useStyles from "./styles";
@@ -12,15 +12,37 @@ import classnames from 'classnames';
 import modifyingData from './TimeLine';
 import assignmentTimeline from "./TimeLine1";
 
+function checkMe(data) {
+	console.log("CHECK ME");
+	const iframe = document.getElementById("outsource");
+	if(typeof iframe.contentWindow !== "undefined"){
+		console.log("iframe",iframe.contentWindow);
+		console.log("iframe",typeof iframe.contentWindow.renderData);
+		if(typeof iframe.contentWindow.renderData === "function") {
+			console.log("DSSSS", data);
+			iframe.contentWindow.renderData(data);
+		}
+	}
+}
+
 function TimeLineContainer(props) {
   const { timelineTab, setTimelineTabIndex } = props;
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
-
+  const ref = useRef(null);	
   useEffect(() => {
     const iframe = document.getElementById("outsource");
     if(timelineTab === 1 && iframe) {
-      // iframe.contentWindow.renderData(props.assets);
+		console.log("REF",ref);
+		console.log("iframe",iframe);
+		if(typeof iframe.contentWindow !== "undefined"){
+			console.log("iframe",iframe.contentWindow);
+			console.log("iframe",typeof iframe.contentWindow.renderData);
+			console.log("iframe",typeof ref.current.contentWindow.renderData);
+			if(typeof iframe.contentWindow.renderData === "function") {
+				console.log("iframe",iframe.contentWindow.renderData);
+			}
+		}
     }
   }, [props.assets]);
 
@@ -70,7 +92,7 @@ function TimeLineContainer(props) {
               className={classes.outSourceWrapper}
             >
               <div className={classes.padding}>
-                <iframe id={"outsource"} className={classes.outsource} src='./d3/index.html'/>
+                <iframe ref={ref} id={"outsource"} onLoad={() => checkMe(props.assets)} className={classes.outsource} src='./d3/index.html'/>
               </div>
             </div>
           }

@@ -62,7 +62,8 @@ export default makeStyles((theme) => ({
   outSourceWrapper: {
     width: '100%',
     height: '100%',
-    position: 'relative'
+    position: 'relative',
+    background: 'black'
   },
   padding: {
     position: 'absolute',
