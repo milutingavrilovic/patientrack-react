@@ -7,13 +7,13 @@ import classnames from "classnames";
 import Loader from "../Loader";
 import TabsContainer from "../Tabs";
 import CustomTab from "../CustomTab";
-import {getRecordItems} from "../../../actions/patenTrackActions";
+import {getRecordItems, setRecordItTabIndex} from "../../../actions/patenTrackActions";
 
 function RecordItemsContainer(props) {
+  const { recorditTab, setRecordItTabIndex } = props;
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'recordItems';
-  const [activeTabId, setActiveTabId] = useState(0);
 
   const renderItemList = () => {
     if(!isExpanded) {
@@ -113,7 +113,7 @@ function RecordItemsContainer(props) {
     >
       <div className={classes.container}>
         {
-          activeTabId === 0 &&
+          recorditTab === 0 &&
           <div className={classes.context}>
           <span
             className={classes.headerWrapper}
@@ -152,7 +152,7 @@ function RecordItemsContainer(props) {
           </div>
         }
         {
-          activeTabId === 1 &&
+          recorditTab === 1 &&
           <div className={classes.context}>
           <span
             className={classes.headerWrapper}
@@ -195,15 +195,15 @@ function RecordItemsContainer(props) {
           ?
             <div style={{width: '100%'}}>
               <CustomTab
-                activeTabId={activeTabId}
-                setActiveTabId={setActiveTabId}
+                activeTabId={recorditTab}
+                setActiveTabId={setRecordItTabIndex}
                 tabs={['To Do', 'Complete']}
               />
             </div>
           :
             <TabsContainer
-              activeTabId={activeTabId}
-              setActiveTabId={setActiveTabId}
+              activeTabId={recorditTab}
+              setActiveTabId={setRecordItTabIndex}
               tabs={['To Do', 'Complete']}
             />
         }
@@ -222,12 +222,14 @@ const mapStateToProps = state => {
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.isLoading,
     screenWidth: state.patenTrack.screenWidth,
-    screenHeight: state.patenTrack.screenHeight
+    screenHeight: state.patenTrack.screenHeight,
+    recorditTab: state.patenTrack.recorditTab
   };
 };
 
 const mapDispatchToProps = {
-  getRecordItems
+  getRecordItems,
+  setRecordItTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RecordItemsContainer);

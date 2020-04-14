@@ -27,6 +27,8 @@ export default makeStyles((theme) => ({
     margin: 5,
     padding: 5,
     border: '1px solid #363636',
+    backgroundColor: '#222222',
+    zIndex: 9999
   },
   typography: {
     lineHeight: 2,

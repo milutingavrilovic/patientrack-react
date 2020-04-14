@@ -9,11 +9,11 @@ import TabsContainer from "../Tabs";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import Loader from "../Loader";
 import CustomTab from "../CustomTab";
-import { getCustomers } from "../../../actions/patenTrackActions";
+import { getCustomers, setNestGridTabIndex } from "../../../actions/patenTrackActions";
 
 function LevelsNestedTreeGrid(props) {
+  const { nestGridTab, setNestGridTabIndex } = props;
   const classes = useStyles();
-  const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === "nestedTree";
 
@@ -48,13 +48,13 @@ function LevelsNestedTreeGrid(props) {
                 className={classes.scrollbar}
               >
                 {
-                  activeTabId === 0 && renderCustomersData(props.customersData.ownership)
+                  nestGridTab === 0 && renderCustomersData(props.customersData.ownership)
                 }
                 {
-                  activeTabId === 1 && renderCustomersData(props.customersData.security)
+                  nestGridTab === 1 && renderCustomersData(props.customersData.security)
                 }
                 {
-                  activeTabId === 2 && renderCustomersData(props.customersData.other)
+                  nestGridTab === 2 && renderCustomersData(props.customersData.other)
                 }
               </PerfectScrollbar>
             :
@@ -65,14 +65,14 @@ function LevelsNestedTreeGrid(props) {
           !isExpanded && (props.screenWidth < 920 || props.screenHeight < 420)
           ?
             <CustomTab
-              activeTabId={activeTabId}
-              setActiveTabId={setActiveTabId}
+              activeTabId={nestGridTab}
+              setActiveTabId={setNestGridTabIndex}
               tabs={['Ownr', 'Secur', 'Other']}
             />
           :
             <TabsContainer
-              activeTabId={activeTabId}
-              setActiveTabId={setActiveTabId}
+              activeTabId={nestGridTab}
+              setActiveTabId={setNestGridTabIndex}
               tabs={['Ownr', 'Secur', 'Other']}
             />
         }
@@ -89,12 +89,14 @@ const mapStateToProps = state => {
     isLoading: state.patenTrack.isLoading,
     currentWidget: state.patenTrack.currentWidget,
     screenWidth: state.patenTrack.screenWidth,
-    screenHeight: state.patenTrack.screenHeight
+    screenHeight: state.patenTrack.screenHeight,
+    nestGridTab: state.patenTrack.nestGridTab
   };
 };
 
 const mapDispatchToProps = {
-  getCustomers
+  getCustomers,
+  setNestGridTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LevelsNestedTreeGrid);

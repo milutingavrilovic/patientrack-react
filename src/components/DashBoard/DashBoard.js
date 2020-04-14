@@ -24,8 +24,10 @@ function DashBoard(props) {
   const [redirect, setRedirect] = useState(false);
 
   const errorProcess = (err) => {
-    if(err !== undefined && err.status === 401 && err.data === 'Authorization error')
+    if(err !== undefined && err.status === 401 && err.data === 'Authorization error') {
+      props.actions.signOut();
       setRedirect(true);
+    }
   };
 
   useEffect(() => {
@@ -80,108 +82,112 @@ function DashBoard(props) {
     props.patentActions.getValidateCounter().catch(err => {
       errorProcess({...err}.response);
     });
-
   }, []);
 
   const renderContext = () => {
     const {currentWidget} = props;
-    if(currentWidget === 'all') {
-      return (
+    let res = [];
+
+    res.push(
+      <Grid
+      container
+      className={classes.dashboard}
+      >
         <Grid
-          container
-          className={classes.dashboard}
+          item lg={2} md={2} sm={2} xs={2}
+          className={classes.flexColumn}
         >
           <Grid
-            item lg={2} md={2} sm={2} xs={2}
-            className={classes.flexColumn}
-          >
-            <Grid
-              item
-              className={classes.flexColumn}
-              style={{flexGrow: 1}}
-            >
-              <div>
-                <ValidateCounter/>
-              </div>
-              <LevelsNestedTreeGrid/>
-            </Grid>
-            <Grid item>
-              <UpdatedAssests/>
-            </Grid>
-          </Grid>
-          <Grid
+            item
             className={classes.flexColumn}
             style={{flexGrow: 1}}
           >
-            <TimeLineContainer/>
-            <Grid container>
-              <Grid item lg={3} md={3} sm={3} xs={3}>
-                <TransactionsContainer/>
-              </Grid>
-              <Grid
-                item lg={9} md={9} sm={9} xs={9}
-                className={classes.flexColumn}
-              >
-                <CommentComponents/>
-              </Grid>
-            </Grid>
+            <div>
+              <ValidateCounter/>
+            </div>
+            <LevelsNestedTreeGrid/>
           </Grid>
-          <Grid
-            className={classes.flexColumn}
-            style={{width: '28.5%'}}
-          >
-            <Grid container style={{flexGrow: 1}}>
-              <Grid
-                item lg={6} md={6} sm={6} xs={6}
-                className={classes.flexColumn}
-              >
-                <FixItemsContainer/>
-              </Grid>
-              <Grid
-                item lg={6} md={6} sm={6} xs={6}
-                className={classes.flexColumn}
-              >
-                <RecordItemsContainer/>
-              </Grid>
+          <Grid item>
+            <UpdatedAssests/>
+          </Grid>
+        </Grid>
+        <Grid
+          className={classes.flexColumn}
+          style={{flexGrow: 1}}
+        >
+          {
+            (currentWidget !== 'timeline') && <TimeLineContainer/>
+          }
+          <Grid container>
+            <Grid item lg={3} md={3} sm={3} xs={3}>
+              <TransactionsContainer/>
             </Grid>
-            <Grid container>
-              <Charts/>
+            <Grid
+              item lg={9} md={9} sm={9} xs={9}
+              className={classes.flexColumn}
+            >
+              <CommentComponents/>
             </Grid>
           </Grid>
         </Grid>
-      )
-    }
+        <Grid
+          className={classes.flexColumn}
+          style={{width: '28.5%'}}
+        >
+          <Grid container style={{flexGrow: 1}}>
+            <Grid
+              item lg={6} md={6} sm={6} xs={6}
+              className={classes.flexColumn}
+            >
+              <FixItemsContainer/>
+            </Grid>
+            <Grid
+              item lg={6} md={6} sm={6} xs={6}
+              className={classes.flexColumn}
+            >
+              <RecordItemsContainer/>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Charts/>
+          </Grid>
+        </Grid>
+      </Grid>
+    )
+
     if(currentWidget === 'nestedTree') {
-      return <LevelsNestedTreeGrid/>
+      res.push(<LevelsNestedTreeGrid/>)
     }
     if(currentWidget === 'fixItems') {
-      return <FixItemsContainer/>
+      res.push(<FixItemsContainer/>)
     }
     if(currentWidget === 'recordItems') {
-      return <RecordItemsContainer/>
+      res.push(<RecordItemsContainer/>)
     }
     if(currentWidget === 'charts') {
-      return <Charts/>
+      res.push(<Charts/>)
     }
     if(currentWidget === 'timeline') {
-      return <TimeLineContainer/>
+      res.push(<TimeLineContainer/>)
     }
     if(currentWidget === 'comments') {
-      return <CommentComponents/>
+      res.push(<CommentComponents/>)
     }
     if(currentWidget === 'validateCounter') {
-      return <ValidateCounter/>
+      res.push(<ValidateCounter/>)
     }
     if(currentWidget === 'updatedAssets') {
-      return <UpdatedAssests/>
+      res.push(<UpdatedAssests/>)
     }
     if(currentWidget === 'transactions') {
-      return <TransactionsContainer/>
+      res.push(<TransactionsContainer/>)
     }
+
+    return res;
   };
 
   if(!authenticated || redirect)
-    return (<Redirect to={"/"}/>);
+    return (<Redirect to={"/login"}/>);
 
   return (
     <Grid

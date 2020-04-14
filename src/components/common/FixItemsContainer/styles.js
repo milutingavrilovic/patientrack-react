@@ -7,7 +7,8 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    width: '100%'
+    width: '100%',
+    zIndex: 9999
   },
   container: {
     color: 'white',

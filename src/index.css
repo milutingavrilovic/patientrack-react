@@ -245,7 +245,7 @@ span {
   right: 0;
   /* please don't change 'position' */
   position: absolute;
-  z-index: 100001;
+  z-index: 1001;
 }
 
 .ps--active-x > .ps__rail-x,

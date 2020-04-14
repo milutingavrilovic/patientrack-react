@@ -125,6 +125,31 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         siteLogo: action.data
       };
+    case types.SET_NESTGRID_TAB:
+      return {
+        ...state,
+        nestGridTab: action.payload
+      };
+    case types.SET_TIMELINE_TAB:
+      return {
+        ...state,
+        timelineTab: action.payload
+      };
+    case types.SET_CHART_TAB:
+      return {
+        ...state,
+        chartTab: action.payload
+      };
+    case types.SET_FIXIT_TAB:
+      return {
+        ...state,
+        fixitTab: action.payload
+      };
+    case types.SET_RECORDIT_TAB:
+      return {
+        ...state,
+        recorditTab: action.payload
+      };
     default:
       return state;
   }

@@ -6,7 +6,8 @@ export default makeStyles((theme) => ({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    flexGrow: 1
+    flexGrow: 1,
+    zIndex: 2000
   },
   container: {
     position: 'absolute',

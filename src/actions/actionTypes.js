@@ -36,3 +36,9 @@ export const SET_IS_LOADING = 'SET_IS_LOADING';
 export const SET_TREE_OPEN = 'SET_TREE_OPEN';
 export const SET_CURRENT_ASSET = 'SET_CURRENT_ASSET';
 export const SET_SITE_LOGO = 'SET_SITE_LOGO';
+
+export const SET_NESTGRID_TAB = 'SET_NESTGRID_TAB';
+export const SET_TIMELINE_TAB = 'SET_TIMELINE_TAB';
+export const SET_CHART_TAB = 'SET_CHART_TAB';
+export const SET_FIXIT_TAB = 'SET_FIXIT_TAB';
+export const SET_RECORDIT_TAB = 'SET_RECORDIT_TAB';

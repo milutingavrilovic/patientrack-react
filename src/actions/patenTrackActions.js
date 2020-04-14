@@ -23,7 +23,6 @@ export const getValidateCounter = () => {
   };
 };
 
-
 export const setCustomers = (customerType, data) => {
   return {
     type:types.SET_CUSTOMERS,
@@ -373,5 +372,40 @@ export const getSiteLogo = () => {
       .catch(err => {
         return err;
       });
+  };
+};
+
+export const setNestGridTabIndex = (index) => {
+  return {
+    type: types.SET_NESTGRID_TAB,
+    payload: index
+  };
+};
+
+export const setTimelineTabIndex = (index) => {
+  return {
+    type: types.SET_TIMELINE_TAB,
+    payload: index
+  };
+};
+
+export const setChartTabIndex = (index) => {
+  return {
+    type: types.SET_CHART_TAB,
+    payload: index
+  };
+};
+
+export const setFixItTabIndex = (index) => {
+  return {
+    type: types.SET_FIXIT_TAB,
+    payload: index
+  };
+};
+
+export const setRecordItTabIndex = (index) => {
+  return {
+    type: types.SET_RECORDIT_TAB,
+    payload: index
   };
 };

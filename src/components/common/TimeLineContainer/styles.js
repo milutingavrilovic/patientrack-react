@@ -4,7 +4,8 @@ export default makeStyles((theme) => ({
   timeLineContainer: {
     flexGrow: 1,
     position: 'relative',
-    width: '100%'
+    width: '100%',
+    zIndex: 9999
   },
   timeLineWrapper: {
     position: 'absolute',
@@ -39,7 +40,7 @@ export default makeStyles((theme) => ({
     right: 20,
     width: 35,
     height: 70,
-    zIndex: 1000002,
+    zIndex: 1002,
     display: 'flex',
     flexDirection: 'column',
   },

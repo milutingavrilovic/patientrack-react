@@ -11,15 +11,15 @@ import { Grid } from "@material-ui/core";
 import Loader from "../Loader";
 import classnames from 'classnames';
 
-import { getCharts } from "../../../actions/patenTrackActions";
+import { getCharts, setChartTabIndex } from "../../../actions/patenTrackActions";
 
 const backgroundColor = 'rgb(255, 170, 0)';
 
 function Charts(props) {
+  const { chartTab, setChartTabIndex } = props
   const classes = useStyles();
-  const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
-  const charts = props.chartsTab.length ? props.chartsTab[activeTabId] : [];
+  const charts = props.chartsTab.length ? props.chartsTab[chartTab] : [];
 
   return (
     <div
@@ -82,8 +82,8 @@ function Charts(props) {
           }
 
         <TabsContainer
-          activeTabId={activeTabId}
-          setActiveTabId={setActiveTabId}
+          activeTabId={chartTab}
+          setActiveTabId={setChartTabIndex}
           tabs={['Tab1', 'Tab2', 'Tab3']}
         />
       </div>
@@ -97,12 +97,14 @@ const mapStateToProps = state => {
     chartsTab: Object.values(state.patenTrack.charts),
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.isLoading,
-    screenHeight: state.patenTrack.screenHeight
+    screenHeight: state.patenTrack.screenHeight,
+    chartTab: state.patenTrack.chartTab
   };
 };
 
 const mapDispatchToProps = {
-  getCharts
+  getCharts,
+  setChartTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Charts);

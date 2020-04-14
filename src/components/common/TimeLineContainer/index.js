@@ -5,7 +5,7 @@ import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import TabsContainer from "../Tabs";
 import {connect} from 'react-redux';
-import { getAssetsOutsource, getTimeLine } from "../../../actions/patenTrackActions";
+import { getAssetsOutsource, getTimeLine, setTimelineTabIndex } from "../../../actions/patenTrackActions";
 import 'font-awesome/css/font-awesome.min.css';
 import classnames from 'classnames';
 
@@ -13,19 +13,19 @@ import modifyingData from './TimeLine';
 import assignmentTimeline from "./TimeLine1";
 
 function TimeLineContainer(props) {
+  const { timelineTab, setTimelineTabIndex } = props;
   const classes = useStyles();
-  const [activeTabId, setActiveTabId] = useState(0);
   const [showSwitcher, setShowSwitcher] = useState(0);
 
   useEffect(() => {
     const iframe = document.getElementById("outsource");
-    if(activeTabId === 1 && iframe) {
+    if(timelineTab === 1 && iframe) {
       // iframe.contentWindow.renderData(props.assets);
     }
   }, [props.assets]);
 
   useEffect(() => {
-    if(activeTabId === 0 && props.timeLine.assignees) {
+    if(timelineTab === 0 && props.timeLine.assignees) {
       const passingData = modifyingData(props.timeLine);
       assignmentTimeline(
         passingData.groups,
@@ -35,7 +35,7 @@ function TimeLineContainer(props) {
         passingData.items3,
         passingData.itemDates);
     }
-  }, [props.timeLine, activeTabId]);
+  }, [props.timeLine, timelineTab]);
 
   return (
     <div
@@ -46,7 +46,7 @@ function TimeLineContainer(props) {
       <div className={classes.timeLineWrapper}>
         <div className={classes.container}>
           {
-            activeTabId === 0 &&
+            timelineTab === 0 &&
             <div style={{position: 'relative', height: '100%'}}>
               <PerfectScrollbar
                 options={{
@@ -65,9 +65,9 @@ function TimeLineContainer(props) {
             </div>
           }
           {
+            timelineTab === 1 &&
             <div
               className={classes.outSourceWrapper}
-              style={{display: activeTabId === 1 ? 'initial' : 'none'}}
             >
               <div className={classes.padding}>
                 <iframe id={"outsource"} className={classes.outsource} src='./d3/index.html'/>
@@ -75,7 +75,7 @@ function TimeLineContainer(props) {
             </div>
           }
           {
-            activeTabId === 2 &&
+            timelineTab === 2 &&
             <div className={classes.outSourceWrapper}>
               <div className={classes.padding}>
                 <iframe className={classes.outsource} src={props.assetsOutsource.url} title={props.assetsOutsource.url}/>
@@ -85,15 +85,15 @@ function TimeLineContainer(props) {
         </div>
         <div style={{marginBottom: 5}}>
           <TabsContainer
-            activeTabId={activeTabId}
-            setActiveTabId={setActiveTabId}
+            activeTabId={timelineTab}
+            setActiveTabId={setTimelineTabIndex}
             tabs={['Time', 'Illust', 'PTO']}
           />
         </div>
       </div>
       <FullWidthSwitcher
         show={showSwitcher}
-        widget={ activeTabId === 1 ? "charts" : "timeline"}
+        widget="timeline"
       />
     </div>
   );
@@ -105,13 +105,15 @@ const mapStateToProps = state => {
     assetsOutsource: state.patenTrack.assetsOutsource,
     assets: state.patenTrack.assets,
     currentAsset: state.patenTrack.currentAsset,
-    isLoading: state.patenTrack.isLoading
+    isLoading: state.patenTrack.isLoading,
+    timelineTab: state.patenTrack.timelineTab
   };
 };
 
 const mapDispatchToProps = {
   getAssetsOutsource,
-  getTimeLine
+  getTimeLine,
+  setTimelineTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeLineContainer);

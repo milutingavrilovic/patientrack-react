@@ -7,13 +7,13 @@ import classnames from 'classnames';
 import Loader from "../Loader";
 import TabsContainer from "../Tabs";
 import CustomTab from "../CustomTab";
-import {getRecordItems} from "../../../actions/patenTrackActions";
+import {getRecordItems, setFixItTabIndex} from "../../../actions/patenTrackActions";
 
 function FixItemsContainer(props) {
+  const { fixitTab, setFixItTabIndex } = props
   const classes = useStyles();
   const isExpanded = props.currentWidget === 'fixItems';
   const [showSwitcher, setShowSwitcher] = useState(0);
-  const [activeTabId, setActiveTabId] = useState(0);
 
   const renderItemList = () => {
     if(!isExpanded) {
@@ -113,7 +113,7 @@ function FixItemsContainer(props) {
     >
       <div className={classes.container}>
         {
-          activeTabId === 0 &&
+          fixitTab === 0 &&
           <div className={classes.context}>
           <span
             className={classes.headerWrapper}
@@ -152,7 +152,7 @@ function FixItemsContainer(props) {
           </div>
         }
         {
-          activeTabId === 1 &&
+          fixitTab === 1 &&
           <div className={classes.context}>
           <span
             className={classes.headerWrapper}
@@ -195,15 +195,15 @@ function FixItemsContainer(props) {
           ?
             <div style={{width: '100%'}}>
               <CustomTab
-                activeTabId={activeTabId}
-                setActiveTabId={setActiveTabId}
+                activeTabId={fixitTab}
+                setActiveTabId={setFixItTabIndex}
                 tabs={['To Do', 'Complete']}
               />
             </div>
           :
             <TabsContainer
-              activeTabId={activeTabId}
-              setActiveTabId={setActiveTabId}
+              activeTabId={fixitTab}
+              setActiveTabId={setFixItTabIndex}
               tabs={['To Do', 'Complete']}
             />
         }
@@ -223,12 +223,14 @@ const mapStateToProps = state => {
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.isLoading,
     screenWidth: state.patenTrack.screenWidth,
-    screenHeight: state.patenTrack.screenHeight
+    screenHeight: state.patenTrack.screenHeight,
+    fixitTab: state.patenTrack.fixitTab
   };
 };
 
 const mapDispatchToProps = {
-  getRecordItems
+  getRecordItems,
+  setFixItTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixItemsContainer);

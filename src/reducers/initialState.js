@@ -26,6 +26,11 @@ export default {
     assetsCount: {},
     tree: {},
     currentAsset: '9167550',
-    siteLogo: {}
+    siteLogo: {},
+    nestGridTab: 0,
+    chartTab: 0,
+    timelineTab: 0,
+    fixitTab: 0,
+    recorditTab: 0
   }
 };
