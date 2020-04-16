@@ -85,7 +85,7 @@ const mapStateToProps = state => {
   return {
     validateCounter: state.patenTrack.validateCounter,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.validateCounterLoading,
     screenHeight: state.patenTrack.screenHeight,
     screenWidth: state.patenTrack.screenWidth
   };

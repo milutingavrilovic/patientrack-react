@@ -79,6 +79,7 @@ function TimeLineContainer(props) {
                 className={classes.scrollbar}
                 id={"timeline"}
               >
+
               </PerfectScrollbar>
               <div className={classes.btnGroups}>
                 <i className={classnames("fa fa-minus", classes.button)} id={"zoomIn"}/>
@@ -127,7 +128,7 @@ const mapStateToProps = state => {
     assetsOutsource: state.patenTrack.assetsOutsource,
     assets: state.patenTrack.assets,
     currentAsset: state.patenTrack.currentAsset,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.timeLineLoading,
     timelineTab: state.patenTrack.timelineTab
   };
 };

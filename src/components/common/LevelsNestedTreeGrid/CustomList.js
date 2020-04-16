@@ -14,6 +14,8 @@ function CustomList(props) {
             <CustomListItem
               key     = {index}
               depth   = {props.depth}
+              tabId   = {props.tabId}
+              parent  = {props.parent}
               {...item}
             />
           ))

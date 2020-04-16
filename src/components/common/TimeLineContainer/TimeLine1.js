@@ -38,6 +38,8 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
   groups.add(groups1);
   groups.add(groups3);
 
+  console.log('groups', groups);
+
   // create a dataset with items
   let items = new vis.DataSet();
   items1.forEach(item => items.add(item));
@@ -308,6 +310,7 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
     callData(getItem[0], 0);
   });
 }
+
 function callData(item, t) {
   console.log('callData:', item, t);
   let token = localStorage.getItem("token");
@@ -484,7 +487,7 @@ function callIllustration() {
 
 function showDetails() {
   console.log("showDetails");
-  document.getElementById('comment_container').classList.remove("d-none");
+  // document.getElementById('comment_container').classList.remove("d-none");
   // document.getElementById('assignment_container').classList.remove("d-none");
   document.getElementById('illustration_container').classList.remove("d-none");
 

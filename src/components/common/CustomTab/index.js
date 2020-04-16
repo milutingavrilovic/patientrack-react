@@ -1,6 +1,7 @@
 import React from "react";
 import useStyles from "./styles";
 import 'font-awesome/css/font-awesome.min.css';
+import classnames from 'classnames';
 
 function CustomTab(props) {
   const {tabs, activeTabId, setActiveTabId} = props;
@@ -10,14 +11,14 @@ function CustomTab(props) {
   return (
     <div className={classes.customTabContainer}>
       <i
-        className={"fa fa-caret-left"}
+        className={classnames("fa fa-caret-left", classes.button)}
         onClick={() => {
           setActiveTabId((activeTabId + count -1) % count)
         }}
       />
       <span>{tabs[activeTabId].toUpperCase()}</span>
       <i
-        className={"fa fa-caret-right"}
+        className={classnames("fa fa-caret-left", classes.button)}
         onClick={() => {
           setActiveTabId((activeTabId + 1) % count)
         }}

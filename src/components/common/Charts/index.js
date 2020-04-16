@@ -18,8 +18,21 @@ const backgroundColor = 'rgb(255, 170, 0)';
 function Charts(props) {
   const { chartTab, setChartTabIndex } = props
   const classes = useStyles();
+
   const [showSwitcher, setShowSwitcher] = useState(0);
   const charts = props.chartsTab.length ? props.chartsTab[chartTab] : [];
+
+  const getWidthChart = () => {
+    if(props.screenHeight < 400)
+      return '50%';
+    if(props.screenHeight < 500)
+      return '70%';
+    if(props.screenHeight < 700)
+      return '80%';
+    if(props.screenHeight < 800)
+      return '100%';
+  };
+
 
   return (
     <div
@@ -50,6 +63,10 @@ function Charts(props) {
                       >
                         <div
                           className={classes.wrap}
+                          style={{
+                            width: getWidthChart(),
+                            margin: '0 auto'
+                          }}
                         >
                           <Line
                             data = {{
@@ -96,7 +113,7 @@ const mapStateToProps = state => {
   return {
     chartsTab: Object.values(state.patenTrack.charts),
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.chartsLoading,
     screenHeight: state.patenTrack.screenHeight,
     chartTab: state.patenTrack.chartTab
   };

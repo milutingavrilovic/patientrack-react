@@ -61,7 +61,7 @@ const mapStateToProps = (state) => {
   return {
     comments: state.patenTrack.comments,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading
+    isLoading: state.patenTrack.commentsLoading
   };
 };
 

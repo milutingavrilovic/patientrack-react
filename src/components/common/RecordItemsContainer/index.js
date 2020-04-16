@@ -127,7 +127,7 @@ function RecordItemsContainer(props) {
                 <div className={classes.header}>
                   Record it:
                   <span className={classes.itemsCount}>
-                    {props.recordItemCount}
+                    {props.recordItemCount.toLocaleString()}
                   </span>
                 </div>
             }
@@ -166,7 +166,7 @@ function RecordItemsContainer(props) {
                 <div className={classes.header}>
                   Record it:
                   <span className={classes.itemsCount}>
-                    {props.recordItemCount}
+                    {props.recordItemCount.toLocaleString()}
                   </span>
                 </div>
             }
@@ -220,7 +220,7 @@ const mapStateToProps = state => {
     recordItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
     recordItemList: recordItems ? recordItems.list : [],
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.recordItemsLoading,
     screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,
     recorditTab: state.patenTrack.recorditTab

@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
   return {
     assetsCount: state.patenTrack.assetsCount,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.assetsCountLoading,
     screenHeight: state.patenTrack.screenHeight,
     screenWidth: state.patenTrack.screenWidth
   };

@@ -23,7 +23,7 @@ function LevelsNestedTreeGrid(props) {
     return (
       <div className={classes.flexColumn}>
         <span className={isExpanded ? classes.headingExpand : classes.heading}>Portfolios</span>
-        <CustomList data={data} depth={0}/>
+        <CustomList data={data} depth={0} tabId={nestGridTab} parent={[]}/>
       </div>
     );
   };
@@ -86,7 +86,7 @@ function LevelsNestedTreeGrid(props) {
 const mapStateToProps = state => {
   return {
     customersData: state.patenTrack.customersData,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.customersLoading,
     currentWidget: state.patenTrack.currentWidget,
     screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,

@@ -13,6 +13,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         validateCounter: Object.assign({}, action.data)
       };
+    case types.SET_VALIDATE_COUNTER_LOADING:
+      return {
+        ...state,
+        validateCounterLoading: action.data
+      };
     case types.SET_CUSTOMERS:
       return {
         ...state,
@@ -21,10 +26,20 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           [action.customerType]: action.data
         })
       };
+    case types.SET_CUSTOMERS_LOADING:
+      return {
+        ...state,
+        customersLoading: action.data
+      };
     case types.SET_ASSETS_COUNT:
       return {
         ...state,
         assetsCount: action.data
+      };
+    case types.SET_ASSETS_COUNT_LOADING:
+      return {
+        ...state,
+        assetsCountLoading: action.data
       };
     case types.SET_CUSTOMERS_NAME_COLLECTIONS:
       return {
@@ -34,6 +49,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           [action.name]: [...action.data]
         })
       };
+    case types.SET_CUSTOMERS_NAME_COLLECTIONS_LOADING:
+      return {
+        ...state,
+        customersNameCollectionsLoading: action.data
+      };
     case types.SET_CUSTOMER_RFID_ASSETS:
       return {
         ...state,
@@ -41,6 +61,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           ...state.customersRFIDAssets,
           [action.rfID]: [...action.data]
         })
+      };
+    case types.SET_CUSTOMER_RFID_ASSETS_LOADING:
+      return {
+        ...state,
+        customersRFIDAssetsLoading: action.data
       };
     case types.SET_RECORD_ITEMS:
       return {
@@ -52,6 +77,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
             [action.itemOption]: action.data
           }
         })
+      };
+    case types.SET_RECORD_ITEMS_LOADING:
+      return {
+        ...state,
+        recordItemsLoading: action.data
       };
     case types.CHANGE_WIDTH_AND_HEIGHT:
       return {
@@ -77,35 +107,60 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           [action.option]: action.data
         })
       };
+    case types.SET_CHARTS_LOADING:
+      return {
+        ...state,
+        chartsLoading: action.data
+      };
     case types.SET_TIME_LINE:
       return {
         ...state,
         timeLine: action.data
+      };
+    case types.SET_TIME_LINE_LOADING:
+      return {
+        ...state,
+        timeLineLoading: action.data
       };
     case types.SET_TRANSACTIONS:
       return {
         ...state,
         transactions: action.data
       };
+    case types.SET_TRANSACTIONS_LOADING:
+      return {
+        ...state,
+        transactionsLoading: action.data
+      };
     case types.SET_COMMENTS:
       return {
         ...state,
         comments: action.data
+      };
+    case types.SET_COMMENTS_LOADING:
+      return {
+        ...state,
+        commentsLoading: action.data
       };
     case types.SET_ASSETS:
       return {
         ...state,
         assets: action.data
       };
+    case types.SET_ASSETS_LOADING:
+      return {
+        ...state,
+        assetsLoading: action.data
+      };
     case types.SET_ASSETS_OUTSOURCE:
       return {
         ...state,
         assetsOutsource: action.data
       };
-    case types.SET_IS_LOADING:
+    case types.SET_ASSETS_OUTSOURCE_LOADING:
       return {
         ...state,
-        isLoading: action.data
+        assetsOutsourceLoading: action.data
       };
     case types.SET_TREE_OPEN:
       return {
@@ -124,6 +179,54 @@ const patenTrackReducer = (state = initialState.patient, action) => {
       return {
         ...state,
         siteLogo: action.data
+      };
+    case types.SET_CUR_TREE_LEVEL1:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel1: action.data
+          };
+        })
+      };
+    case types.SET_CUR_TREE_LEVEL2:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel2: action.data
+          };
+        })
+      };
+    case types.SET_CUR_TREE_LEVEL3:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel3: action.data
+          };
+        })
+      };
+    case types.SET_CUR_TREE_LEVEL4:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel4: action.data
+          };
+        })
       };
     case types.SET_NESTGRID_TAB:
       return {

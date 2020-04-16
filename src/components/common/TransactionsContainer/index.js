@@ -86,7 +86,7 @@ const mapStateToProps = state => {
   return {
     transactions: state.patenTrack.transactions,
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.transactionsLoading,
     screenHeight: state.patenTrack.screenHeight,
     screenWidth: state.patenTrack.screenWidth
   };

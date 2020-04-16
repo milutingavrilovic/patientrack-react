@@ -12,5 +12,8 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: '2px 0',
     margin: '-1px 10px 0'
+  },
+  button: {
+    cursor: 'pointer'
   }
 }));

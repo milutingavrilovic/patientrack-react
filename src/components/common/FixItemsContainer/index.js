@@ -127,7 +127,7 @@ function FixItemsContainer(props) {
                 <div className={classes.header}>
                   Fix it:
                   <span className={classes.itemsCount}>
-                    {props.fixItemCount}
+                    {props.fixItemCount.toLocaleString()}
                   </span>
                 </div>
             }
@@ -166,7 +166,7 @@ function FixItemsContainer(props) {
                 <div className={classes.header}>
                   Fix it:
                   <span className={classes.itemsCount}>
-                    {props.fixItemCount}
+                    {props.fixItemCount.toLocaleString()}
                   </span>
                 </div>
             }
@@ -221,7 +221,7 @@ const mapStateToProps = state => {
     fixItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
     fixItemList: recordItems ? recordItems.list : [],
     currentWidget: state.patenTrack.currentWidget,
-    isLoading: state.patenTrack.isLoading,
+    isLoading: state.patenTrack.recordItemsLoading,
     screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,
     fixitTab: state.patenTrack.fixitTab

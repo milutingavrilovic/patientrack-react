@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
@@ -11,7 +11,11 @@ import {
   setTreeOpen,
   setCurrentAsset,
   getAssetsOutsource,
-  getAssets
+  getAssets,
+  setCurTreeLevel1,
+  setCurTreeLevel2,
+  setCurTreeLevel3,
+  setCurTreeLevel4,
 } from "../../../actions/patenTrackActions";
 
 const getLabel = (depth, props) => {
@@ -31,16 +35,74 @@ const getLabel = (depth, props) => {
 function CustomListItem(props) {
   const {depth} = props;
   const classes = useStyles();
+  const [active, setActive] = useState(false);
 
-  useEffect(() => {
-    if(depth === 0)
-      props.setTreeOpen(getLabel(depth, props), true);
-  }, []);
+
+  const getActiveColor = () => {
+    switch (depth) {
+      case 0:
+        return 'red';
+      case 1:
+        return 'blue';
+      case 2:
+        return 'orange';
+      case 3:
+        return 'green';
+    }
+  };
+
+  const isSelected = () => {
+    console.log('isSelected', props.curTree);
+    const curLabels = Object.values(props.curTree);
+    let i;
+    for(i = 0; i < props.parent.length; i ++) {
+      if(props.parent[i] !== curLabels[i]) {
+        return false;
+      }
+    }
+    if(curLabels[i] === getLabel(depth, props))
+      return true;
+    return false;
+  };
 
   return (
-    <li className={classes.listItem}>
+    <li
+      className={classes.listItem}
+      style={{color: isSelected() ? getActiveColor() : '#bdbdbd'}}
+    >
       <div
         onClick={() => {
+          switch (depth) {
+            case 0:
+              props.setCurTreeLevel1(props.tabId, getLabel(depth, props));
+              props.setCurTreeLevel2(props.tabId, '');
+              props.setCurTreeLevel3(props.tabId, '');
+              props.setCurTreeLevel4(props.tabId, '');
+              break;
+            case 1:
+              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              props.setCurTreeLevel2(props.tabId, getLabel(depth, props));
+              props.setCurTreeLevel3(props.tabId, '');
+              props.setCurTreeLevel4(props.tabId, '');
+              break;
+            case 2:
+              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              props.setCurTreeLevel2(props.tabId, props.parent[1]);
+              props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
+              props.setCurTreeLevel4(props.tabId, '');
+              break;
+            case 3:
+              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              props.setCurTreeLevel2(props.tabId, props.parent[1]);
+              props.setCurTreeLevel3(props.tabId, props.parent[2]);
+              props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
+              break;
+          }
+          if(props.isOpened) {
+            props.setTreeOpen(getLabel(depth, props), !props.isOpened);
+            return;
+          }
+          props.setTreeOpen(getLabel(depth, props), !props.isOpened);
           const label = getLabel(depth, props);
           if(depth === 1)
             props.getCustomersNameCollections(label);
@@ -52,10 +114,10 @@ function CustomListItem(props) {
             props.getAssetsOutsource(label);
             props.getAssets(label);
           }
-          props.setTreeOpen(getLabel(depth, props), !props.isOpened);
         }}
         style={{display: 'flex'}}
       >
+
         {
           depth !== 3 && (props.isOpened ? <ArrowDropDown/> : <ArrowRight/>)
         }
@@ -70,7 +132,11 @@ function CustomListItem(props) {
       {
          (props.isOpened && props.child)
          ?
-           <CustomList data={props.child} depth={props.depth + 1}/>
+           <CustomList
+             data={props.child}
+             depth={props.depth + 1}
+             tabId={props.tabId}
+             parent={[...props.parent, getLabel(depth, props)]}/>
          :
            ''
       }
@@ -85,20 +151,28 @@ const mapStateToProps = (state, ownProps) => {
     case 0:
       return {
         ...ownProps,
-        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false
+        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
+        curTree: state.patenTrack.curTree[ownProps.tabId]
       };
     case 1:
       return {
         ...ownProps,
         child: state.patenTrack.customersNamesCollections[ownProps.name],
-        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false
+        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
+        curTree: state.patenTrack.curTree[ownProps.tabId]
       };
     case 2:
       return {
         ...ownProps,
         child: state.patenTrack.customersRFIDAssets[ownProps.rf_id],
-        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false
+        isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
+        curTree: state.patenTrack.curTree[ownProps.tabId]
       };
+    case 3:
+      return {
+        ...ownProps,
+        curTree: state.patenTrack.curTree[ownProps.tabId]
+      }
     default:
       return {};
   }
@@ -110,7 +184,11 @@ const mapDispatchToProps =  {
   getAssetsOutsource,
   setTreeOpen,
   setCurrentAsset,
-  getAssets
+  getAssets,
+  setCurTreeLevel1,
+  setCurTreeLevel2,
+  setCurTreeLevel3,
+  setCurTreeLevel4,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);

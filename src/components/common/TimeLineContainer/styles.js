@@ -40,7 +40,7 @@ export default makeStyles((theme) => ({
     right: 20,
     width: 35,
     height: 70,
-    zIndex: 1002,
+    zIndex: 1000002,
     display: 'flex',
     flexDirection: 'column',
   },
