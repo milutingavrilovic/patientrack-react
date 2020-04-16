@@ -8,7 +8,7 @@ export default makeStyles(theme => ({
     flexDirection: 'column',
     flexGrow: 1,
     width: '100%',
-    zIndex: 9999
+    zIndex: 1000
   },
   container: {
     color: 'white',

@@ -333,6 +333,21 @@ export const getTimeLine = () => {
   };
 };
 
+export const getFilterTimeLine = ( label, depth ) => {
+  setTimeLineLoading(true);
+  return dispatch => {
+    dispatch(setTimeLineLoading(true));
+    return PatenTrackApi.getFilterTimeLine( label, depth )
+      .then(res => {
+        dispatch(setTimeLineLoading(false));
+        dispatch(setTimeLine(res.data))
+      })
+      .catch(err => {
+        throw err;
+      });
+  };
+};
+
 export const setComments = (data) => {
   return {
     type: types.SET_COMMENTS,

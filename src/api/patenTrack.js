@@ -48,6 +48,10 @@ class PatenTrackApi {
     return axios.get(`${base_api_url}/timeline`, getHeader());
   }
 
+  static getFilterTimeLine(label, depth) {
+    return axios.get(`${base_api_url}/timeline/${label}/${depth}`, getHeader());
+  }
+
   static getMessages(type) {
     return axios.get(`${base_api_url}/messages/${type}`, getHeader());
   }

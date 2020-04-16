@@ -12,6 +12,7 @@ import {
   setCurrentAsset,
   getAssetsOutsource,
   getAssets,
+  getFilterTimeLine,
   setCurTreeLevel1,
   setCurTreeLevel2,
   setCurTreeLevel3,
@@ -104,15 +105,20 @@ function CustomListItem(props) {
           }
           props.setTreeOpen(getLabel(depth, props), !props.isOpened);
           const label = getLabel(depth, props);
-          if(depth === 1)
+          if(depth === 1) {
             props.getCustomersNameCollections(label);
-          if(depth === 2)
+            props.getFilterTimeLine(label,1);
+          }
+          if(depth === 2) {
             props.getCustomerRFIDAssets(label);
+            props.getFilterTimeLine(label,2);
+          }
           if(depth === 3)
           {
             props.setCurrentAsset(label);
             props.getAssetsOutsource(label);
             props.getAssets(label);
+            props.getFilterTimeLine(label,3);
           }
         }}
         style={{display: 'flex'}}
@@ -185,6 +191,7 @@ const mapDispatchToProps =  {
   setTreeOpen,
   setCurrentAsset,
   getAssets,
+  getFilterTimeLine,
   setCurTreeLevel1,
   setCurTreeLevel2,
   setCurTreeLevel3,
