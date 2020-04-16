@@ -44,7 +44,7 @@ function CustomListItem(props) {
       case 0:
         return 'red';
       case 1:
-        return 'blue';
+        return 'rgb(36, 147, 242)';
       case 2:
         return 'orange';
       case 3:

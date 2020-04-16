@@ -12,6 +12,7 @@ import {
   MailOutline as MailIcon,
   NotificationsNone as NotificationsIcon,
   Person as AccountIcon,
+  Dehaze as DehazeIcon
 } from "@material-ui/icons";
 
 import CustomBadge from './CustomBage';
@@ -55,7 +56,9 @@ function Header(props) {
             <img src={props.siteLogo} className={classes.siteLogo} alt={''}/>
           }
         </div>
-        <div className={classes.grow} />
+        <div className={classes.grow}>
+          <span style={{ marginLeft: 10 }}>Patien Track</span>
+        </div>
 
         <IconButton>
           {
@@ -96,6 +99,11 @@ function Header(props) {
             <MailIcon classes={{ root: classes.headerIcon }} />
           </CustomBadge>
         </IconButton>
+        <div className={classes.logotype}>
+          {
+            <img src={props.user.logo} className={classes.companyLogo} alt={''}/>
+          }
+        </div>
         <IconButton
           aria-haspopup     = "true"
           color             = "inherit"
@@ -105,7 +113,7 @@ function Header(props) {
             setProfileMenu(!profileMenu);
           }}
         >
-          <AccountIcon classes={{ root: classes.headerIcon }} />
+          <DehazeIcon classes={{ root: classes.headerIcon }} />
           <div
             className = {classes.profileMenu}
             style = {{
@@ -114,11 +122,9 @@ function Header(props) {
             }}
           >
             <div className={classes.profileMenuItem}>
-              <span>{props.user.first_name + ' ' + props.user.last_name}</span>
-              <img src={props.user.logo} className={classes.userlogo} alt={''}/>
-            </div>
-            <div className={classes.profileMenuItem}>
-              <span>{props.user.organisation ? props.user.organisation.name : ''}</span>
+            <span onClick = {() => {}}>
+              Settings
+            </span>
             </div>
             <div className={classes.profileMenuItem}>
             <span onClick = {() => {props.signOut()}}>

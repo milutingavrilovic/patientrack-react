@@ -10,7 +10,8 @@ export default makeStyles(theme => ({
     margin: 0,
     whiteSpace: "nowrap",
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginLeft: '16px'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -78,11 +79,6 @@ export default makeStyles(theme => ({
   userlogo: {
     width: '3rem',
     alignSelf:'center',
-    position: 'absolute',
-    right: 10,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    marginLeft: 10
   },
   companyLogo: {
     height: '2rem'
