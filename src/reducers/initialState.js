@@ -3,6 +3,7 @@ export default {
   patient: {
     currentWidget: 'all',
     customersData: {
+      'employee': [],
       'ownership': [],
       'security': [],
       'other': []
@@ -43,6 +44,12 @@ export default {
     fixitTab: 0,
     recorditTab: 0,
     curTree: [
+      {
+        curTreeLevel1: '',
+        curTreeLevel2: '',
+        curTreeLevel3: '',
+        curTreeLevel4: ''
+      },
       {
         curTreeLevel1: '',
         curTreeLevel2: '',

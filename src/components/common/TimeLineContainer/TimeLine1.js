@@ -1,11 +1,9 @@
-import vis from 'vis';
 import moment from 'moment';
-import Timeline from 'react-visjs-timeline';
+import { Timeline, DataSet } from "vis-timeline/standalone";
 import {base_api_url} from "../../../config/config";
 import axios from 'axios';
 
 let cloneTimelineItems1 = [],
-    cloneTimelineItems2 = [],
     cloneTimelineItems3 = [],
     hideItems = [],
     cloneMainGroups = [],
@@ -16,10 +14,9 @@ let cloneTimelineItems1 = [],
     currentItemID = 0,
     closeHover = 1;
 
-export default function assignmentTimeline(groups1, groups3, items1, items2, items3, itemDates) {
+export default function assignmentTimeline(groups1, groups3, items1,  items3, itemDates) {
   // DOM element where the Timeline will be attached
   cloneTimelineItems1 = [...items1];
-  cloneTimelineItems2 = [...items2];
   cloneTimelineItems3 = [...items3];
   cloneMainGroups = [...groups1];
   cloneGroup3 = [...groups3];
@@ -33,7 +30,7 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
   //var items = new vis.DataSet(data.result);
 
   // create a data set with groups
-  let groups = new vis.DataSet();
+  let groups = new DataSet();
 
   groups.add(groups1);
   groups.add(groups3);
@@ -41,7 +38,7 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
   console.log('groups', groups);
 
   // create a dataset with items
-  let items = new vis.DataSet();
+  let items = new DataSet();
   items1.forEach(item => items.add(item));
 
   let min = new Date(Math.min(...itemDates));
@@ -63,13 +60,13 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
       followMouse: true,
       overflowMethod: 'cap'
     },
-    // groupHeightMode: "auto",
-    // maxHeight: "500px",
-    minHeight: "100%",
+    groupHeightMode: "auto",
+		zoomFriction: 60,
+		maxHeight: "720px",
+		minHeight: "720px",
+    /*minHeight: "100%",*/
     verticalScroll: true,
-    // zoomFriction: 60,
     onInitialDrawComplete: function(){
-      console.log("Time line drawn");
       setTimeout(checkTimeLineHeight,300);
     }/*,
 		timeAxis: {
@@ -78,7 +75,7 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
 
   };
   // create a Timeline
-  let timeline = new vis.Timeline(container, items, groups, options);
+  let timeline = new Timeline(container, items, groups, options);
   let intial = 0;
   function checkTimeLineHeight(){
     //console.log("checkTimeLineHeight");
@@ -146,11 +143,11 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
   btnZoomOut.addEventListener('mousedown', (e) => {
     console.log(e.button);
     if(e.button === 0){
-      timeline.zoomOut( 1 );
+      timeline.zoomOut( 0.2 );
       clearInterval(pressInterval);
       pressInterval = setInterval(() => {
         if(btnZoomOut.classList.contains('hover')){
-          timeline.zoomOut( 1 );
+          timeline.zoomOut( 0.2 );
         }
       }, timeInterval);
     } else {
@@ -174,37 +171,16 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
   //   disableIllustration(getItem);
   // });
 
-  timeline.on('mouseover', function(){
-    //checkTimeLineHeight()
-    console.log("mouseover");
-  });
-
-  timeline.on('mousedown', function(){
-    //checkTimeLineHeight()
-    console.log("mousedown");
-  });
-  timeline.on('mouseup', function(){
-    //checkTimeLineHeight()
-    console.log("mouseup");
-  });
-
-  timeline.on('rangechange', function(){
-    //checkTimeLineHeight()
-    //console.log("rangechange", properties);
-    if(intial === 1){
-      /*console.log("change range");*/
-      //checkTimeLineHeight();
-    }
-  });
-
   timeline.on('click', function (properties) {
     ( async () => {
       //console.log(properties.event.toElement.className);
       //let groupName = properties.event.toElement.innerText;
-      let group = groups.get(properties.group),
-        groupName = group.content;
+      let group = groups.get(properties.group), groupName = group.content;
+      console.log(properties);
+      console.log(properties.group);
       console.log(groupName);
-      //console.log(group);
+      console.log(group);
+      
       if(properties.event.toElement.className.indexOf('expanded') >= 0){
         /*enable parent group items*/
         console.log("Expand");
@@ -219,18 +195,6 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
         }
 
         let getItemList = [];
-        if(cloneTimelineItems2.length > 0){
-          getItemList = await cloneTimelineItems2.map(item => item.group === group.id ? item: undefined).filter(x => x);
-          //console.log('2',getItemList,group.id,cloneTimelineItems2);
-          if(getItemList !== undefined && getItemList.length > 0 ) {
-            try{
-              await getItemList.forEach( item => items.add(item));
-            }catch(e){
-            }
-            //console.log("Added level 2 from 2");
-          }
-          getItemList.length = 0;
-        }
         if(cloneTimelineItems3.length > 0){
           getItemList = await cloneTimelineItems3.map(item => item.group === group.id ? item: undefined).filter(x => x);
           //console.log('3',getItemList,group.id,cloneTimelineItems3);
@@ -269,22 +233,6 @@ export default function assignmentTimeline(groups1, groups3, items1, items2, ite
             items.remove(item.id);
           }
         });
-
-        if(cloneTimelineItems2.length > 0 && group.nestedGroups.length > 0){
-          await group.nestedGroups.forEach( async grp => {
-            await console.log(grp);
-            let getItemList = await  cloneTimelineItems2.map(item => item.group === grp ? item: undefined).filter(x => x);
-            //console.log(...getItemList);
-            if(getItemList !== undefined && getItemList.length > 0 ) {
-              try{
-                await getItemList.forEach( item => items.add(item));
-              } catch(e){
-              }
-              //console.log("Added level 2 from 2");
-            }
-            getItemList.length = 0;
-          });
-        }
         if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
           group.nestedGroups.forEach( async grp => {
             let getItemList = await  cloneTimelineItems3.map(item => item.group === grp ? item: undefined).filter(x => x);
@@ -478,17 +426,44 @@ function callIllustration() {
         });
       }
     });
-//    let illustrationData = {box: boxes, connection: connections, line: connections, all_boxes: itemDetails.box, legend: itemDetails.line, box_menu: { border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, general:{patent_number:"",logo_1:"",logo_2:"",copyright:""},popup:[],comment:""};
-    /*console.log(illustrationData);
-    console.log(JSON.stringify(illustrationData));*/
- //   loadIllustrationIframeData(illustrationData, fakeDate );
+    let illustrationData = {box: boxes, connection: connections, line: connections, all_boxes: itemDetails.box, legend: itemDetails.line, box_menu: { border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, general:{patent_number:"",logo_1:"",logo_2:"",copyright:""},popup:[],comment:""};
+    
+    loadIllustrationIframeData(illustrationData, fakeDate );
   }
+}
+
+function loadIllustrationIframeData(illustrationData, fakeDate) {
+	let iframe = document.getElementById('load_illustration_frame');
+	if(typeof iframe.contentWindow != 'undefined' && iframe.contentWindow != null && typeof iframe.contentWindow.renderData == "function"){
+		const element = iframe.contentDocument;	
+		if(element != null) {
+			const container = element.querySelector("#container");
+			container.innerHTML = '';
+			iframe.contentWindow.renderData(illustrationData);
+			const menuItem = element.querySelector('.menu');
+			if(menuItem != null ){
+				menuItem.remove();
+				iframe.contentWindow.removeFakeDates(fakeDate.format('DD MMM YYYY'),fakeDate.format('YYYY-MM-DD'));
+				const svg = container.querySelector('svg');
+				let widthSvg = svg.getAttribute('width');
+				let heightSvg = svg.getAttribute('height');
+				widthSvg = parseInt(widthSvg) + 30;
+				heightSvg = parseInt(heightSvg) + 30;
+				iframe.style.width = 500;
+				iframe.style.height = 400;
+			}
+		}
+	} else {
+		setTimeout(() => {
+			loadIllustrationIframeData(illustrationData, fakeDate)
+		}, 300);
+	}
 }
 
 function showDetails() {
   console.log("showDetails");
-  // document.getElementById('comment_container').classList.remove("d-none");
-  // document.getElementById('assignment_container').classList.remove("d-none");
+  document.getElementById('comment_container').classList.remove("d-none");
+  //document.getElementById('assignment_container').classList.remove("d-none");
   document.getElementById('illustration_container').classList.remove("d-none");
 
 

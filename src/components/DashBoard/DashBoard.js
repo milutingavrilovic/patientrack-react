@@ -61,6 +61,9 @@ function DashBoard(props) {
     props.patentActions.getRecordItems(1, 'list').catch(err => {
       errorProcess({...err}.response);
     });
+	props.patentActions.getCustomers('employee').catch(err => {
+      errorProcess({...err}.response);
+    });
     props.patentActions.getCustomers('ownership').catch(err => {
       errorProcess({...err}.response);
     });

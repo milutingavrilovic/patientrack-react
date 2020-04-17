@@ -105,6 +105,9 @@ function CustomListItem(props) {
           }
           props.setTreeOpen(getLabel(depth, props), !props.isOpened);
           const label = getLabel(depth, props);
+          if(depth === 0) {
+            props.getFilterTimeLine(label,0);
+          }
           if(depth === 1) {
             props.getCustomersNameCollections(label);
             props.getFilterTimeLine(label,1);

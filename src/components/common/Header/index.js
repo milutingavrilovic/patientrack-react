@@ -32,6 +32,7 @@ function Header(props) {
   const [profileMenu, setProfileMenu] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
+
   useEffect(() => {
     props.getProfile().catch(err => {
       const res = {...err}.response;
@@ -51,7 +52,9 @@ function Header(props) {
   }
 
   return (
+    
     <AppBar className={classes.appBar}>
+      
       <Toolbar className={classes.toolbar}>
         <div className={classes.logotype}>
           {
@@ -62,6 +65,7 @@ function Header(props) {
           <div className={classes.headerTitleContent}>PatienTrack Significant Legal Saving</div>
         </div>
 
+          
         <IconButton>
           {
             <img src={props.user.organisation ? props.user.organisation.logo : ''} className={classes.companyLogo} alt={''}/>
@@ -154,7 +158,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getProfile,
   getSiteLogo,
-  signOut
+  signOut,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

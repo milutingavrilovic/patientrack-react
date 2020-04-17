@@ -48,13 +48,16 @@ function LevelsNestedTreeGrid(props) {
                 className={classes.scrollbar}
               >
                 {
-                  nestGridTab === 0 && renderCustomersData(props.customersData.ownership)
+                  nestGridTab === 0 && renderCustomersData(props.customersData.employee)
                 }
                 {
-                  nestGridTab === 1 && renderCustomersData(props.customersData.security)
+                  nestGridTab === 1 && renderCustomersData(props.customersData.ownership)
                 }
                 {
-                  nestGridTab === 2 && renderCustomersData(props.customersData.other)
+                  nestGridTab === 2 && renderCustomersData(props.customersData.security)
+                }
+                {
+                  nestGridTab === 3 && renderCustomersData(props.customersData.other)
                 }
               </PerfectScrollbar>
             :
@@ -67,13 +70,13 @@ function LevelsNestedTreeGrid(props) {
             <CustomTab
               activeTabId={nestGridTab}
               setActiveTabId={setNestGridTabIndex}
-              tabs={['Ownr', 'Secur', 'Other']}
+              tabs={['Emply','Acqu', 'Secur', 'Other']}
             />
           :
             <TabsContainer
               activeTabId={nestGridTab}
               setActiveTabId={setNestGridTabIndex}
-              tabs={['Ownr', 'Secur', 'Other']}
+              tabs={['Emply', 'Acqu', 'Secur', 'Other']}
             />
         }
       </div>

@@ -105,7 +105,7 @@ span {
 }
 
 #assignment_details .title {
-  font-size: 2rem;
+  /*font-size: 2rem;
   text-align: center;
   line-height: 2.5;
   font-weight: 500;
@@ -115,7 +115,16 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 10px;*/
+  text-align: left;  
+  font-weight: 500;
+  border-bottom: 1px solid #888;
+  background: #222;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
 }
 
 #assignment_details .p1 {
@@ -131,8 +140,8 @@ span {
 }
 
 #assignment_details td {
-  font-size: 1.5rem;
-  line-height: 1.5;
+  /*font-size: 1.5rem;
+  line-height: 1.5;*/
   padding: 5px 10px;
 }
 
@@ -150,6 +159,7 @@ span {
   animation-duration: 0.4s
 }
 
+
 @-webkit-keyframes animatetop {
   from {top:-300px; opacity:0}
   to {top:0; opacity:1}
@@ -159,6 +169,20 @@ span {
   from {top:-300px; opacity:0}
   to {top:0; opacity:1}
 }
+
+
+#illustration_modal .modal-content{
+	width: 650px;
+	background: #000;
+	color:#bdbdbd;
+}
+
+.d-none{display:none;}
+
+.red{color:#E60000 !important;border-color:#E60000 !important;}
+.blue{color:#2493f2 !important;border-color:#2493f2 !important;}
+.orange{color:#ffaa00 !important;border-color:#ffaa00 !important;}
+.green{color:#70A800 !important;border-color:#70A800 !important;}
 
 #assignment_details .close {
   color: white;
@@ -202,6 +226,10 @@ span {
 .vis-labelset .vis-label, .vis-timeline {
   color:#d6d6d6 !important;
   border-bottom:1px solid #bfbfbf !important;
+}
+
+.vis-labelset .vis-label{
+	border-right:1px solid #bfbfbf !important;
 }
 
 .vis-time-axis .vis-text, .vis-item {

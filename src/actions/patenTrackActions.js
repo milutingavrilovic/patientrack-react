@@ -209,6 +209,21 @@ export const getRecordItems = (type, option) => {
   }
 };
 
+export const postRecordItems = (type, option) => {
+  return dispatch => {
+    dispatch(setRecordItemsLoading(true));
+    return PatenTrackApi
+      .getRecordItems(type, option)
+      .then(res => {
+        dispatch(setRecordItemsLoading(false));
+        dispatch(setRecordItems(type, option, res.data))
+      })
+      .catch(err => {
+        throw(err);
+      });
+  }
+};
+
 export const setCurrentWidget = (data) => {
   return {
     type: types.SET_CURRENT_WIDGET,
@@ -532,3 +547,4 @@ export const setRecordItTabIndex = (index) => {
     payload: index
   };
 };
+

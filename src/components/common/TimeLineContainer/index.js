@@ -13,13 +13,10 @@ import modifyingData from './TimeLine';
 import assignmentTimeline from "./TimeLine1";
 
 function checkMe(data) {
-	console.log("CHECK ME");
+	console.log("frame loaded....");
 	const iframe = document.getElementById("outsource");
 	if(typeof iframe.contentWindow !== "undefined"){
-		console.log("iframe",iframe.contentWindow);
-		console.log("iframe",typeof iframe.contentWindow.renderData);
 		if(typeof iframe.contentWindow.renderData === "function") {
-			console.log("DSSSS", data);
 			iframe.contentWindow.renderData(data);
 		}
 	}
@@ -33,12 +30,7 @@ function TimeLineContainer(props) {
   useEffect(() => {
     const iframe = document.getElementById("outsource");
     if(timelineTab === 1 && iframe) {
-		console.log("REF",ref);
-		console.log("iframe",iframe);
 		if(typeof iframe.contentWindow !== "undefined"){
-			console.log("iframe",iframe.contentWindow);
-			console.log("iframe",typeof iframe.contentWindow.renderData);
-			console.log("iframe",typeof ref.current.contentWindow.renderData);
 			if(typeof iframe.contentWindow.renderData === "function") {
 				console.log("iframe",iframe.contentWindow.renderData);
         iframe.contentWindow.renderData(props.assets);
@@ -54,7 +46,6 @@ function TimeLineContainer(props) {
         passingData.groups,
         passingData.groups3,
         passingData.items1,
-        passingData.items2,
         passingData.items3,
         passingData.itemDates);
     }

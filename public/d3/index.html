@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>Flow Chart</title>
-    <script src="./d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="jquery-3.2.1.min.js"></script>
     <script
       src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
@@ -113,9 +113,6 @@
         vertical-align: middle;
       }
 
-      #menu-toggle{color: #bdbdbd;}
-      .menu-contents, .top-bar{background:#000;color:#bdbdbd}
-      .ui-widget.ui-widget-content{border-color:#000;}
       .box-menu-tooltip,
       .legend-tooltip,
       .popup {
@@ -430,7 +427,7 @@
         stroke-width: 3px;
         fill: none;
       }
-	.tab_btn{
+	    .tab_btn{
         cursor: pointer;
         padding: 18px 10px;
         background-color: #EEE;
@@ -447,6 +444,9 @@
         color: #EEE;
       }
       .tab_btn.aform{margin-left:13px;}
+      #menu-toggle{color:#bdbdbd;}
+      .menu-contents, .top-bar{background: #000000 !important;color:#bdbdbd !important;}
+      .ui-state-default, .ui-widget-content .ui-state-default{background: #000000 !important;}
     </style>
   </head>
 
@@ -464,7 +464,8 @@
     var ft = 864e5;
     var menuReveal = 0;
     var researchModeActive = 0;
-    var researchModeWidth = 600;
+    var researchModeWidth = 600;  
+
 	var menuToggle = 0;
 	var rawstring = null;
 	let currentURLHash = window.location.hash;
@@ -575,9 +576,14 @@
       */
     function renderData(data) {
       //data.comment = "";
-      inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
-      console.log(data)
+		inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
 
+      d3.select("body").style("background-color", data.general.background)
+      var inventors = 0;
+      var inventorCount = 0;
+      var inventorX = 0;
+      var inventorY = 0;
+      var addRows = false;  
       var filePath1 = data.general.logo_1;
       var filePath2 = data.general.logo_2;
       /* data.connection.forEach(function(v) {
@@ -2138,9 +2144,18 @@
 
       var container = d3.select("#container"),
         u = { top: 30, left: 190, right: 20, bottom: 40 },
-        et = d3.sum(t, function(n) {
-          return n.leftPad + n.sub * n.subWidth * (n.items.length > 0 ? 1 : 0);
-        });
+        et = 0
+        t.forEach(function(n, i) {
+          if (i === 0) {
+            et += n.leftPad + n.sub * n.subWidth
+          } else {
+            if (i === 1) {
+                et += n.leftPad + n.sub * n.subWidth * (n.items.length > 0 ? 1 : 0);
+            } else {
+            et += n.leftPad + n.sub * n.subWidth * (n.items.length > 0 ? 1 : 0);
+            }
+          }
+        })
         /* if (t[2].items.length >= 1) {
         ownershipt = t[0].leftPad + d3.max(t[0].items, function(v) {
           return v.subCol
@@ -2158,7 +2173,9 @@
           if (inventors > 5) {
           ownershipt = 50 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
           } else {
-            ownershipt = 50 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
+            if (inventors === 3) {
+              ownershipt = 90 + 3 * 240 * (t[0].items.length > 0 ? 1 : 0)
+            }
           }
           
         }
@@ -2177,12 +2194,10 @@
         global_height = window.innerHeight + 20;
       }
       global_height -= 80;
-      console.log('et', et)
-      console.log('ownershipt', ownershipt)
       global_width = d3.max([et, ownershipt]) + 40 + u.right;
-      if (global_width < window.innerWidth - 190) {
+      /* if (global_width < window.innerWidth - 190) {
         global_width = window.innerWidth - 190;
-      }
+      } */
       (w = container
         .append("svg")
         .attr("width", global_width)
@@ -2251,7 +2266,10 @@
         }
 
         missing = 0;
-        
+         inventorCount = 0
+         inventorX = 0
+         inventorY = 0
+         addRows = false
 
         n.items.forEach(function(m, index) {
           
@@ -2270,7 +2288,7 @@
               inventorY += 120
             }
             if (addRows === true) {
-              inventorX =  (inventorCount -3) * 480 + (inventorY/120)*(5*240)
+              inventorX = (inventorCount -3) * 480 + (inventorY/120)*(5*240)
             }
           }
 
@@ -3229,7 +3247,7 @@
         .style("top", "8px")
         .style("left", "266px")
         .style("position", "absolute")
-        .style("font-size", "12px");
+        .style("font-size", "22px");
 
       menu_contents
         .append("label")
@@ -3666,37 +3684,37 @@
         .style("z-index", "1000");
 
 	pdfForm = pdf.append("a")
-                  .attr("href", "javascript://")
-                  .attr("class","tab_btn aform")
-                  .text("Form")
-                  .on("click", () => {
-                    const btnForm = document.getElementsByClassName('aform')[0];
-                    const btnAgreement = document.getElementsByClassName('aagreement')[0];
-                    btnAgreement.classList.remove('active');
-                    if(btnForm.classList.contains('active') == false){
-                      btnForm.classList.add("active");
-                      openPDF("form");
-                    } else {
-                      btnForm.classList.remove('active');
-                      openPDF("");
-                    }
-                  });
-      pdfAgreement = pdf.append("a")
-                  .attr("href", "javascript://")
-                  .attr("class","tab_btn aagreement")
-                  .text("Agreement")
-                  .on("click", () => {
-                    const btnAgreement = document.getElementsByClassName('aagreement')[0];
-                    const btnForm = document.getElementsByClassName('aform')[0];
-                    btnForm.classList.remove('active');
-                    if(btnAgreement.classList.contains('active') == false){
-                      btnAgreement.classList.add("active");
-                      openPDF("agreement");
-                    } else {
-                      btnAgreement.classList.remove('active');
-                      openPDF("");
-                    }                    
-                  });
+			.attr("href", "javascript://")
+			.attr("class","tab_btn aform")
+			.text("Form")
+			.on("click", () => {
+				const btnForm = document.getElementsByClassName('aform')[0];
+				const btnAgreement = document.getElementsByClassName('aagreement')[0];
+				btnAgreement.classList.remove('active');
+				if(btnForm.classList.contains('active') == false){
+				  btnForm.classList.add("active");
+				  openPDF("form");
+				} else {
+				  btnForm.classList.remove('active');
+				  openPDF("");
+				}
+			});
+	pdfAgreement = pdf.append("a")
+			.attr("href", "javascript://")
+			.attr("class","tab_btn aagreement")
+			.text("Agreement")
+			.on("click", () => {
+				const btnAgreement = document.getElementsByClassName('aagreement')[0];
+				const btnForm = document.getElementsByClassName('aform')[0];
+				btnForm.classList.remove('active');
+				if(btnAgreement.classList.contains('active') == false){
+				  btnAgreement.classList.add("active");
+				  openPDF("agreement");
+				} else {
+				  btnAgreement.classList.remove('active');
+				  openPDF("");
+				}                    
+			});
       pdf_frame = pdf.append("div").attr("class", "pdf-frame");
 
       a.html(
@@ -3704,13 +3722,13 @@
       );
       d3.select("#popup-comment-textarea").style("width", "370px");
 
-		function openPDF( t ) {
+	function openPDF( t ) {
         console.log(t);
         const container = document.querySelector('.pdf-popup');
         if(container != null && container != undefined) {
           const frame = container.querySelector('.pdf-container');
-          if(frame != null && frame != undefined) {
-            let pdfURL = frame.getAttribute('src');
+			if(frame != null && frame != undefined) {
+				let pdfURL = frame.getAttribute('src');
                 if ( t == "form" ) {
                   pdfURL = pdfURL.replace("_agreement.pdf",".pdf");
                   pdfURL = pdfURL.replace(".pdf","_form.pdf");
@@ -3723,9 +3741,9 @@
                 }
                 console.log(pdfURL);
                 frame.setAttribute("src", pdfURL);
-          }
+			}
         }
-      }
+	}
       //document.getElementById("popup-comment-textarea").value = data.comment;
 
       d3.select("#close-btn")
