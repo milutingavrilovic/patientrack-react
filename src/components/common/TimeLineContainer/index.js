@@ -41,6 +41,7 @@ function TimeLineContainer(props) {
 			console.log("iframe",typeof ref.current.contentWindow.renderData);
 			if(typeof iframe.contentWindow.renderData === "function") {
 				console.log("iframe",iframe.contentWindow.renderData);
+        iframe.contentWindow.renderData(props.assets);
 			}
 		}
     }
