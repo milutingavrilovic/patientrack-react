@@ -59,7 +59,7 @@ function Header(props) {
           }
         </div>
         <div className={classes.headerTitle}>
-          <div className={classes.headerTitleContent}>COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)</div>
+          <div className={classes.headerTitleContent}>PatienTrack Significant Legal Saving</div>
         </div>
 
         <IconButton>
