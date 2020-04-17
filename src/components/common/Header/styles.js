@@ -11,7 +11,7 @@ export default makeStyles(theme => ({
     whiteSpace: "nowrap",
     display: 'flex',
     alignItems: 'center',
-    marginLeft: '16px'
+    marginLeft: '14px'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -27,8 +27,7 @@ export default makeStyles(theme => ({
     color: theme.color.lightGray
   },
   toolbar: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
+    padding: 0,
     height: 44,
     minHeight: 44,
     position: 'relative'
@@ -44,8 +43,8 @@ export default makeStyles(theme => ({
     marginRight: theme.spacing(7),
   },
   headerMenuButton: {
-    marginLeft: theme.spacing(2),
-    padding: theme.spacing(0.5),
+    marginLeft: '0.5rem',
+    padding: '1rem',
   },
   headerIcon: {
     fontSize: '2rem',
@@ -58,23 +57,23 @@ export default makeStyles(theme => ({
   },
   profileMenu: {
     position: 'absolute',
-    top: 'calc(100% + 5px)',
+    top: 'calc(100% - 2px)',
     background: 'black',
-    border: '2px solid #2b2b2b',
+    border: '1px solid #2b2b2b',
+    borderTop: 'none',
     right: 0,
-    boxShadow: '0px 22px 15px -15px #363636;',
+    boxShadow: '5px 5px 3px -3px rgba(120,120,120,.3)',
     textAlign: 'left'
   },
   profileMenuItem: {
-    paddingLeft: theme.spacing(2),
-    lineHeight: '5rem',
-    fontSize: '1.6rem',
-    borderBottom: '1px solid #262626',
+    padding: '0.5rem',
+    lineHeight: '1.5',
+    fontSize: '1rem',
     borderTop: '1px solid #262626',
-    marginLeft: 3,
     cursor: 'pointer',
     display: 'flex',
     position: 'relative',
+    borderLeft: '3px solid transparent'
   },
   userlogo: {
     width: '3rem',
@@ -85,5 +84,24 @@ export default makeStyles(theme => ({
   },
   siteLogo: {
     height: '3rem'
+  },
+  headerMenuIcon: {
+    fill: 'currentColor',
+    transition: '.3s',
+    transformOrigin: '50% 50%',
+    transform: 'rotate(0)',
+    filter: 'invert(75%)'
+  },
+  headerTitle: {
+    overflow: 'hidden',
+    marginLeft: '14px',
+    flexGrow: 1,
+  },
+  headerTitleContent: {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    fontSize: '1.6994866rem',
+    lineHeight: 1.3875
   }
 }));

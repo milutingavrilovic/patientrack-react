@@ -23,6 +23,8 @@ import useStyles from "./styles";
 import { getProfile, signOut } from "../../../actions/authActions";
 import { getSiteLogo} from "../../../actions/patenTrackActions";
 
+const menuIcon = require('../../../assets/menu_icon.svg');
+
 function Header(props) {
   const classes = useStyles();
   const [isMailsUnread, setIsMailsUnread] = useState(true);
@@ -56,8 +58,8 @@ function Header(props) {
             <img src={props.siteLogo} className={classes.siteLogo} alt={''}/>
           }
         </div>
-        <div className={classes.grow}>
-          <span style={{ marginLeft: 10 }}>Patien Track</span>
+        <div className={classes.headerTitle}>
+          <div className={classes.headerTitleContent}>COVID-19 Dashboard by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University (JHU)</div>
         </div>
 
         <IconButton>
@@ -113,12 +115,12 @@ function Header(props) {
             setProfileMenu(!profileMenu);
           }}
         >
-          <DehazeIcon classes={{ root: classes.headerIcon }} />
+          <img src={menuIcon} className={classes.headerMenuIcon} />
           <div
             className = {classes.profileMenu}
             style = {{
               display: profileMenu ? 'initial' : 'none',
-              minWidth: 250
+              minWidth: 200
             }}
           >
             <div className={classes.profileMenuItem}>
