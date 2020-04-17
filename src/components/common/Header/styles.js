@@ -80,7 +80,8 @@ export default makeStyles(theme => ({
     alignSelf:'center',
   },
   companyLogo: {
-    height: '2rem'
+    height: '32px',
+    width: '32px'
   },
   siteLogo: {
     height: '3rem'
