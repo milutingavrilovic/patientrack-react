@@ -103,6 +103,12 @@ export default makeStyles(theme => ({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     fontSize: '1.6994866rem',
+    ['@media (max-width:859px)']: {
+      fontSize: '1.503565rem',
+    },
+    ['@media (max-width:479px)']: {
+      fontSize: '1.328125rem',
+    },
     lineHeight: 1.3875
   }
 }));

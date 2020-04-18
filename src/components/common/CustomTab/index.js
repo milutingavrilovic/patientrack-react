@@ -18,7 +18,7 @@ function CustomTab(props) {
       />
       <span>{tabs[activeTabId].toUpperCase()}</span>
       <i
-        className={classnames("fa fa-caret-left", classes.button)}
+        className={classnames("fa fa-caret-right", classes.button)}
         onClick={() => {
           setActiveTabId((activeTabId + 1) % count)
         }}

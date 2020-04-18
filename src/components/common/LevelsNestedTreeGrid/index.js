@@ -65,7 +65,7 @@ function LevelsNestedTreeGrid(props) {
           }
         </div>
         {
-          !isExpanded && (props.screenWidth < 920 || props.screenHeight < 420)
+          !isExpanded && (props.screenWidth < 1800 || props.screenHeight < 420)
           ?
             <CustomTab
               activeTabId={nestGridTab}

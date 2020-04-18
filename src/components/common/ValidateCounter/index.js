@@ -30,7 +30,7 @@ function ValidateCounter(props) {
     >
       <div
         className={classes.container}
-        style={{padding: `0 ${getFontSize() * 0.5}px`}}
+        style={{padding: `0 ${getFontSize() * 0.5}px`, height: '143px'}}
       >
         {
           props.isLoading
