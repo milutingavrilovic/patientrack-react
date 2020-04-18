@@ -17,6 +17,10 @@ import {
   setCurTreeLevel2,
   setCurTreeLevel3,
   setCurTreeLevel4,
+  initCurTreeLevel1,
+  initCurTreeLevel2,
+  initCurTreeLevel3,
+  initCurTreeLevel4,
 } from "../../../actions/patenTrackActions";
 
 const getLabel = (depth, props) => {
@@ -75,28 +79,40 @@ function CustomListItem(props) {
         onClick={() => {
           switch (depth) {
             case 0:
-              props.setCurTreeLevel1(props.tabId, getLabel(depth, props));
+              isSelected() ?
+                props.initCurTreeLevel1(props.tabId)
+              :
+                props.setCurTreeLevel1(props.tabId, getLabel(depth, props));
               props.setCurTreeLevel2(props.tabId, '');
               props.setCurTreeLevel3(props.tabId, '');
               props.setCurTreeLevel4(props.tabId, '');
               break;
             case 1:
               props.setCurTreeLevel1(props.tabId, props.parent[0]);
-              props.setCurTreeLevel2(props.tabId, getLabel(depth, props));
+              isSelected() ?
+                props.initCurTreeLevel2(props.tabId)
+              :
+                props.setCurTreeLevel2(props.tabId, getLabel(depth, props));
               props.setCurTreeLevel3(props.tabId, '');
               props.setCurTreeLevel4(props.tabId, '');
               break;
             case 2:
               props.setCurTreeLevel1(props.tabId, props.parent[0]);
               props.setCurTreeLevel2(props.tabId, props.parent[1]);
-              props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
+              isSelected() ?
+                props.initCurTreeLevel3(props.tabId)
+              :
+                props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
               props.setCurTreeLevel4(props.tabId, '');
               break;
             case 3:
               props.setCurTreeLevel1(props.tabId, props.parent[0]);
               props.setCurTreeLevel2(props.tabId, props.parent[1]);
               props.setCurTreeLevel3(props.tabId, props.parent[2]);
-              props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
+              isSelected() ?
+                props.initCurTreeLevel4(props.tabId)
+              :
+                props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
               break;
           }
           if(props.isOpened) {
@@ -199,6 +215,10 @@ const mapDispatchToProps =  {
   setCurTreeLevel2,
   setCurTreeLevel3,
   setCurTreeLevel4,
+  initCurTreeLevel1,
+  initCurTreeLevel2,
+  initCurTreeLevel3,
+  initCurTreeLevel4,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);

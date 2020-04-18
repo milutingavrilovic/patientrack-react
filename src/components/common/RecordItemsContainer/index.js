@@ -191,7 +191,7 @@ function RecordItemsContainer(props) {
           </div>
         }
         {
-          !isExpanded && (props.screenWidth < 920 || props.screenHeight < 420)
+          !isExpanded && (props.screenWidth < 1335 || props.screenHeight < 420)
           ?
             <div style={{width: '100%'}}>
               <CustomTab

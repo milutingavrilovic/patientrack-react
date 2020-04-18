@@ -38,20 +38,23 @@ export default makeStyles((theme) => ({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    width: 35,
-    height: 70,
     zIndex: 1000002,
     display: 'flex',
     flexDirection: 'column',
   },
   button: {
-    width: 35,
-    height: 35,
-    fontSize: '1.2rem',
+    width: 25,
+    height: 25,
+    margin: 2,
+    fontSize: 12,
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
-    color: theme.color.lightGray
+    color: theme.color.lightGray,
+    '&:hover': {
+      color: '#2493f2'
+    },
+    cursor: 'pointer'
   },
   outsource: {
     fontSize: '1.2rem',

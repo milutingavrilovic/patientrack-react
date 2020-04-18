@@ -105,11 +105,13 @@ function Header(props) {
             <MailIcon classes={{ root: classes.headerIcon }} />
           </CustomBadge>
         </IconButton>
-        <div className={classes.logotype}>
           {
-            <img src={props.user.logo} className={classes.companyLogo} alt={''}/>
+            props.user.logo && (
+              <div className={classes.logotype}>
+                <img src={props.user.logo} className={classes.companyLogo} alt={''}/>
+              </div>
+            )
           }
-        </div>
         <IconButton
           aria-haspopup     = "true"
           color             = "inherit"

@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'space-around',
     border: '1px solid #363636',
     borderTop: 'none',
-    fontSize: '1.275rem',
+    fontSize: '.875rem',
     lineHeight: '1.6rem',
     backgroundColor: theme.color.background,
     alignItems: 'center',

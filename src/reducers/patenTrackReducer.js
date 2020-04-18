@@ -192,6 +192,18 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           };
         })
       };
+    case types.INIT_CUR_TREE_LEVEL1:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel1: ''
+          };
+        })
+      };
     case types.SET_CUR_TREE_LEVEL2:
       return {
         ...state,
@@ -201,6 +213,18 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           return {
             ...item,
             curTreeLevel2: action.data
+          };
+        })
+      };
+    case types.INIT_CUR_TREE_LEVEL2:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel2: ''
           };
         })
       };
@@ -216,6 +240,18 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           };
         })
       };
+    case types.INIT_CUR_TREE_LEVEL3:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel3: ''
+          };
+        })
+      };
     case types.SET_CUR_TREE_LEVEL4:
       return {
         ...state,
@@ -225,6 +261,18 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           return {
             ...item,
             curTreeLevel4: action.data
+          };
+        })
+      };
+    case types.INIT_CUR_TREE_LEVEL4:
+      return {
+        ...state,
+        curTree: state.curTree.map((item, index) => {
+          if(index !== action.tabId)
+            return item;
+          return {
+            ...item,
+            curTreeLevel4: ''
           };
         })
       };

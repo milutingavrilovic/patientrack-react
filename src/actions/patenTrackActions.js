@@ -489,11 +489,25 @@ export const setCurTreeLevel1 = (tabId, data) => {
   };
 };
 
+export const initCurTreeLevel1 = (tabId) => {
+  return {
+    type: types.SET_CUR_TREE_LEVEL1,
+    tabId
+  };
+};
+
 export const setCurTreeLevel2 = (tabId, data) => {
   return {
     type: types.SET_CUR_TREE_LEVEL2,
     tabId,
     data
+  };
+};
+
+export const initCurTreeLevel2 = (tabId) => {
+  return {
+    type: types.SET_CUR_TREE_LEVEL2,
+    tabId
   };
 };
 
@@ -505,11 +519,25 @@ export const setCurTreeLevel3 = (tabId, data) => {
   };
 };
 
+export const initCurTreeLevel3 = (tabId) => {
+  return {
+    type: types.SET_CUR_TREE_LEVEL3,
+    tabId
+  };
+};
+
 export const setCurTreeLevel4 = (tabId, data) => {
   return {
     type: types.SET_CUR_TREE_LEVEL4,
     tabId,
     data
+  };
+};
+
+export const initCurTreeLevel4 = (tabId) => {
+  return {
+    type: types.SET_CUR_TREE_LEVEL4,
+    tabId
   };
 };
 
