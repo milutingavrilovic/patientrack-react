@@ -17,6 +17,7 @@ export default makeStyles(theme => ({
   validateContainer: {
     position: 'relative',
     width: '100%',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
@@ -40,12 +41,8 @@ export default makeStyles(theme => ({
     textAlign: 'center'
   },
   body: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    paddingBottom: theme.spacing(1),
     lineHeight: 1.5,
-    fontSize: '1.3rem',
+    fontSize: '1.5rem',
   },
   bodyExpand: {
     display: 'flex',

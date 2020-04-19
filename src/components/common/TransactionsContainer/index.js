@@ -67,8 +67,8 @@ function TransactionsContainer(props) {
                         className={ isExpanded ? classes.typographyExpand : classes.typography}
                         style={{ padding: props.screenHeight > 700 ? '0.5rem' : '0rem'}}
                       >
-                        <span>{getYearString(transaction.year) + ':'}</span>
-                        <span>{transaction.count}</span>
+                        <div>{getYearString(transaction.year)}</div>
+                        <div style={{fontSize: getFontSize() * 3}}>{transaction.count}</div>
                       </div>)
                     :
                     ''

@@ -14,12 +14,12 @@ function ValidateCounter(props) {
 
   const getFontSize = () => {
     if(props.screenHeight < 300 || props.screenWidth < 992)
-      return 8;
-    if(props.screenHeight < 500 || props.screenWidth < 1200)
-      return 10;
-    if(props.screenHeight < 700 || props.screenWidth < 1400)
       return 12;
-    return 14;
+    if(props.screenHeight < 500 || props.screenWidth < 1200)
+      return 14;
+    if(props.screenHeight < 700 || props.screenWidth < 1400)
+      return 16;
+    return 18;
   };
 
   return (
@@ -30,7 +30,6 @@ function ValidateCounter(props) {
     >
       <div
         className={classes.container}
-        style={{padding: `0 ${getFontSize() * 0.5}px`, height: '143px'}}
       >
         {
           props.isLoading
@@ -39,19 +38,9 @@ function ValidateCounter(props) {
           :
             <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
               <div
-                className={isExpanded ? classes.titleExpand : classes.title}
-                style={{
-                  fontSize: getFontSize() * 1.6,
-                  padding: `${getFontSize() * 0.5}px 0`
-                }}
-              >
-                Validate Counter
-              </div>
-              <div
                 className={isExpanded ? classes.bodyExpand : classes.body}
                 style={{
                   fontSize: getFontSize(),
-                  paddingBottom: getFontSize() * 0.5
                 }}
               >
                 <div>

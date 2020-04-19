@@ -22,8 +22,6 @@ export default makeStyles(theme => ({
   },
   heading: {
     fontSize: 'inherit',
-    paddingBottom: 'inherit',
-    alignSelf: 'center',
   },
   headingExpand: {
     padding: '2rem',
@@ -32,9 +30,6 @@ export default makeStyles(theme => ({
     color: theme.color.lightgray
   },
   context: {
-    padding: '0 4px',
-    display: 'flex',
-    justifyContent: 'space-between',
     flexWrap: 'wrap',
     lineHeight: 1.2,
     fontWeight: 500,
@@ -54,12 +49,10 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '100%',
-    fontSize: '1.2rem',
+    fontSize: '0.5rem',
     color: theme.color.white,
-    padding: '0.5rem',
+    padding: '1rem',
   },
   wrapperExpand: {
     width: '100%',

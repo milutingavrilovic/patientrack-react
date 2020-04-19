@@ -103,14 +103,14 @@ function DashBoard(props) {
             <Grid
               item
               className={classes.flexColumn}
-              style={{flexGrow: 1}}
+              style={{flexGrow: 1, height: '80%'}}
             >
-              <div>
+              <div style={{height: '20%'}}>
                 <ValidateCounter/>
               </div>
               <LevelsNestedTreeGrid/>
             </Grid>
-            <Grid item>
+            <Grid item style={{ height: '20%'}}>
               <UpdatedAssests/>
             </Grid>
           </Grid>
@@ -118,8 +118,14 @@ function DashBoard(props) {
             className={classes.flexColumn}
             style={{flexGrow: 1}}
           >
-            <TimeLineContainer/>
-            <Grid container>
+            <Grid
+              item
+              className={classes.flexColumn}
+              style={{flexGrow: 1, height: '80%'}}
+            >
+              <TimeLineContainer/>
+            </Grid>
+            <Grid container style={{ height: '20%'}}>
               <Grid item lg={3} md={3} sm={3} xs={3}>
                 <TransactionsContainer/>
               </Grid>
@@ -135,7 +141,7 @@ function DashBoard(props) {
             className={classes.flexColumn}
             style={{width: '28.5%'}}
           >
-            <Grid container style={{flexGrow: 1}}>
+            <Grid container style={{flexGrow: 1, height: '70%'}}>
               <Grid
                 item lg={6} md={6} sm={6} xs={6}
                 className={classes.flexColumn}
@@ -149,7 +155,7 @@ function DashBoard(props) {
                 <RecordItemsContainer/>
               </Grid>
             </Grid>
-            <Grid container>
+            <Grid container style={{ height: '30%'}}>
               <Charts/>
             </Grid>
           </Grid>

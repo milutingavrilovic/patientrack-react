@@ -302,9 +302,11 @@ function callIllustration() {
   let element = document.getElementById('illustration_modal');
   element.classList.remove('hide');
   element.classList.add('show');
-  console.log('illustration_'+currentItemID);
-
+  console.log('illustration_'+currentItemID);  
   element.classList.add('illustration_'+currentItemID);
+  let iframe = document.getElementById('load_illustration_frame');
+  iframe.style.display = "block";
+  iframe.src = "./d3/index.html";
   let boxes = [], connections = [], execDate = '', execDate1 = '', fakeDate = '';
   if(itemDetails !== undefined && itemDetails.assignor.length > 0) {
     itemDetails.assignor.forEach( (assignor, index) => {

@@ -22,9 +22,6 @@ export default makeStyles(theme => ({
   typography: {
     lineHeight: 'inherit',
     fontSize: 'inherit',
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '0 0.5rem'
   },
   typographyExpand: {
     lineHeight: 2,
@@ -36,7 +33,6 @@ export default makeStyles(theme => ({
   heading: {
     paddingBottom: '0.5rem',
     fontSize: '1.375rem',
-    textAlign: 'center',
     margin: 0,
     wordBreak: 'break-word'
   },
@@ -48,7 +44,8 @@ export default makeStyles(theme => ({
   },
   context: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   contextExpand: {
     display: 'flex',

@@ -14,12 +14,12 @@ function UpdatedAssests(props) {
 
   const getFontSize = () => {
     if(props.screenHeight < 300 || props.screenWidth < 992)
-      return 8;
+      return 2;
     if(props.screenHeight < 500 || props.screenWidth < 1200)
-      return 10;
+      return 14;
     if(props.screenHeight < 700 || props.screenWidth < 1400)
-      return 12;
-    return 14;
+      return 16;
+    return 18;
   };
 
   return (
@@ -43,20 +43,20 @@ function UpdatedAssests(props) {
               >
                 <span
                   className={ isExpanded ? classes.headingExpand : classes.heading}
-                  style={{fontSize: getFontSize() * 1.2}}
+                  style={{fontSize: getFontSize(), paddingBottom: '15px'}}
                 >
-                Updated Assets
+                Updated Assets:
                 </span>
                 <div className={ isExpanded ? classes.contextExpand : classes.context}>
-                  <span className={classes.value}>
+                  <div className={classes.value}>
                     Today: {today}
-                  </span>
-                  <span className={classes.value}>
+                  </div>
+                  <div className={classes.value}>
                     This month: {month}
-                  </span>
-                  <span className={classes.value}>
+                  </div>
+                  <div className={classes.value}>
                     Last month: {last_month}
-                  </span>
+                  </div>
                 </div>
               </div>
         }
