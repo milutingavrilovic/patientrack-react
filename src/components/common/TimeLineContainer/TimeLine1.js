@@ -22,6 +22,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   cloneGroup3 = [...groups3];
 
   const container = document.getElementById("timeline");
+  container.innerHTML = '';
   let startDay = moment().startOf("month").startOf("week").isoWeekday(1);
 
 

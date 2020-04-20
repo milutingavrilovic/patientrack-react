@@ -81,6 +81,9 @@ function Charts(props) {
                                 borderWidth: 1
                               }]
                             }}
+                            options={{
+                              responsive: true
+                            }}
                             lg={6}
                             xs={6}
                           />

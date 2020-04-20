@@ -42,6 +42,7 @@ function TimeLineContainer(props) {
   useEffect(() => {
     if(timelineTab === 0 && props.timeLine.assignees) {
       const passingData = modifyingData(props.timeLine);
+      console.log('passingData:', passingData)
       assignmentTimeline(
         passingData.groups,
         passingData.groups3,
@@ -68,10 +69,8 @@ function TimeLineContainer(props) {
                   minScrollbarLength: 30,
                   maxScrollbarLength: 50,
                 }}
-                className={classes.scrollbar}
-                id={"timeline"}
-              >
-
+                className={classes.scrollbar}>
+                <div id={"timeline"} />
               </PerfectScrollbar>
               <div className={classes.btnGroups}>
                 <i className={classnames("fa fa-minus", classes.button)} id={"zoomIn"}/>

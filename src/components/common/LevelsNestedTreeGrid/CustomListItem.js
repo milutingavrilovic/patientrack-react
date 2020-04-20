@@ -66,7 +66,6 @@ function CustomListItem(props) {
   };
 
   const isSelected = () => {
-    console.log('isSelected', props.curTree);
     const curLabels = Object.values(props.curTree);
     let i;
     for(i = 0; i < props.parent.length; i ++) {

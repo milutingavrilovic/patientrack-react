@@ -7,6 +7,7 @@ function capitalFirstWord (value){
 }
 
 const modifyingData = (result) => {
+  console.log('result:', result)
   let merger = [],
     mergerOut = [],
     employee = [],
