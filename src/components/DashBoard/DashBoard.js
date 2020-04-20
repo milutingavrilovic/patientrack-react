@@ -108,7 +108,9 @@ function DashBoard(props) {
               <div style={{height: '20%'}}>
                 <ValidateCounter/>
               </div>
-              <LevelsNestedTreeGrid/>
+              <div style={{height: '80%'}}>
+                <LevelsNestedTreeGrid/>
+              </div>
             </Grid>
             <Grid item style={{ height: '20%'}}>
               <UpdatedAssests/>

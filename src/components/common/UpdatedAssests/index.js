@@ -13,11 +13,11 @@ function UpdatedAssests(props) {
   const {today, month, last_month} = props.assetsCount;
 
   const getFontSize = () => {
-    if(props.screenHeight < 300 || props.screenWidth < 992)
-      return 2;
-    if(props.screenHeight < 500 || props.screenWidth < 1200)
+    if(props.screenHeight < 500 || props.screenWidth < 992)
+      return 8;
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
       return 14;
-    if(props.screenHeight < 700 || props.screenWidth < 1400)
+    if(props.screenHeight < 900 || props.screenWidth < 1400)
       return 16;
     return 18;
   };
@@ -43,7 +43,7 @@ function UpdatedAssests(props) {
               >
                 <span
                   className={ isExpanded ? classes.headingExpand : classes.heading}
-                  style={{fontSize: getFontSize(), paddingBottom: '15px'}}
+                  style={{fontSize: getFontSize(), paddingBottom: '0.5rem'}}
                 >
                 Updated Assets:
                 </span>

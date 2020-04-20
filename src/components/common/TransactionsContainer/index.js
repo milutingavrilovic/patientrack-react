@@ -23,11 +23,11 @@ function TransactionsContainer(props) {
   };
 
   const getFontSize = () => {
-    if(props.screenHeight < 300 || props.screenWidth < 768)
+    if(props.screenHeight < 500 || props.screenWidth < 768)
       return 8;
-    if(props.screenHeight < 500 || props.screenWidth < 1200)
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
       return 10;
-    if(props.screenHeight < 700 || props.screenWidth < 1400)
+    if(props.screenHeight < 900 || props.screenWidth < 1400)
       return 12;
     return 14;
   };

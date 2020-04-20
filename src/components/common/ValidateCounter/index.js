@@ -13,11 +13,11 @@ function ValidateCounter(props) {
   const {valid, application, encumbered} = props.validateCounter;
 
   const getFontSize = () => {
-    if(props.screenHeight < 300 || props.screenWidth < 992)
-      return 12;
-    if(props.screenHeight < 500 || props.screenWidth < 1200)
+    if(props.screenHeight < 500 || props.screenWidth < 992)
+      return 8;
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
       return 14;
-    if(props.screenHeight < 700 || props.screenWidth < 1400)
+    if(props.screenHeight < 900 || props.screenWidth < 1400)
       return 16;
     return 18;
   };

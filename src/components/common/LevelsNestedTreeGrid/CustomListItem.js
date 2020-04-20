@@ -42,6 +42,15 @@ function CustomListItem(props) {
   const classes = useStyles();
   const [active, setActive] = useState(false);
 
+  const getFontSize = () => {
+    if(props.screenHeight < 500 || props.screenWidth < 992)
+      return 8;
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
+      return 12;
+    if(props.screenHeight < 900 || props.screenWidth < 1400)
+      return 14;
+    return 16;
+  };
 
   const getActiveColor = () => {
     switch (depth) {
@@ -140,15 +149,15 @@ function CustomListItem(props) {
             props.getFilterTimeLine(label,3);
           }
         }}
-        style={{display: 'flex'}}
+        style={{display: 'flex', fontSize: getFontSize()}}
       >
-
         {
           depth !== 3 && (props.isOpened ? <ArrowDropDown/> : <ArrowRight/>)
         }
         <span
           style={{
-            paddingLeft: depth === 3 ? '1rem' : 0
+            paddingLeft: depth === 3 ? '1rem' : 0,
+            fontSize: getFontSize()
           }}
         >
           { getLabel(depth, props)}
@@ -176,12 +185,16 @@ const mapStateToProps = (state, ownProps) => {
     case 0:
       return {
         ...ownProps,
+        screenHeight: state.patenTrack.screenHeight,
+        screenWidth: state.patenTrack.screenWidth,
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
         curTree: state.patenTrack.curTree[ownProps.tabId]
       };
     case 1:
       return {
         ...ownProps,
+        screenHeight: state.patenTrack.screenHeight,
+        screenWidth: state.patenTrack.screenWidth,
         child: state.patenTrack.customersNamesCollections[ownProps.name],
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
         curTree: state.patenTrack.curTree[ownProps.tabId]
@@ -196,10 +209,15 @@ const mapStateToProps = (state, ownProps) => {
     case 3:
       return {
         ...ownProps,
+        screenHeight: state.patenTrack.screenHeight,
+        screenWidth: state.patenTrack.screenWidth,
         curTree: state.patenTrack.curTree[ownProps.tabId]
       }
     default:
-      return {};
+      return {
+        screenHeight: state.patenTrack.screenHeight,
+        screenWidth: state.patenTrack.screenWidth
+      };
   }
 };
 

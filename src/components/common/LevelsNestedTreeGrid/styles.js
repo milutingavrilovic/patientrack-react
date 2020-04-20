@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
   nestedTree: {
     position: 'relative',
     width: '100%',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
@@ -38,7 +39,7 @@ export default makeStyles((theme) => ({
     alignSelf: 'center'
   },
   headingExpand: {
-    fontSize: '3rem',
+    fontSize: '3rem !important',
     lineHeight: 'normal',
     color: theme.color.lightGray,
     padding: '0.75rem 0.75rem 0',

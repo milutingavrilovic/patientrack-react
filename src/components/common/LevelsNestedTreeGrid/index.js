@@ -17,12 +17,22 @@ function LevelsNestedTreeGrid(props) {
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === "nestedTree";
 
+  const getFontSize = () => {
+    if(props.screenHeight < 500 || props.screenWidth < 768)
+      return 8;
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
+      return 14;
+    if(props.screenHeight < 900 || props.screenWidth < 1400)
+      return 16;
+    return 18;
+  };
+
   const renderCustomersData = (data) => {
     if(props.isLoading)
       return <Loader/>;
     return (
       <div className={classes.flexColumn}>
-        <span className={isExpanded ? classes.headingExpand : classes.heading}>Portfolios</span>
+        <span className={isExpanded ? classes.headingExpand : classes.heading} style={{ fontSize: getFontSize() }}>Portfolios</span>
         <CustomList data={data} depth={0} tabId={nestGridTab} parent={[]}/>
       </div>
     );

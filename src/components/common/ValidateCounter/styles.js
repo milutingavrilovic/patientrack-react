@@ -4,7 +4,7 @@ export default makeStyles(theme => ({
   container: {
     backgroundColor: theme.color.background,
     margin: 5,
-    padding: `1rem`,
+    padding: `0 1rem`,
     color: 'white',
     border: '1px solid #363636',
     display: 'flex',
