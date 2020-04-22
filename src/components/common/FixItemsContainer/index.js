@@ -25,15 +25,16 @@ function FixItemsContainer(props) {
     return 18;
   };
 
-  const renderItemList = () => {
+  const renderItemList = ( type ) => {
     if(!isExpanded) {
+      console.log(" ITEMSSSS", props.fixItemList);
       return (
         <div className={classes.column}>
         {
-          props.fixItemList
+          props.fixItemList[type]
             ?
-            props.fixItemList.map(item => {
-              const createdAt = new Date(item.created_at);
+            props.fixItemList[type].map(item => {
+              const createdAt = (type == 'todo') ? new Date(item.created_at): new Date(item.updated_at);
 
               return (
                 <div
@@ -70,9 +71,9 @@ function FixItemsContainer(props) {
           <span className={classes.gridItemExpand}>EmailAddress</span>
         </div>
         {
-          props.fixItemList
+          props.fixItemList[type]
             ?
-            props.fixItemList.map(item => {
+            props.fixItemList[type].map(item => {
               const createdAt = new Date(item.created_at);
 
               return (
@@ -155,7 +156,7 @@ function FixItemsContainer(props) {
                       maxScrollbarLength: 25
                     }}
                   >
-                    {renderItemList()}
+                    {renderItemList('todo')}
                   </PerfectScrollbar>
               }
             </div>
@@ -194,7 +195,7 @@ function FixItemsContainer(props) {
                       maxScrollbarLength: 25
                     }}
                   >
-                    {renderItemList()}
+                    {renderItemList('complete')}
                   </PerfectScrollbar>
               }
             </div>
@@ -226,10 +227,10 @@ function FixItemsContainer(props) {
 
 const mapStateToProps = state => {
   const recordItems = state.patenTrack.recordItems[0];
-
+  console.log("RRRRR", recordItems);
   return {
     fixItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
-    fixItemList: recordItems ? recordItems.list : [],
+    fixItemList: (recordItems && recordItems.list) ? recordItems.list : { todo: [], complete: [] },
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.recordItemsLoading,
     screenWidth: state.patenTrack.screenWidth,

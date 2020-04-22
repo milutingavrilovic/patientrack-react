@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
@@ -21,6 +21,7 @@ import {
   initCurTreeLevel2,
   initCurTreeLevel3,
   initCurTreeLevel4,
+  getComments
 } from "../../../actions/patenTrackActions";
 
 const getLabel = (depth, props) => {
@@ -40,7 +41,6 @@ const getLabel = (depth, props) => {
 function CustomListItem(props) {
   const {depth} = props;
   const classes = useStyles();
-  const [active, setActive] = useState(false);
 
   const getFontSize = () => {
     if(props.screenHeight < 500 || props.screenWidth < 992)
@@ -62,6 +62,8 @@ function CustomListItem(props) {
         return 'orange';
       case 3:
         return 'green';
+      default:
+        return '';
     }
   };
 
@@ -112,6 +114,7 @@ function CustomListItem(props) {
               :
                 props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
               props.setCurTreeLevel4(props.tabId, '');
+              props.getComments('Collection', getLabel(depth, props));
               break;
             case 3:
               props.setCurTreeLevel1(props.tabId, props.parent[0]);
@@ -121,6 +124,9 @@ function CustomListItem(props) {
                 props.initCurTreeLevel4(props.tabId)
               :
                 props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
+              props.getComments('Asset', getLabel(depth, props));
+              break;
+            default:
               break;
           }
           if(props.isOpened) {
@@ -211,7 +217,7 @@ const mapStateToProps = (state, ownProps) => {
         screenHeight: state.patenTrack.screenHeight,
         screenWidth: state.patenTrack.screenWidth,
         curTree: state.patenTrack.curTree[ownProps.tabId]
-      }
+      };
     default:
       return {
         screenHeight: state.patenTrack.screenHeight,
@@ -236,6 +242,7 @@ const mapDispatchToProps =  {
   initCurTreeLevel2,
   initCurTreeLevel3,
   initCurTreeLevel4,
+  getComments
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);

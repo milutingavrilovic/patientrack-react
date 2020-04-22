@@ -15,6 +15,8 @@ function UpdatedAssests(props) {
   const getFontSize = () => {
     if(props.screenHeight < 500 || props.screenWidth < 992)
       return 8;
+    if(props.screenHeight < 600 || props.screenWidth < 1092)
+      return 10;
     if(props.screenHeight < 700 || props.screenWidth < 1200)
       return 14;
     if(props.screenHeight < 900 || props.screenWidth < 1400)
@@ -30,7 +32,7 @@ function UpdatedAssests(props) {
     >
       <div
         className={classes.container}
-        style={{minHeight: props.screenHeight/9.5}}
+        style={{minHeight: props.screenHeight/7.5}}
       >
         {
           props.isLoading
@@ -39,15 +41,25 @@ function UpdatedAssests(props) {
             :
               <div
                 className={isExpanded ? classes.wrapperExpand : classes.wrapper}
-                style={{fontSize: getFontSize()}}
               >
-                <span
+                <p
                   className={ isExpanded ? classes.headingExpand : classes.heading}
-                  style={{fontSize: getFontSize(), paddingBottom: '0.5rem'}}
+                  style={{
+                    fontSize: getFontSize() * 1.3,
+                    paddingTop: getFontSize()
+                  }}
                 >
-                Updated Assets:
-                </span>
-                <div className={ isExpanded ? classes.contextExpand : classes.context}>
+                  Updated Assets:
+                </p>
+                <div
+                  className={ isExpanded ? classes.contextExpand : classes.context}
+                  style={{
+                    fontSize: isExpanded ? getFontSize() * 2 : getFontSize(),
+                    padding: '0.5rem',
+                    display: props.screenHeight < 700 ? 'flex' : '',
+                    justifyContent: props.screenHeight < 700 ? 'space-around' : ''
+                  }}
+                >
                   <div className={classes.value}>
                     Today: {today}
                   </div>

@@ -66,13 +66,13 @@
 
       #container .btext {
         font-size: 14px;
-        fill: #bdbdbd;
+		fill: #bdbdbd;
         font-weight: bold;
       }
 
       #container .btext2 {
         font-size: 12px;
-        fill: #bdbdbd;
+		fill: #bdbdbd;
       }
 
       #container .btext2 .active {
@@ -427,7 +427,7 @@
         stroke-width: 3px;
         fill: none;
       }
-	    .tab_btn{
+	.tab_btn{
         cursor: pointer;
         padding: 18px 10px;
         background-color: #EEE;
@@ -535,6 +535,7 @@
 		}
 	}
     let inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
+
     function blink() {
       d3.selectAll(".comment-circle")
         .transition()
@@ -575,10 +576,10 @@
       Loading Data:
       */
     function renderData(data) {
-      //data.comment = "";
-		inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
-		rawstring = data;
-      d3.select("body").style("background-color", data.general.background)
+      inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
+		  rawstring = data;
+      let background = (typeof data.general.background != undefined) ? data.general.background : '#000000';
+      d3.select("body").style("background-color", background);
       var inventors = 0;
       var inventorCount = 0;
       var inventorX = 0;
@@ -2171,10 +2172,16 @@
         }) * 240 * (t[0].items.length > 0 ? 1 : 0)
         } else {
           if (inventors > 5) {
-          ownershipt = 50 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
+          ownershipt = 70 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
           } else {
             if (inventors === 3) {
               ownershipt = 90 + 3 * 240 * (t[0].items.length > 0 ? 1 : 0)
+            } else {
+              if (inventors === 5) {
+                ownershipt = 90 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
+              } else {
+                ownershipt = 90 + 3 * 240 * (t[0].items.length > 0 ? 1 : 0)
+              }
             }
           }
           
@@ -2195,9 +2202,10 @@
       }
       global_height -= 80;
       global_width = d3.max([et, ownershipt]) + 40 + u.right;
-      /* if (global_width < window.innerWidth - 190) {
+      if (global_width < window.innerWidth - 190) {
         global_width = window.innerWidth - 190;
-      } */
+
+      } 
       (w = container
         .append("svg")
         .attr("width", global_width)
@@ -3744,6 +3752,7 @@
 			}
         }
 	}
+
       //document.getElementById("popup-comment-textarea").value = data.comment;
 
       d3.select("#close-btn")
@@ -4481,6 +4490,7 @@
           }
         });
       //blink();
+
     }
   </script>
 </html>

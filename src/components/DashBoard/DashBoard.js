@@ -46,9 +46,6 @@ function DashBoard(props) {
     props.patentActions.getCharts('tab3').catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getComments('Asset', 7584265).catch(err => {
-      errorProcess({...err}.response);
-    });
     props.patentActions.getRecordItems(0, 'count').catch(err => {
       errorProcess({...err}.response);
     });
@@ -61,7 +58,7 @@ function DashBoard(props) {
     props.patentActions.getRecordItems(1, 'list').catch(err => {
       errorProcess({...err}.response);
     });
-	props.patentActions.getCustomers('employee').catch(err => {
+	  props.patentActions.getCustomers('employee').catch(err => {
       errorProcess({...err}.response);
     });
     props.patentActions.getCustomers('ownership').catch(err => {

@@ -1,5 +1,7 @@
 import moment from 'moment';
-import { Timeline, DataSet } from "vis-timeline/standalone";
+/*import { Timeline, DataSet } from "vis-timeline/standalone";*/
+import vis from "vis";
+import Timeline from 'react-visjs-timeline';
 import {base_api_url} from "../../../config/config";
 import axios from 'axios';
 
@@ -23,15 +25,15 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
 
   const container = document.getElementById("timeline");
   container.innerHTML = '';
+  const parentHeight = container.parentElement.clientHeight;
+  console.log("parentHeight", parentHeight);
+  if(parentHeight == 0) {
+    parentHeight = 720;
+  }
   let startDay = moment().startOf("month").startOf("week").isoWeekday(1);
 
-
-
-  // Create a DataSet (allows two way data-binding)
-  //var items = new vis.DataSet(data.result);
-
   // create a data set with groups
-  let groups = new DataSet();
+  let groups = new vis.DataSet();
 
   groups.add(groups1);
   groups.add(groups3);
@@ -39,7 +41,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   console.log('groups', groups);
 
   // create a dataset with items
-  let items = new DataSet();
+  let items = new vis.DataSet();
   items1.forEach(item => items.add(item));
 
   let min = new Date(Math.min(...itemDates));
@@ -61,33 +63,31 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
       followMouse: true,
       overflowMethod: 'cap'
     },
-    groupHeightMode: "auto",
+    /*groupHeightMode: "auto",
 		zoomFriction: 60,
-		maxHeight: "720px",
-		minHeight: "720px",
+		maxHeight: parentHeight +"px",*/
+		minHeight: parentHeight +"px",
     /*minHeight: "100%",*/
     verticalScroll: true,
     onInitialDrawComplete: function(){
       setTimeout(checkTimeLineHeight,300);
-    }/*,
-		timeAxis: {
-			scale: 'month'
-		},*/
+    }
 
   };
   // create a Timeline
-  let timeline = new Timeline(container, items, groups, options);
+  console.log(groups.getIds());
+  let timeline = new vis.Timeline(container, items, groups, options);
   let intial = 0;
   function checkTimeLineHeight(){
-    //console.log("checkTimeLineHeight");
+
     let containerTimeLine = document.getElementsByClassName('vis-timeline');
     let mainContainer = document.getElementById('timeline');
-    //console.log(containerTimeLine);
+
     if(containerTimeLine != null && containerTimeLine.length > 0) {
       let timeLineHeight = containerTimeLine[0].style.height;
       let containerHeight = mainContainer.clientHeight;
       containerHeight -= 172;
-      //console.log(containerHeight, timeLineHeight);
+
       if(parseInt(timeLineHeight) < containerHeight){
         timeline.zoomOut( 0.7 );
         setTimeout(checkTimeLineHeight,250);
@@ -97,15 +97,6 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
     }
   }
 
-  function move (percentage) {
-    let range = timeline.getWindow();
-    const interval = range.end - range.start;
-
-    timeline.setWindow({
-      start: range.start.valueOf() - interval * percentage,
-      end:   range.end.valueOf()   - interval * percentage
-    });
-  }
   let btnZoomIn = document.getElementById('zoomIn');
   btnZoomIn.addEventListener('mouseover', () => {
     btnZoomIn.classList.add('hover');
@@ -159,93 +150,75 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
     clearInterval(pressInterval);
   });
 
-  // timeline.on('itemover', function (properties) {
-  //   const getItem = items.get(properties.item);
-  //   console.log('itemover',properties, getItem);
-  //   closeHover = 1;
-  //   callData(getItem, 0);
-  // });
-  //
-  // timeline.on('itemout', function (properties) {
-  //   const getItem = items.get(properties.item);
-  //   console.log('itemout',properties, getItem);
-  //   disableIllustration(getItem);
-  // });
+
 
   timeline.on('click', function (properties) {
+    console.log(properties);
     ( async () => {
-      //console.log(properties.event.toElement.className);
-      //let groupName = properties.event.toElement.innerText;
-      let group = groups.get(properties.group), groupName = group.content;
       console.log(properties);
-      console.log(properties.group);
-      console.log(groupName);
-      console.log(group);
-      
-      if(properties.event.toElement.className.indexOf('expanded') >= 0){
-        /*enable parent group items*/
-        console.log("Expand");
-        if(group.nestedGroups.length > 0){
-          await group.nestedGroups.forEach( async grp => {
-            await items.forEach( item => {
-              if(item.group === grp){
-                items.remove(item.id);
-              }
-            });
+      if(properties.group !== null){
+        let group = groups.get(properties.group), groupName = group.content; 
+        console.log(group);
+        if(group.showNested === true) {
+          await hideItems.push(group.id);
+          await items.forEach( item => {
+            if(item.group === group.id){
+              items.remove(item.id);
+            }
           });
-        }
-
-        let getItemList = [];
-        if(cloneTimelineItems3.length > 0){
-          getItemList = await cloneTimelineItems3.map(item => item.group === group.id ? item: undefined).filter(x => x);
-          //console.log('3',getItemList,group.id,cloneTimelineItems3);
-          if(getItemList !== undefined && getItemList.length > 0 ) {
-            try{
-              await getItemList.forEach( item => items.add(item));
-            }catch(e){
-            }
-            //console.log("Added level 3 from 3");
+          if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
+            group.nestedGroups.forEach( async grp => {
+              let getItemList = await  cloneTimelineItems3.map(item => item.group === grp ? item: undefined).filter(x => x);
+              console.log('31',JSON.stringify(getItemList),group.id,cloneTimelineItems3);
+              if(getItemList !== undefined && getItemList.length > 0 ) {
+                try{
+                  await  getItemList.forEach( item => items.add(item));
+                } catch(e){
+                }
+                //console.log("Added level 3 from 3");
+              }
+              getItemList.length = 0;
+            });
           }
-          getItemList.length = 0;
-        }
-        if(cloneTimelineItems1.length > 0){
-          getItemList = await cloneTimelineItems1.map(item => item.group === group.id ? item: undefined).filter(x => x);
-          //console.log('1',getItemList,group.id,cloneTimelineItems1);
-          if(getItemList !== undefined && getItemList.length > 0 ) {
-            try{
-              await getItemList.forEach( item => items.add(item));
-            }catch(e){
-            }
-            //console.log("Added level 1 from 1");
+        } else {
+          if(group.nestedGroups !== null && group.nestedGroups !== undefined && group.nestedGroups.length > 0){
+            await group.nestedGroups.forEach( async grp => {
+              await items.forEach( item => {
+                if(item.group === grp){
+                  items.remove(item.id);
+                }
+              });
+            });
           }
-          getItemList.length = 0;
-        }
-        if(hideItems.includes(group.id)){
-          const filteredItems = await hideItems.filter(item => item !== group.id);
-          hideItems = filteredItems;
-        }
-
-      } else if(properties.event.toElement.className.indexOf('collapsed') >= 0){
-        console.log("collapse");
-        /*hide parent group items*/
-        await hideItems.push(group.id);
-        await items.forEach( item => {
-          if(item.group === group.id){
-            items.remove(item.id);
-          }
-        });
-        if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
-          group.nestedGroups.forEach( async grp => {
-            let getItemList = await  cloneTimelineItems3.map(item => item.group === grp ? item: undefined).filter(x => x);
+          let getItemList = [];
+          if(cloneTimelineItems3.length > 0){
+            getItemList = await cloneTimelineItems3.map(item => item.group === group.id ? item: undefined).filter(x => x);
+            console.log('3',getItemList,group.id,cloneTimelineItems3);
             if(getItemList !== undefined && getItemList.length > 0 ) {
               try{
-                await  getItemList.forEach( item => items.add(item));
-              } catch(e){
+                await getItemList.forEach( item => items.add(item));
+              }catch(e){
               }
               //console.log("Added level 3 from 3");
             }
             getItemList.length = 0;
-          });
+          }
+          if(cloneTimelineItems1.length > 0){
+            getItemList = await cloneTimelineItems1.map(item => item.group === group.id ? item: undefined).filter(x => x);
+            console.log('1',getItemList,group.id,cloneTimelineItems1);
+            if(getItemList !== undefined && getItemList.length > 0 ) {
+              try{
+                await getItemList.forEach( item => items.add(item));
+              }catch(e){
+              }
+              //console.log("Added level 1 from 1");
+            }
+            getItemList.length = 0;
+          }
+          if(hideItems.includes(group.id)){
+            const filteredItems = await hideItems.filter(item => item !== group.id);
+            hideItems = filteredItems;
+          }
         }
       }
     })();

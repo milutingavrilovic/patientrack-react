@@ -10,26 +10,23 @@ function TransactionsContainer(props) {
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'transactions';
-
-  const getYearString = (yearString) => {
-    const curYear = (new Date()).getFullYear();
-    const year = Number(yearString);
-
-    if(curYear === year)
-      return 'This year';
-    if(curYear === year + 1)
-      return 'Last year';
-    return year;
-  };
+  const curYear = (new Date()).getFullYear();
 
   const getFontSize = () => {
-    if(props.screenHeight < 500 || props.screenWidth < 768)
+    if(props.screenHeight < 500 || props.screenWidth < 992)
       return 8;
-    if(props.screenHeight < 700 || props.screenWidth < 1200)
+    if(props.screenHeight < 600 || props.screenWidth < 1092)
       return 10;
+    if(props.screenHeight < 700 || props.screenWidth < 1200)
+      return 14;
     if(props.screenHeight < 900 || props.screenWidth < 1400)
-      return 12;
-    return 14;
+      return 16;
+    return 18;
+  };
+
+  const getYearValue = (year) => {
+    const transaction = props.transactions.find(transaction => +transaction.year === year);
+    return transaction ? transaction.count : '';
   };
 
   return (
@@ -49,30 +46,50 @@ function TransactionsContainer(props) {
           :
             <div
               className={isExpanded ? classes.wrapperExpand : classes.wrapper}
-              style={{fontSize: getFontSize()}}
             >
               <p
                 className={isExpanded ? classes.headingExpand : classes.heading}
-                style={{fontSize: getFontSize() * 1.2}}
+                style={{
+                  fontSize: getFontSize() * 1.3,
+                  paddingTop: getFontSize()
+                }}
               >
                 Transactions
               </p>
               <div className={isExpanded ? classes.contextExpand : classes.context}>
-                {
-                  props.transactions
-                    ?
-                    props.transactions.map(transaction =>
-                      <div
-                        key={transaction.year}
-                        className={ isExpanded ? classes.typographyExpand : classes.typography}
-                        style={{ padding: props.screenHeight > 700 ? '0.5rem' : '0rem'}}
-                      >
-                        <div>{getYearString(transaction.year)}</div>
-                        <div style={{fontSize: getFontSize() * 3}}>{transaction.count}</div>
-                      </div>)
-                    :
-                    ''
-                }
+                <div
+                  className={ isExpanded ? classes.typographyExpand : classes.typography}
+                  style={{ padding:'0.5rem'}}
+                >
+                  <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>Last year</div>
+                  <div style={{fontSize: isExpanded ? getFontSize() * 3 : getFontSize() * 1.5}}>
+                    { getYearValue(curYear - 1) }
+                  </div>
+                </div>
+                <div
+                  className={ isExpanded ? classes.typographyExpand : classes.typography}
+                  style={{ padding:'0.5rem'}}
+                >
+                  <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>This year</div>
+                  <div style={{fontSize: isExpanded ? getFontSize() * 3 : getFontSize() * 1.5}}>
+                    { getYearValue(curYear) }
+                  </div>
+                </div>
+                {/*{*/}
+                  {/*props.transactions*/}
+                    {/*?*/}
+                    {/*props.transactions.map(transaction =>*/}
+                      {/*<div*/}
+                        {/*key={transaction.year}*/}
+                        {/*className={ isExpanded ? classes.typographyExpand : classes.typography}*/}
+                        {/*style={{ padding: props.screenHeight > 700 ? '0.5rem' : '0rem'}}*/}
+                      {/*>*/}
+                        {/*<div>{getYearString(transaction.year)}</div>*/}
+                        {/*<div style={{fontSize: getFontSize() * 3}}>{transaction.count}</div>*/}
+                      {/*</div>)*/}
+                    {/*:*/}
+                    {/*''*/}
+                {/*}*/}
               </div>
             </div>
         }

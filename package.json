@@ -8,6 +8,7 @@
     "@material-ui/styles": "^4.3.0",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
+    "chartjs-plugin-labels": "^1.1.0",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",
@@ -17,6 +18,7 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.8.6",
     "react-google-maps": "^9.4.5",
+    "react-perfect-scrollbar": "^1.5.8",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
@@ -29,8 +31,7 @@
     "redux-thunk": "^2.3.0",
     "tinycolor2": "^1.4.1",
     "vis": "^4.21.0-EOL",
-    "vis-timeline": "^7.3.4",
-    "react-perfect-scrollbar": "^1.5.8"
+    "vis-timeline": "^7.3.4"
   },
   "scripts": {
     "start": "react-scripts start",

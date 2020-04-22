@@ -80,7 +80,8 @@ export default makeStyles(theme => ({
     lineHeight: 1.2,
     padding: '5px 10px',
     width: 'calc(100% / 8)',
-    borderRight: '1px solid #363636'
+    borderRight: '1px solid #363636',
+    wordBreak: 'break-all'
   },
   telephone: {
     color: theme.color.white,

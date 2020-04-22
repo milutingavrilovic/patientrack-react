@@ -21,18 +21,23 @@ export default makeStyles(theme => ({
     color: theme.color.white
   },
   heading: {
-    fontSize: 'inherit',
+    paddingTop: '1.5rem',
+    textAlign: 'center',
+    fontSize: '1.375rem',
+    margin: 0,
+    wordBreak: 'break-word'
   },
   headingExpand: {
-    padding: '2rem',
-    fontSize: '3.2rem !important',
-    alignSelf: 'center',
-    color: theme.color.lightgray
+    paddingBottom: theme.spacing(2),
+    fontSize: '3.375rem !important',
+    textAlign: 'center',
+    margin: 0
   },
   context: {
     flexWrap: 'wrap',
     lineHeight: 1.2,
     fontWeight: 500,
+    padding: '0.5rem 0.5rem 0',
   },
   contextExpand: {
     padding: theme.spacing(2),
@@ -46,23 +51,19 @@ export default makeStyles(theme => ({
     margin: '0 auto'
   },
   wrapper: {
-    flexGrow: 1,
+    width: '100%',
+    padding: '0 0.5rem',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    width: '100%',
-    fontSize: '0.5rem',
-    color: theme.color.white,
-    padding: '1rem',
+    justifyContent: 'center'
   },
   wrapperExpand: {
     width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     paddingTop: 50,
     alignSelf: 'flex-start'
   },
   value: {
-    padding: 'inherit'
+    paddingRight: '0.5rem'
   }
 }));

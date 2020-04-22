@@ -25,16 +25,17 @@ function RecordItemsContainer(props) {
     return 18;
   };
 
-  const renderItemList = () => {
+  const renderItemList = ( type ) => {
     if(!isExpanded) {
+      console.log(" ITEMSSSS", props.recordItemList);
       return (
         <div className={classes.column}>
           {
-            props.recordItemList
+            props.recordItemList[type]
               ?
-              props.recordItemList.map(item => {
-                const createdAt = new Date(item.created_at);
-
+              props.recordItemList[type].map(item => {
+                const createdAt = (type == 'todo') ? new Date(item.created_at): new Date(item.updated_at);
+                    
                 return (
                   <div
                     key={item.id}
@@ -71,9 +72,9 @@ function RecordItemsContainer(props) {
           <span className={classes.gridItemExpand}>EmailAddress</span>
         </div>
         {
-          props.recordItemList
+          props.recordItemList[type]
             ?
-            props.recordItemList.map(item => {
+            props.recordItemList[type].map(item => {
               const createdAt = new Date(item.created_at);
 
               return (
@@ -156,7 +157,7 @@ function RecordItemsContainer(props) {
                       maxScrollbarLength: 25
                     }}
                   >
-                    {renderItemList()}
+                    {renderItemList('todo')}
                   </PerfectScrollbar>
               }
             </div>
@@ -195,7 +196,7 @@ function RecordItemsContainer(props) {
                       maxScrollbarLength: 25
                     }}
                   >
-                    {renderItemList()}
+                    {renderItemList('complete')}
                   </PerfectScrollbar>
               }
             </div>
@@ -226,17 +227,17 @@ function RecordItemsContainer(props) {
 
 const mapStateToProps = state => {
   const recordItems = state.patenTrack.recordItems[1];
-
+  console.log("RRRRR", recordItems);
   return {
     recordItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
-    recordItemList: recordItems ? recordItems.list : [],
+    recordItemList: (recordItems && recordItems.list) ? recordItems.list : { todo: [], complete: [] },
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.recordItemsLoading,
     screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,
     recorditTab: state.patenTrack.recorditTab
   };
-};
+}; 
 
 const mapDispatchToProps = {
   getRecordItems,

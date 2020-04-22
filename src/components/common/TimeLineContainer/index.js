@@ -73,8 +73,8 @@ function TimeLineContainer(props) {
                 <div id={"timeline"} />
               </PerfectScrollbar>
               <div className={classes.btnGroups}>
-                <i className={classnames("fa fa-minus", classes.button)} id={"zoomIn"}/>
-                <i className={classnames("fa fa-plus", classes.button)} id={"zoomOut"}/>
+                <i className={classnames("fa fa-plus", classes.button)} id={"zoomIn"}/>
+                <i className={classnames("fa fa-minus", classes.button)} id={"zoomOut"}/>
               </div>
             </div>
           }
@@ -101,7 +101,7 @@ function TimeLineContainer(props) {
           <TabsContainer
             activeTabId={timelineTab}
             setActiveTabId={setTimelineTabIndex}
-            tabs={['Time', 'Illust', 'PTO']}
+            tabs={['Timeline', 'Illustration', 'PTO']}
           />
         </div>
       </div>
