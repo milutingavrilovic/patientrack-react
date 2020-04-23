@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {connect} from 'react-redux';
-
+import {Redirect} from 'react-router-dom';
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
 import CustomList from "./CustomList";
 import useStyles from "./styles";
@@ -23,6 +23,7 @@ import {
   initCurTreeLevel4,
   getComments
 } from "../../../actions/patenTrackActions";
+import { signOut } from "../../../actions/authActions";
 
 const getLabel = (depth, props) => {
   switch (depth) {
@@ -41,6 +42,15 @@ const getLabel = (depth, props) => {
 function CustomListItem(props) {
   const {depth} = props;
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
+
+  const errorProcess = (err) => {
+    if(err !== undefined && err.status === 401 && err.data === 'Authorization error') {
+      props.signOut();
+      return true;
+    }
+    return false;
+  };
 
   const getFontSize = () => {
     if(props.screenHeight < 500 || props.screenWidth < 992)
@@ -80,6 +90,9 @@ function CustomListItem(props) {
     return false;
   };
 
+  if(redirect)
+    return (<Redirect to={"/"}/>);
+
   return (
     <li
       className={classes.listItem}
@@ -114,7 +127,8 @@ function CustomListItem(props) {
               :
                 props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
               props.setCurTreeLevel4(props.tabId, '');
-              props.getComments('Collection', getLabel(depth, props));
+
+              props.getComments('collection', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
               break;
             case 3:
               props.setCurTreeLevel1(props.tabId, props.parent[0]);
@@ -124,7 +138,7 @@ function CustomListItem(props) {
                 props.initCurTreeLevel4(props.tabId)
               :
                 props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
-              props.getComments('Asset', getLabel(depth, props));
+              props.getComments('asset', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
               break;
             default:
               break;
@@ -136,22 +150,22 @@ function CustomListItem(props) {
           props.setTreeOpen(getLabel(depth, props), !props.isOpened);
           const label = getLabel(depth, props);
           if(depth === 0) {
-            props.getFilterTimeLine(label,0);
+            props.getFilterTimeLine(label,0).catch(err => errorProcess({...err}.response));
           }
           if(depth === 1) {
-            props.getCustomersNameCollections(label);
-            props.getFilterTimeLine(label,1);
+            props.getCustomersNameCollections(label).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine(label,1).catch(err => errorProcess({...err}.response));
           }
           if(depth === 2) {
-            props.getCustomerRFIDAssets(label);
-            props.getFilterTimeLine(label,2);
+            props.getCustomerRFIDAssets(label).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine(label,2).catch(err => errorProcess({...err}.response));
           }
           if(depth === 3)
           {
             props.setCurrentAsset(label);
-            props.getAssetsOutsource(label);
-            props.getAssets(label);
-            props.getFilterTimeLine(label,3);
+            props.getAssetsOutsource(label).catch(err => errorProcess({...err}.response));
+            props.getAssets(label).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine(label,3).catch(err => errorProcess({...err}.response));
           }
         }}
         style={{display: 'flex', fontSize: getFontSize()}}
@@ -242,7 +256,8 @@ const mapDispatchToProps =  {
   initCurTreeLevel2,
   initCurTreeLevel3,
   initCurTreeLevel4,
-  getComments
+  getComments,
+  signOut
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomListItem);

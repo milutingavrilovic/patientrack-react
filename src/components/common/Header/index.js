@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import {
   AppBar,
@@ -11,8 +10,6 @@ import {
 import {
   MailOutline as MailIcon,
   NotificationsNone as NotificationsIcon,
-  Person as AccountIcon,
-  Dehaze as DehazeIcon
 } from "@material-ui/icons";
 
 import CustomBadge from './CustomBage';
@@ -20,8 +17,7 @@ import 'font-awesome/css/font-awesome.min.css';
 
 import useStyles from "./styles";
 
-import { getProfile, signOut } from "../../../actions/authActions";
-import { getSiteLogo} from "../../../actions/patenTrackActions";
+import { signOut } from "../../../actions/authActions";
 
 const menuIcon = require('../../../assets/menu_icon.svg');
 
@@ -30,26 +26,6 @@ function Header(props) {
   const [isMailsUnread, setIsMailsUnread] = useState(true);
   const [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   const [profileMenu, setProfileMenu] = useState(null);
-  const [redirect, setRedirect] = useState(false);
-
-
-  useEffect(() => {
-    props.getProfile().catch(err => {
-      const res = {...err}.response;
-      if(res !== undefined && res.status === 401 && res.data === 'Authorization error')
-        setRedirect(true);
-    });
-
-    props.getSiteLogo().catch(err => {
-      const res = {...err}.response;
-      if(res !== undefined && res.status === 401 && res.data === 'Authorization error')
-        setRedirect(true);
-    });
-  }, []);
-
-  if(redirect) {
-    return (<Redirect to={"/"}/>)
-  }
 
   return (
     
@@ -121,7 +97,7 @@ function Header(props) {
             setProfileMenu(!profileMenu);
           }}
         >
-          <img src={menuIcon} className={classes.headerMenuIcon} />
+          <img src={menuIcon} className={classes.headerMenuIcon} alt="header menu icon" />
           <div
             className = {classes.profileMenu}
             style = {{
@@ -158,8 +134,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getProfile,
-  getSiteLogo,
   signOut,
 };
 

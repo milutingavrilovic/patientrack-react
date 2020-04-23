@@ -27,7 +27,6 @@ function RecordItemsContainer(props) {
 
   const renderItemList = ( type ) => {
     if(!isExpanded) {
-      console.log(" ITEMSSSS", props.recordItemList);
       return (
         <div className={classes.column}>
           {
@@ -227,7 +226,6 @@ function RecordItemsContainer(props) {
 
 const mapStateToProps = state => {
   const recordItems = state.patenTrack.recordItems[1];
-  console.log("RRRRR", recordItems);
   return {
     recordItemCount: recordItems && recordItems.count ? recordItems.count[0].count_items : 0,
     recordItemList: (recordItems && recordItems.list) ? recordItems.list : { todo: [], complete: [] },

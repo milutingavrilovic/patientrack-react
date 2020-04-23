@@ -24,6 +24,8 @@ function CommentComponents(props) {
     return 18;
   };
 
+  console.log(props.comments)
+
   return (
     <div
       className     = {classes.commentsComponents}
@@ -58,7 +60,7 @@ function CommentComponents(props) {
                           fontSize: getFontSize()
                         }}
                       >
-                        {comment}
+                        {comment.comment}
                       </p>)
                     :
                     ''

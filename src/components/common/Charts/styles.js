@@ -37,11 +37,10 @@ export default makeStyles((theme) => ({
   },
   gridItem: {
     width: '50%',
-    maxHeight: '50%',
+    height: '50%',
   },
   chart: {
     border: '1px solid #363636',
-    margin: 5,
     backgroundColor: theme.color.background,
     position: 'relative',
   },

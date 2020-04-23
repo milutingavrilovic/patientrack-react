@@ -20,23 +20,25 @@ import { getCharts, setChartTabIndex } from "../../../actions/patenTrackActions"
 const backgroundColor = 'rgb(255, 170, 0)';
 
 function Charts(props) {
-  const { chartTab, setChartTabIndex } = props
+  const { chartTab, setChartTabIndex } = props;
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   /*const charts = props.chartsTab.length ? props.chartsTab[chartTab] : [];*/
-  const tabLabel = (chartTab ==2) ? "tab3" : (chartTab == 1) ? "tab2" : "tab1";
+  const tabLabel = (chartTab === 2) ? "tab3" : (chartTab === 1) ? "tab2" : "tab1";
  
   const charts = (props.chatWithLabel[tabLabel]) ? props.chatWithLabel[tabLabel] : [];
+  const isExpaned = props.currentWidget === 'charts';
   //console.log("tabLabel", tabLabel, props.chatWithLabel, charts);
   const getWidthChart = () => {
     if(props.screenHeight < 400)
       return '50%';
     if(props.screenHeight < 500)
       return '70%';
-    if(props.screenHeight < 700)
-      return '80%';
-    if(props.screenHeight < 800)
+    if(isExpaned)
       return '100%';
+    if(props.screenHeight < 800)
+      return '80%';
+    return '100%';
   };
 
   const chartColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'];
@@ -51,7 +53,7 @@ function Charts(props) {
           {
             !props.isLoading
             ?
-              <div className={classes.container}>
+              <div className={classes.container} style={{width: '100%'}}>
                 {
                   Object.entries(charts).map((chart, index) =>
                     <Grid
@@ -59,28 +61,35 @@ function Charts(props) {
                       className={classes.gridItem}
                       style={{
                         maxWidth: props.currentWidget === 'charts' ? 600 : 'initial',
-                        flexBasis: 'initial'
+                        flexBasis: 'initial',
+                        position: 'relative'
                       }}
                     >
                       <div
                         className={classes.chart}
                         style={{
                           margin: index > 1 ? '5px 5px 0' : 5,
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0
                         }}
                       >
                         <div
                           className={classes.wrap}
                           style={{
+                            height: '100%',
                             width: getWidthChart(),
                             margin: '0 auto'
                           }}
                         >
                           {
-                          (chartTab == 0 && (index == 0 || index == 1))
+                          (chartTab === 0 && (index === 0 || index === 1))
                           ? 
                           <Pie
                             data = {{
-                              labels: chart[1].map(item => item.label),
+                              labels: chart[1].map(item => item.year),
                               datasets: [{
                                 data: chart[1].map(item => item.value),
                                 backgroundColor: chart[1].map( (item, index)  => chartColors[index])
@@ -106,8 +115,8 @@ function Charts(props) {
                                 }
                               }
                             }}
-                            lg={3}
-                            xs={3}
+                            lg={6}
+                            xs={6}
                           />
                           :
                           <Line

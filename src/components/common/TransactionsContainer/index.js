@@ -62,7 +62,7 @@ function TransactionsContainer(props) {
                   style={{ padding:'0.5rem'}}
                 >
                   <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>Last year</div>
-                  <div style={{fontSize: isExpanded ? getFontSize() * 3 : getFontSize() * 1.5}}>
+                  <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
                     { getYearValue(curYear - 1) }
                   </div>
                 </div>
@@ -71,25 +71,10 @@ function TransactionsContainer(props) {
                   style={{ padding:'0.5rem'}}
                 >
                   <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>This year</div>
-                  <div style={{fontSize: isExpanded ? getFontSize() * 3 : getFontSize() * 1.5}}>
+                  <div style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
                     { getYearValue(curYear) }
                   </div>
                 </div>
-                {/*{*/}
-                  {/*props.transactions*/}
-                    {/*?*/}
-                    {/*props.transactions.map(transaction =>*/}
-                      {/*<div*/}
-                        {/*key={transaction.year}*/}
-                        {/*className={ isExpanded ? classes.typographyExpand : classes.typography}*/}
-                        {/*style={{ padding: props.screenHeight > 700 ? '0.5rem' : '0rem'}}*/}
-                      {/*>*/}
-                        {/*<div>{getYearString(transaction.year)}</div>*/}
-                        {/*<div style={{fontSize: getFontSize() * 3}}>{transaction.count}</div>*/}
-                      {/*</div>)*/}
-                    {/*:*/}
-                    {/*''*/}
-                {/*}*/}
               </div>
             </div>
         }
