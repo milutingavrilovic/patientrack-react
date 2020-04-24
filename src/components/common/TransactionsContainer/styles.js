@@ -31,7 +31,7 @@ export default makeStyles(theme => ({
     padding: '0 10px'
   },
   heading: {
-    paddingTop: '1.5rem',
+    height: '35%',
     textAlign: 'center',
     fontSize: '1.375rem',
     margin: 0,
@@ -44,22 +44,21 @@ export default makeStyles(theme => ({
     margin: 0
   },
   context: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: 'table',
+    width: '100%',
+    height: '100%'
   },
   contextExpand: {
-    display: 'flex',
-    flexDirection: 'column',
+    padding: '0.5rem',
+    display: 'table',
     maxWidth: 500,
-    margin: '0 auto'
+    margin: '0 auto',
+    width: '100%',
   },
   wrapper: {
     width: '100%',
     padding: '0 0.5rem',
     height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center'
   },
   wrapperExpand: {
     width: '100%',

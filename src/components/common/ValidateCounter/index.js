@@ -5,6 +5,7 @@ import FullWidthSwitcher from "../FullWidthSwitcher";
 import 'font-awesome/css/font-awesome.min.css';
 import Loader from "../Loader";
 import { getValidateCounter } from "../../../actions/patenTrackActions";
+import classnames from 'classnames';
 
 function ValidateCounter(props) {
   const classes = useStyles();
@@ -39,31 +40,31 @@ function ValidateCounter(props) {
             <Loader/>
           :
             <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
-              <div
+              <table
                 className={isExpanded ? classes.bodyExpand : classes.body}
                 style={{
                   fontSize: getFontSize(),
                 }}
               >
-                <div>
-                  <span>{'Valid: '}</span>
-                  <span className={classes.value}>
+                <tr className={classes.listItem}>
+                  <td className={classes.gridItem}>{'Valid: '}</td>
+                  <td className={classnames(classes.gridItem, classes.value)}>
                     {valid && valid.countValid}
-                  </span>
-                </div>
-                <div>
-                  <span>{'Applicaton: '}</span>
-                  <span className={classes.value}>
+                  </td>
+                </tr>
+                <tr className={classes.listItem}>
+                  <td className={classes.gridItem}>{'Applicaton: '}</td>
+                  <td className={classnames(classes.gridItem, classes.value)}>
                     {application && application.countApplication}
-                  </span>
-                </div>
-                <div>
-                  <span>{'Encumbered: '}</span>
-                  <span className={classes.value}>
+                  </td>
+                </tr>
+                <tr className={classes.listItem}>
+                  <td className={classes.gridItem}>{'Encumbered: '}</td>
+                  <td className={classnames(classes.gridItem, classes.value)}>
                     {encumbered && encumbered.countSecurity}
-                  </span>
-                </div>
-              </div>
+                  </td>
+                </tr>
+              </table>
             </div>
         }
       </div>

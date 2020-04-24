@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
 import CustomList from "./CustomList";
 import useStyles from "./styles";
@@ -42,7 +41,6 @@ const getLabel = (depth, props) => {
 function CustomListItem(props) {
   const {depth} = props;
   const classes = useStyles();
-  const [redirect, setRedirect] = useState(false);
 
   const errorProcess = (err) => {
     if(err !== undefined && err.status === 401 && err.data === 'Authorization error') {
@@ -89,9 +87,6 @@ function CustomListItem(props) {
       return true;
     return false;
   };
-
-  if(redirect)
-    return (<Redirect to={"/"}/>);
 
   return (
     <li
@@ -168,7 +163,7 @@ function CustomListItem(props) {
             props.getFilterTimeLine(label,3).catch(err => errorProcess({...err}.response));
           }
         }}
-        style={{display: 'flex', fontSize: getFontSize()}}
+        style={{display: 'flex'}}
       >
         {
           depth !== 3 && (props.isOpened ? <ArrowDropDown/> : <ArrowRight/>)
@@ -223,7 +218,9 @@ const mapStateToProps = (state, ownProps) => {
         ...ownProps,
         child: state.patenTrack.customersRFIDAssets[ownProps.rf_id],
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
-        curTree: state.patenTrack.curTree[ownProps.tabId]
+        curTree: state.patenTrack.curTree[ownProps.tabId],
+        screenHeight: state.patenTrack.screenHeight,
+        screenWidth: state.patenTrack.screenWidth,
       };
     case 3:
       return {

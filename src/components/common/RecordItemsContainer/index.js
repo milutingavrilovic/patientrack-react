@@ -15,16 +15,6 @@ function RecordItemsContainer(props) {
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'recordItems';
 
-  const getFontSize = () => {
-    if(props.screenHeight < 500 || props.screenWidth < 768)
-      return 8;
-    if(props.screenHeight < 700 || props.screenWidth < 1200)
-      return 14;
-    if(props.screenHeight < 900 || props.screenWidth < 1400)
-      return 16;
-    return 18;
-  };
-
   const renderItemList = ( type ) => {
     if(!isExpanded) {
       return (
@@ -33,21 +23,20 @@ function RecordItemsContainer(props) {
             props.recordItemList[type]
               ?
               props.recordItemList[type].map(item => {
-                const createdAt = (type == 'todo') ? new Date(item.created_at): new Date(item.updated_at);
+                const createdAt = (type === 'todo') ? new Date(item.created_at): new Date(item.updated_at);
                     
                 return (
                   <div
                     key={item.id}
                     className={classes.columnItem}
-                    style={{ fontSize: getFontSize() }}
                   >
-                    <div className={classnames(classes.telephone, classes.gridItem)} style={{ fontSize: getFontSize() }}>
+                    <div className={classnames(classes.telephone, classes.gridItem)}>
                       {item.company_lawyer.telephone}
                     </div>
-                    <div className={classnames(classes.created_dt, classes.gridItem)} style={{ fontSize: getFontSize() }}>
+                    <div className={classnames(classes.created_dt, classes.gridItem)}>
                       {new Intl.DateTimeFormat('en-US').format(createdAt)}
                     </div>
-                    <div className={classnames(classes.name, classes.gridItem)} style={{ fontSize: getFontSize() }}>
+                    <div className={classnames(classes.name, classes.gridItem)}>
                       {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
                     </div>
                   </div>
@@ -135,9 +124,9 @@ function RecordItemsContainer(props) {
                 ?
                 <Loader/>
                 :
-                <div className={classes.header} style={{ fontSize: getFontSize() }}>
+                <div className={classes.header} style={{ fontSize: '1rem' }}>
                   Record it:
-                  <span className={classes.itemsCount} style={{ fontSize: getFontSize() * 3.5 }}>
+                  <span className={classes.itemsCount} style={{ fontSize: '3.5rem' }}>
                     {props.recordItemCount.toLocaleString()}
                   </span>
                 </div>
@@ -174,9 +163,9 @@ function RecordItemsContainer(props) {
                 ?
                 <Loader/>
                 :
-                <div className={classes.header} style={{ fontSize: getFontSize() }}>
+                <div className={classes.header} style={{ fontSize: '1rem' }}>
                   Record it:
-                  <span className={classes.itemsCount} style={{ fontSize: getFontSize() * 3.5 }}>
+                  <span className={classes.itemsCount} style={{ fontSize: '3.5rem' }}>
                     {props.recordItemCount.toLocaleString()}
                   </span>
                 </div>

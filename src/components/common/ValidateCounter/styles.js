@@ -43,10 +43,11 @@ export default makeStyles(theme => ({
   body: {
     lineHeight: 1.5,
     fontSize: '1.5rem',
+    display: 'table',
+    width: '100%'
   },
   bodyExpand: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: 'table',
     flexWrap: 'wrap',
     width: '60%',
     paddingTop: theme.spacing(3),
@@ -62,5 +63,10 @@ export default makeStyles(theme => ({
     width: '100%',
     paddingTop: 50,
     alignSelf: 'flex-start'
+  },
+  listItem: {
+    display: 'table-row',
+  },
+  gridItem: {
   }
 }));

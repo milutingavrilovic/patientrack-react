@@ -8,7 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import App from "./components/App";
 import Themes from "./themes";
 import { ThemeProvider } from "@material-ui/styles";
-import store from './store/configureStore';
+import store from './reducers/store/configureStore';
 import './index.css';
 
 ReactDOM.render(

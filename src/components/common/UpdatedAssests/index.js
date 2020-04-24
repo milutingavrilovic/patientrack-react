@@ -42,34 +42,33 @@ function UpdatedAssests(props) {
               <div
                 className={isExpanded ? classes.wrapperExpand : classes.wrapper}
               >
-                <p
-                  className={ isExpanded ? classes.headingExpand : classes.heading}
-                  style={{
-                    fontSize: getFontSize() * 1.3,
-                    paddingTop: getFontSize()
-                  }}
-                >
-                  Updated Assets:
-                </p>
-                <div
+                <table
                   className={ isExpanded ? classes.contextExpand : classes.context}
                   style={{
                     fontSize: isExpanded ? getFontSize() * 2 : getFontSize(),
-                    padding: '0.5rem',
-                    display: props.screenHeight < 700 ? 'flex' : '',
-                    justifyContent: props.screenHeight < 700 ? 'space-around' : ''
                   }}
                 >
-                  <div className={classes.value}>
-                    Today: {today}
-                  </div>
-                  <div className={classes.value}>
-                    This month: {month}
-                  </div>
-                  <div className={classes.value}>
-                    Last month: {last_month}
-                  </div>
-                </div>
+                  <tr
+                    className={ isExpanded ? classes.headingExpand : classes.heading}
+                    style={{
+                      fontSize: getFontSize() * 1.3,
+                    }}
+                  >
+                    <td colSpan={2}>Updated Assets</td>
+                  </tr>
+                  <tr>
+                    <td>Today:</td>
+                    <td>{today}</td>
+                  </tr>
+                  <tr>
+                    <td>This month:</td>
+                    <td>{month}</td>
+                  </tr>
+                  <tr>
+                    <td>Last month:</td>
+                    <td>{last_month}</td>
+                  </tr>
+                </table>
               </div>
         }
 

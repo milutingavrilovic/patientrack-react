@@ -69,7 +69,7 @@ export default makeStyles(theme => ({
     margin: 0
   },
   gridItem: {
-    fontSize: '1rem',
+    fontSize: '1rem !important',
     color: theme.color.lightGray,
     lineHeight: 1.2,
     padding: '2px 10px',
@@ -95,6 +95,5 @@ export default makeStyles(theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     padding: 10
-    //padding: '0 2rem',
   }
 }));

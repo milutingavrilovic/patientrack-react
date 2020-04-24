@@ -476,7 +476,7 @@ export const getSiteLogo = () => {
         dispatch(setSiteLogo(res.data));
       })
       .catch(err => {
-        return err;
+        throw(err);
       });
   };
 };

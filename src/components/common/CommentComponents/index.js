@@ -12,20 +12,6 @@ function CommentComponents(props) {
   const [showSwitcher, setShowSwitcher] = useState(0);
   const isExpanded = props.currentWidget === 'comments';
 
-  const getFontSize = () => {
-    if(props.screenHeight < 500 || props.screenWidth < 992)
-      return 8;
-    if(props.screenHeight < 600 || props.screenWidth < 1092)
-      return 10;
-    if(props.screenHeight < 700 || props.screenWidth < 1200)
-      return 14;
-    if(props.screenHeight < 900 || props.screenWidth < 1400)
-      return 16;
-    return 18;
-  };
-
-  console.log(props.comments)
-
   return (
     <div
       className     = {classes.commentsComponents}
@@ -57,7 +43,7 @@ function CommentComponents(props) {
                         key={index}
                         className={isExpanded ? classes.typographyExpand : classes.typography}
                         style={{
-                          fontSize: getFontSize()
+                          fontSize: '1rem'
                         }}
                       >
                         {comment.comment}
