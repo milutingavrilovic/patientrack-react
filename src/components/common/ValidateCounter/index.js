@@ -46,24 +46,26 @@ function ValidateCounter(props) {
                   fontSize: getFontSize(),
                 }}
               >
-                <tr className={classes.listItem}>
-                  <td className={classes.gridItem}>{'Valid: '}</td>
-                  <td className={classnames(classes.gridItem, classes.value)}>
-                    {valid && valid.countValid}
-                  </td>
-                </tr>
-                <tr className={classes.listItem}>
-                  <td className={classes.gridItem}>{'Applicaton: '}</td>
-                  <td className={classnames(classes.gridItem, classes.value)}>
-                    {application && application.countApplication}
-                  </td>
-                </tr>
-                <tr className={classes.listItem}>
-                  <td className={classes.gridItem}>{'Encumbered: '}</td>
-                  <td className={classnames(classes.gridItem, classes.value)}>
-                    {encumbered && encumbered.countSecurity}
-                  </td>
-                </tr>
+                <tbody>
+                  <tr className={classes.listItem}>
+                    <td className={classes.gridItem}>{'Valid: '}</td>
+                    <td className={classnames(classes.gridItem, classes.value)}>
+                      {valid && valid.countValid}
+                    </td>
+                  </tr>
+                  <tr className={classes.listItem}>
+                    <td className={classes.gridItem}>{'Applicaton: '}</td>
+                    <td className={classnames(classes.gridItem, classes.value)}>
+                      {application && application.countApplication}
+                    </td>
+                  </tr>
+                  <tr className={classes.listItem}>
+                    <td className={classes.gridItem}>{'Encumbered: '}</td>
+                    <td className={classnames(classes.gridItem, classes.value)}>
+                      {encumbered && encumbered.countSecurity}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
         }

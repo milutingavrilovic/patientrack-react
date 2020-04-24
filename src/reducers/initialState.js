@@ -13,6 +13,7 @@ export default {
     customersNameCollectionsLoading: false,
     customersRFIDAssets: [],
     customersRFIDAssetsLoading: false,
+    lawyerList:[],
     recordItems: {},
     recordItemsLoading: false,
     alertsCount: 0,
@@ -43,6 +44,8 @@ export default {
     timelineTab: 0,
     fixitTab: 0,
     recorditTab: 0,
+    pdfTab: 0,
+    shareUrl: '',
     curTree: [
       {
         curTreeLevel1: '',

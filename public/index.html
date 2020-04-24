@@ -47,7 +47,7 @@
         <div class="modal-content">
           <div id='assignment_details'>
           </div>
-          <iframe src="about:blank" id="load_illustration_frame" scrolling="yes" style="display:none;" class="tooltip_frame"></iframe>
+          <iframe src="about:blank" id="load_illustration_frame" scrolling="yes" style="display:none;border:0px;" class="tooltip_frame"></iframe>
         </div>
       </div>
 
@@ -58,7 +58,29 @@
       const modal = document.getElementById('illustration_modal');
       if (event.target === modal) {
         modal.classList.remove('show');
+        modal.querySelector("iframe").setAttribute('src', 'about:blank');
+        window.pdf = '';
       }
+    }
+    window.openPatentWindow = function( pdf ) {
+      window.pdf = pdf;
+      const element = document.getElementById("pdfViewer");
+      const mainC = document.getElementById("ms23wd");   
+      const heightC = mainC.clientHeight - 32;   
+      element.style.height = heightC+"px";
+      element.style.width = (mainC.clientWidth + 1)+"px";
+      element.style.display = 'block';
+      element.parentElement.parentElement.style.display = '';
+      const frameAgreement = element.querySelector("#iframe_agreement");
+      frameAgreement.setAttribute('src', pdf);
+      frameAgreement.style.width = "100%";
+      frameAgreement.style.height = heightC+"px";
+
+      const frameForm = element.querySelector("#iframe_form");
+      frameForm.setAttribute('src', pdf);
+      frameForm.style.width = "100%";
+      frameForm.style.height = heightC+"px";
+      
     }
   </script>
 </html>

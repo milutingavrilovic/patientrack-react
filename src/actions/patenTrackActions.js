@@ -15,14 +15,16 @@ export const setValidateLoading = (data) => {
   };
 };
 
-export const getValidateCounter = () => {
+export const getValidateCounter = (flag) => {
   return dispatch => {
     dispatch(setValidateLoading(true));
     return PatenTrackApi
       .getValidateCounter()
       .then(res => {
-        dispatch(setValidateLoading(false));
-        dispatch(setValidateCounter(res.data));
+        if (flag) {
+          dispatch(setValidateLoading(false));
+          dispatch(setValidateCounter(res.data));
+        }
       })
       .catch(err=> {
         throw(err);
@@ -46,14 +48,16 @@ export const setCustomersLoading = (data) => {
   };
 };
 
-export const getCustomers = (type) => {
+export const getCustomers = (type, flag) => {
   return dispatch => {
     dispatch(setCustomersLoading(true));
     return PatenTrackApi
       .getCustomers(type)
       .then(res => {
-        dispatch(setCustomers(type, res.data));
-        dispatch(setCustomersLoading(false));
+        if (flag) {
+          dispatch(setCustomers(type, res.data));
+          dispatch(setCustomersLoading(false));
+        }
       })
       .catch(err => {
         throw(err);
@@ -75,14 +79,16 @@ export const setAssetCountLoading = (data) => {
   };
 };
 
-export const getAssetsCount = () => {
+export const getAssetsCount = (flag) => {
   return dispatch => {
     dispatch(setAssetCountLoading(true));
     return PatenTrackApi
       .getAssetsCount()
       .then(res => {
-        dispatch(setAssetCountLoading(false));
-        dispatch(setAssetsCount(res.data));
+        if (flag) {
+          dispatch(setAssetCountLoading(false));
+          dispatch(setAssetsCount(res.data));
+        }
       })
       .catch(err => {
         throw(err);
@@ -104,14 +110,16 @@ export const setTransactionsLoading = (data) => {
   };
 };
 
-export const getTransactions = () => {
+export const getTransactions = (flag) => {
   return dispatch => {
     dispatch(setTransactionsLoading(true));
     return PatenTrackApi
       .getTransactions()
       .then(res => {
-        dispatch(setTransactionsLoading(false));
-        dispatch(setTransactions(res.data));
+        if (flag) {
+          dispatch(setTransactionsLoading(false));
+          dispatch(setTransactions(res.data));
+        }
       })
       .catch(err => {
         throw(err);
@@ -194,14 +202,17 @@ export const setRecordItemsLoading = (data) => {
   };
 };
 
-export const getRecordItems = (type, option) => {
+export const getRecordItems = (type, option, flag) => {
+  console.log("option", option);
   return dispatch => {
     dispatch(setRecordItemsLoading(true));
     return PatenTrackApi
       .getRecordItems(type, option)
       .then(res => {
-        dispatch(setRecordItemsLoading(false));
-        dispatch(setRecordItems(type, option, res.data))
+        if (flag) {
+          dispatch(setRecordItemsLoading(false));
+          dispatch(setRecordItems(type, option, res.data))
+        }
       })
       .catch(err => {
         throw(err);
@@ -209,20 +220,56 @@ export const getRecordItems = (type, option) => {
   }
 };
 
-export const postRecordItems = (type, option) => {
-  return dispatch => {
-    dispatch(setRecordItemsLoading(true));
+export const setLawyerItems = (data) => {
+  return {
+    type: types.SET_LAWYERS_LIST,
+    data
+  };
+};
+
+export const getLawyers = (flag) => {
+  return dispatch => {    
     return PatenTrackApi
-      .getRecordItems(type, option)
+      .getLawyers()
       .then(res => {
-        dispatch(setRecordItemsLoading(false));
-        dispatch(setRecordItems(type, option, res.data))
+        if (flag)
+          dispatch(setLawyerItems(res.data))
       })
       .catch(err => {
         throw(err);
       });
   }
 };
+
+export const setShareUrl = ( url ) => {
+  return {
+    type: types.SET_SHARE_URL,
+    url
+  };
+};
+
+
+export const postRecordItems = (data, type) => {
+  return dispatch => {
+    return PatenTrackApi
+      .postRecordItems(data, type)
+      .then(res => {
+        if(typeof res == "object") {
+          if(typeof res.share_url != "undefined" && type === 0) {
+            dispatch(setShareUrl( res.share_url ));
+          }
+        }
+        dispatch(setRecordItemsLoading(true));
+        dispatch(getRecordItems(type, 'count'))
+        dispatch(getRecordItems(type, 'list'))
+      })
+      .catch(err => {
+        throw(err);
+      });
+  }
+};
+
+
 
 export const setCurrentWidget = (data) => {
   return {
@@ -305,14 +352,16 @@ export const setChartsLoading = (data) => {
   };
 };
 
-export const getCharts = (option) => {
+export const getCharts = (option, flag) => {
   return dispatch => {
     dispatch(setChartsLoading(true));
     return PatenTrackApi
       .getCharts(option)
       .then(res => {
-        dispatch(setChartsLoading(false));
-        dispatch(setCharts(option, res.data[0]))
+        if (flag) {
+          dispatch(setChartsLoading(false));
+          dispatch(setCharts(option, res.data[0]))
+        }
       })
       .catch(err => {
         throw(err);
@@ -334,13 +383,15 @@ export const setTimeLineLoading = (data) => {
   };
 };
 
-export const getTimeLine = () => {
+export const getTimeLine = (flag) => {
   return dispatch => {
     dispatch(setTimeLineLoading(true));
     return PatenTrackApi.getTimeLine()
       .then(res => {
-        dispatch(setTimeLineLoading(false));
-        dispatch(setTimeLine(res.data))
+        if (flag) {
+          dispatch(setTimeLineLoading(false));
+          dispatch(setTimeLine(res.data))
+        }
       })
       .catch(err => {
         throw err;
@@ -572,6 +623,13 @@ export const setFixItTabIndex = (index) => {
 export const setRecordItTabIndex = (index) => {
   return {
     type: types.SET_RECORDIT_TAB,
+    payload: index
+  };
+};
+
+export const setPdfTabIndex = (index) => {
+  return {
+    type: types.SET_PDF_TAB,
     payload: index
   };
 };

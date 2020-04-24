@@ -48,26 +48,28 @@ function UpdatedAssests(props) {
                     fontSize: isExpanded ? getFontSize() * 2 : getFontSize(),
                   }}
                 >
-                  <tr
-                    className={ isExpanded ? classes.headingExpand : classes.heading}
-                    style={{
-                      fontSize: getFontSize() * 1.3,
-                    }}
-                  >
-                    <td colSpan={2}>Updated Assets</td>
-                  </tr>
-                  <tr>
-                    <td>Today:</td>
-                    <td>{today}</td>
-                  </tr>
-                  <tr>
-                    <td>This month:</td>
-                    <td>{month}</td>
-                  </tr>
-                  <tr>
-                    <td>Last month:</td>
-                    <td>{last_month}</td>
-                  </tr>
+                  <tbody>
+                    <tr
+                      className={ isExpanded ? classes.headingExpand : classes.heading}
+                      style={{
+                        fontSize: getFontSize() * 1.3,
+                      }}
+                    >
+                      <td colSpan={2}>Updated Assets</td>
+                    </tr>
+                    <tr>
+                      <td>Today:</td>
+                      <td>{today}</td>
+                    </tr>
+                    <tr>
+                      <td>This month:</td>
+                      <td>{month}</td>
+                    </tr>
+                    <tr>
+                      <td>Last month:</td>
+                      <td>{last_month}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
         }

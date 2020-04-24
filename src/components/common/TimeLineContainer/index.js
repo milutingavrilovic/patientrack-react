@@ -42,7 +42,7 @@ function TimeLineContainer(props) {
   useEffect(() => {
     if(timelineTab === 0 && props.timeLine.assignees) {
       const passingData = modifyingData(props.timeLine);
-      console.log('passingData:', passingData)
+      /*console.log('passingData:', passingData)*/
       assignmentTimeline(
         passingData.groups,
         passingData.groups3,

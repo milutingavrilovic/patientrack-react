@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { bindActionCreators } from "redux";
 import * as authActions from "../../actions/authActions";
 import * as patentActions from "../../actions/patenTrackActions";
@@ -17,73 +17,83 @@ import FixItemsContainer from "../common/FixItemsContainer";
 import RecordItemsContainer from "../common/RecordItemsContainer";
 import TransactionsContainer from "../common/TransactionsContainer";
 import CommentComponents from "../common/CommentComponents";
+import PdfViewer from "../common/PdfViewer";
 
 function DashBoard(props) {
   const {authenticated} = props.auth;
   const classes = useStyles();
-  const [redirect, setRedirect] = useState(false);
+  const isMountedRef = useRef(null);
 
   const errorProcess = (err) => {
-    if(err !== undefined && err.status === 401 && err.data === 'Authorization error') {
+    if(err !== undefined && err.status === 401 && err.data === 'Authorization error' && isMountedRef.current) {
       props.actions.signOut();
-      setRedirect(true);
     }
   };
 
   useEffect(() => {
+    isMountedRef.current = true;
+
+    props.patentActions.getAssetsCount(isMountedRef.current).catch(err => {
+      errorProcess({...err}.response);
+    });
+
     props.patentActions.getMessagesCount().catch(err => {
       errorProcess({...err}.response);
     });
     props.patentActions.getAlertsCount().catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCharts('tab1').catch(err => {
+    props.patentActions.getCharts('tab1', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCharts('tab2').catch(err => {
+    props.patentActions.getCharts('tab2', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCharts('tab3').catch(err => {
+    props.patentActions.getCharts('tab3', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getRecordItems(0, 'count').catch(err => {
+    props.patentActions.getRecordItems(0, 'count', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getRecordItems(0, 'list').catch(err => {
+    props.patentActions.getRecordItems(0, 'list', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getRecordItems(1, 'count').catch(err => {
+    props.patentActions.getRecordItems(1, 'count', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getRecordItems(1, 'list').catch(err => {
+    props.patentActions.getRecordItems(1, 'list', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-	  props.patentActions.getCustomers('employee').catch(err => {
+    props.patentActions.getCustomers('employee', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCustomers('ownership').catch(err => {
+    props.patentActions.getCustomers('ownership', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCustomers('security').catch(err => {
+    props.patentActions.getCustomers('security', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getCustomers('other').catch(err => {
+    props.patentActions.getCustomers('other', isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getTimeLine().catch(err => {
+    props.patentActions.getTimeLine(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getTransactions().catch(err => {
+    props.patentActions.getTransactions(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getAssetsCount().catch(err => {
+    props.patentActions.getAssetsCount(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-    props.patentActions.getValidateCounter().catch(err => {
+    props.patentActions.getValidateCounter(isMountedRef.current).catch(err => {
+      errorProcess({...err}.response);
+    });
+    props.patentActions.getLawyers(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
 
-  }, []);
+    return () => isMountedRef.current = false;
+  });
 
   const renderContext = () => {
     const {currentWidget} = props;
@@ -140,7 +150,7 @@ function DashBoard(props) {
             className={classes.flexColumn}
             style={{width: '28.5%'}}
           >
-            <Grid container style={{flexGrow: 1, height: '70%'}}>
+            <Grid container style={{flexGrow: 1, height: '70%'}} id={"ms23wd"}>
               <Grid
                 item lg={6} md={6} sm={6} xs={6}
                 className={classes.flexColumn}
@@ -152,6 +162,13 @@ function DashBoard(props) {
                 className={classes.flexColumn}
               >
                 <RecordItemsContainer/>
+              </Grid>
+              <Grid
+                item lg={12} md={12} sm={12} xs={12}
+                className={classes.flexColumn}
+                style={{position: 'absolute', display:'none'}}
+              >
+                <PdfViewer/>
               </Grid>
             </Grid>
             <Grid container style={{ height: '30%'}}>
@@ -188,9 +205,12 @@ function DashBoard(props) {
     if(currentWidget === 'transactions') {
       return <TransactionsContainer/>
     }
+    if(currentWidget === 'agreement') {
+      return <PdfViewer/>
+    }
   };
 
-  if(!authenticated || redirect)
+  if(!authenticated)
     return (<Redirect to={"/"}/>);
 
   return (

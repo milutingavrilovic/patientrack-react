@@ -7,7 +7,7 @@ function capitalFirstWord (value){
 }
 
 const modifyingData = (result) => {
-  console.log('result:', result)
+  /*console.log('result:', result)*/
   let merger = [],
     mergerOut = [],
     employee = [],
@@ -606,7 +606,7 @@ const modifyingData = (result) => {
     });
   }
 
-  console.log(groups, groups3,  rfID, items1, items3, itemDates);
+  /*console.log(groups, groups3,  rfID, items1, items3, itemDates);*/
   return {
     groups,
     groups3,

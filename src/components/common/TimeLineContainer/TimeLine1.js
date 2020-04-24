@@ -25,8 +25,8 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
 
   const container = document.getElementById("timeline");
   container.innerHTML = '';
-  const parentHeight = container.parentElement.clientHeight;
-  console.log("parentHeight", parentHeight);
+  let parentHeight = container.parentElement.clientHeight;
+  /*console.log("parentHeight", parentHeight);*/
   if(parentHeight == 0) {
     parentHeight = 720;
   }
@@ -38,7 +38,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   groups.add(groups1);
   groups.add(groups3);
 
-  console.log('groups', groups);
+  /*console.log('groups', groups);*/
 
   // create a dataset with items
   let items = new vis.DataSet();
@@ -75,7 +75,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
 
   };
   // create a Timeline
-  console.log(groups.getIds());
+  /*console.log(groups.getIds());*/
   let timeline = new vis.Timeline(container, items, groups, options);
   let intial = 0;
   function checkTimeLineHeight(){
@@ -153,12 +153,12 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
 
 
   timeline.on('click', function (properties) {
-    console.log(properties);
+    /*console.log(properties);*/
     ( async () => {
-      console.log(properties);
+      /*console.log(properties);*/
       if(properties.group !== null){
         let group = groups.get(properties.group), groupName = group.content; 
-        console.log(group);
+        /*console.log(group);*/
         if(group.showNested === true) {
           await hideItems.push(group.id);
           await items.forEach( item => {
@@ -169,7 +169,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
           if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
             group.nestedGroups.forEach( async grp => {
               let getItemList = await  cloneTimelineItems3.map(item => item.group === grp ? item: undefined).filter(x => x);
-              console.log('31',JSON.stringify(getItemList),group.id,cloneTimelineItems3);
+              /*console.log('31',JSON.stringify(getItemList),group.id,cloneTimelineItems3);*/
               if(getItemList !== undefined && getItemList.length > 0 ) {
                 try{
                   await  getItemList.forEach( item => items.add(item));
@@ -193,7 +193,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
           let getItemList = [];
           if(cloneTimelineItems3.length > 0){
             getItemList = await cloneTimelineItems3.map(item => item.group === group.id ? item: undefined).filter(x => x);
-            console.log('3',getItemList,group.id,cloneTimelineItems3);
+            /*console.log('3',getItemList,group.id,cloneTimelineItems3);*/
             if(getItemList !== undefined && getItemList.length > 0 ) {
               try{
                 await getItemList.forEach( item => items.add(item));
@@ -205,7 +205,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
           }
           if(cloneTimelineItems1.length > 0){
             getItemList = await cloneTimelineItems1.map(item => item.group === group.id ? item: undefined).filter(x => x);
-            console.log('1',getItemList,group.id,cloneTimelineItems1);
+            /*console.log('1',getItemList,group.id,cloneTimelineItems1);*/
             if(getItemList !== undefined && getItemList.length > 0 ) {
               try{
                 await getItemList.forEach( item => items.add(item));
@@ -234,7 +234,7 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
 }
 
 function callData(item, t) {
-  console.log('callData:', item, t);
+  /*console.log('callData:', item, t);*/
   let token = localStorage.getItem("token");
   if(item !== undefined && item.rf_id !== undefined && currentItemID !== item.rf_id){
     (async () => {
@@ -253,6 +253,7 @@ function callData(item, t) {
 
 function disableIllustration(item) {
   document.getElementById('illustration_modal').classList.remove('show');
+  /*console.log("item.rf_id ", item.rf_id , currentItemID);*/
   if(item !== undefined && typeof item.rf_id !== 'undefined' && currentItemID === item.rf_id){
     currentItemID = 0;
     let element = document.getElementById('illustration_modal');
@@ -271,16 +272,17 @@ function disableIllustration(item) {
 }
 
 function callIllustration() {
-  console.log("callIllustration");
+  /*console.log("callIllustration");*/
   document.getElementById('illustration_container').classList.remove("d-none");
   let element = document.getElementById('illustration_modal');
   element.classList.remove('hide');
   element.classList.add('show');
-  console.log('illustration_'+currentItemID);  
+  /*console.log('illustration_'+currentItemID);  */
   element.classList.add('illustration_'+currentItemID);
   let iframe = document.getElementById('load_illustration_frame');
   iframe.style.display = "block";
-  iframe.src = "./d3/index.html";
+  iframe.src = "about:blank";
+  setTimeout(() => {
   let boxes = [], connections = [], execDate = '', execDate1 = '', fakeDate = '';
   if(itemDetails !== undefined && itemDetails.assignor.length > 0) {
     itemDetails.assignor.forEach( (assignor, index) => {
@@ -401,20 +403,24 @@ function callIllustration() {
           }
         });
       }
-    });
-    let illustrationData = {box: boxes, connection: connections, line: connections, all_boxes: itemDetails.box, legend: itemDetails.line, box_menu: { border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, general:{patent_number:"",logo_1:"",logo_2:"",copyright:""},popup:[],comment:""};
+    });    
+    iframe.src = "./d3/index.html";
+    let illustrationData = {box: boxes, connection: connections, line: connections, all_boxes: itemDetails.box, legend: itemDetails.line, box_menu: { border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, general:{"background": "#000000" ,patent_number:"",logo_1:"",logo_2:"",copyright:""},popup:[],comment:""};
     
     loadIllustrationIframeData(illustrationData, fakeDate );
   }
+  }, 200);
 }
 
 function loadIllustrationIframeData(illustrationData, fakeDate) {
+  /*console.log("loadIllustrationIframeData");*/
 	let iframe = document.getElementById('load_illustration_frame');
 	if(typeof iframe.contentWindow != 'undefined' && iframe.contentWindow != null && typeof iframe.contentWindow.renderData == "function"){
 		const element = iframe.contentDocument;	
 		if(element != null) {
+      /*console.log("illustrationData", illustrationData);*/
 			const container = element.querySelector("#container");
-			container.innerHTML = '';
+			//container.innerHTML = '';
 			iframe.contentWindow.renderData(illustrationData);
 			const menuItem = element.querySelector('.menu');
 			if(menuItem != null ){
@@ -437,13 +443,14 @@ function loadIllustrationIframeData(illustrationData, fakeDate) {
 }
 
 function showDetails() {
-  console.log("showDetails");
+  /*console.log("showDetails");*/
   document.getElementById('comment_container').classList.remove("d-none");
   //document.getElementById('assignment_container').classList.remove("d-none");
   document.getElementById('illustration_container').classList.remove("d-none");
 
 
   //console.log(properties, getItem);
+  /*
   console.log('itemDetails', itemDetails);
   if(itemDetails !== undefined && itemDetails !== "" && itemDetails.hasOwnProperty('assignee')){
     let assignors = [], assignees = [], correspondenceString = "";
@@ -494,5 +501,5 @@ function showDetails() {
     let html = `<div class="title">${(itemDetails.assignment.convey_text)}<span class="close" onClick="javascript: var element = document.getElementById('illustration_modal');
   element.classList.remove('show');">&times;</span></div><div class="p-1"><table class="top"><tbody><tr><td>Execution Date<br>${itemDetails.assignor.length ? moment(new Date(itemDetails.assignor[0].exec_dt)).format('DD MMM YYYY') : ''}</td><td>Reel/frame<br>${itemDetails.assignment.reel_no}-${itemDetails.assignment.frame_no}</td></tr><tr><td>Assignors<br>${(assignors.join('<br/>'))}</td><td>Date Recorded<br>${moment(itemDetails.assignment.record_dt).format('DD MMM YYYY')}</td></tr><tr><td>Assignee<br>${(assignees.join('<br/>'))}</td><td>${(correspondenceString)}</td></tr></tbody></table></div>`;
     document.getElementById('assignment_details').innerHTML = html;
-  }
+  }*/
 }

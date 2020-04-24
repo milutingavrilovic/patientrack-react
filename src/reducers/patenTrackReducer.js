@@ -62,6 +62,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           [action.rfID]: [...action.data]
         })
       };
+    case types.SET_LAWYERS_LIST:
+      return {
+        ...state,
+        lawyerList: [...action.data]
+      };
     case types.SET_CUSTOMER_RFID_ASSETS_LOADING:
       return {
         ...state,
@@ -300,6 +305,16 @@ const patenTrackReducer = (state = initialState.patient, action) => {
       return {
         ...state,
         recorditTab: action.payload
+      };
+    case types.SET_PDF_TAB:
+      return {
+        ...state,
+        pdfTab: action.payload
+      };
+    case types.SET_SHARE_URL:
+      return {
+        ...state,
+        shareUrl: action.url
       };
     default:
       return state;

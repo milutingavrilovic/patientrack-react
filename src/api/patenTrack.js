@@ -10,6 +10,16 @@ const getHeader = () => {
   };  
 };
 
+const getMultiFormUrlHeader = () => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      'x-access-token': token,
+      'Content-Type': 'multipart/form-data'
+    }
+  }; 
+};
+
 class PatenTrackApi {
 
   static getValidateCounter() {
@@ -38,6 +48,10 @@ class PatenTrackApi {
 
   static getRecordItems(type, option) {
     return axios.get(`${base_api_url}/record_item/${type}/${option}`, getHeader());
+  }
+
+  static getLawyers() {
+    return axios.get(`${base_api_url}/company_lawyers`, getHeader());
   }
 
   static getCharts(option) {
@@ -74,6 +88,10 @@ class PatenTrackApi {
 
   static getSiteLogo() {
     return axios.get(`${base_api_url}/site_logo`, getHeader());
+  }
+
+  static postRecordItems( data, type ) {
+    return axios.post(`${base_api_url}/record_item/${type}`, data, getMultiFormUrlHeader());
   }
 }
 

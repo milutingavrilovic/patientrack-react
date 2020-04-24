@@ -49,31 +49,33 @@ function TransactionsContainer(props) {
             >
 
               <table className={isExpanded ? classes.contextExpand : classes.context}>
-                <tr
-                  className={isExpanded ? classes.headingExpand : classes.heading}
-                  style={{
-                    fontSize: getFontSize() * 1.3
-                  }}
-                >
-                  <td colSpan={2}>Transactions</td>
-                </tr>
-                <tr
-                  className={ isExpanded ? classes.typographyExpand : classes.typography}
-                  style={{ height: '25%'}}
-                >
-                  <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>Last year</td>
-                  <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>This year</td>
-                </tr>
-                <tr
-                  className={ isExpanded ? classes.typographyExpand : classes.typography}
-                >
-                  <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
-                    { getYearValue(curYear - 1) }
-                  </td>
-                  <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
-                    { getYearValue(curYear) }
-                  </td>
-                </tr>
+                <tbody>
+                  <tr
+                    className={isExpanded ? classes.headingExpand : classes.heading}
+                    style={{
+                      fontSize: getFontSize() * 1.3
+                    }}
+                  >
+                    <td colSpan={2}>Transactions</td>
+                  </tr>
+                  <tr
+                    className={ isExpanded ? classes.typographyExpand : classes.typography}
+                    style={{ height: '25%'}}
+                  >
+                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>Last year</td>
+                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>This year</td>
+                  </tr>
+                  <tr
+                    className={ isExpanded ? classes.typographyExpand : classes.typography}
+                  >
+                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
+                      { getYearValue(curYear - 1) }
+                    </td>
+                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
+                      { getYearValue(curYear) }
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
         }

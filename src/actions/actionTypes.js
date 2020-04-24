@@ -54,6 +54,9 @@ export const SET_TIMELINE_TAB = 'SET_TIMELINE_TAB';
 export const SET_CHART_TAB = 'SET_CHART_TAB';
 export const SET_FIXIT_TAB = 'SET_FIXIT_TAB';
 export const SET_RECORDIT_TAB = 'SET_RECORDIT_TAB';
+export const SET_PDF_TAB = 'SET_PDF_TAB';
+export const SET_LAWYERS_LIST = 'SET_LAWYERS_LIST';
+export const SET_SHARE_URL = 'SET_SHARE_URL';
 
 export const SET_CUR_TREE_LEVEL1 = 'SET_CUR_TREE_LEVEL1';
 export const SET_CUR_TREE_LEVEL2 = 'SET_CUR_TREE_LEVEL2';

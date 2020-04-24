@@ -298,7 +298,7 @@
 
       .popup-comment > div {
         margin: 50px auto 0;
-        background: #fff;
+        background: #000000;
         height: 230px;
         width: 400px;
         padding: 10px;
@@ -313,7 +313,9 @@
         padding: 10px;
         font-family: "Roboto", sans-serif;
         line-height: 1.15;
-        pointer-events: none;
+        background:#000000;
+        color:#bdbdbd;
+        /*pointer-events: none;*/
       }
 
       .popup-comment a {
@@ -487,9 +489,9 @@
 	
 	function removeFakeDates(date, date2){	
 		if(document.getElementsByClassName('btext2').length > 0) {
-			console.log(date, date2);
+			/*console.log(date, date2);*/
 			let elms = document.getElementsByClassName('thead2');
-			console.log('Sadadadaddas',elms.length,elms);
+			/*console.log('Sadadadaddas',elms.length,elms);*/
 			for(let i = 0; i < elms.length ; i++){
 				elms[i].remove()
 			}
@@ -522,7 +524,7 @@
 			const threadList = document.getElementsByClassName('thead');
 			if(threadList.length > 0){
 				for(let i = 0; i < threadList.length ; i++){
-					console.log(threadList[i].innerText)					
+					/*console.log(threadList[i].innerText)*/					
 					if(threadList[i].innerText == date2 || threadList[i].innerHTML == date2){
 						threadList[i].remove();
 					}
@@ -577,7 +579,8 @@
       */
     function renderData(data) {
       inventors = 0, inventorCount = 0, inventorX = 0, inventorY = 0, addRows = false;
-		  rawstring = data;
+      rawstring = data;
+      document.getElementById("container").innerHTML = '';
       let background = (typeof data.general.background != undefined) ? data.general.background : '#000000';
       d3.select("body").style("background-color", background);
       var inventors = 0;
@@ -2542,19 +2545,21 @@
                 .style("cursor", "pointer")
                 .on("click", function() {
                   var pdf_height = window.innerHeight - 100;
-
-                  var info =
+                  if(typeof window.parent != "undefined" && typeof window.parent.openPatentWindow == "function"){
+                    window.parent.openPatentWindow(m.document);
+                  } else {
+                    var info =
                     "<iframe style='background-color: white;' class='pdf-container' src='" +
                     m.document +
                     "' width='620px' height='" +
                     pdf_height +
                     "px' /><\/iframe>";
 
-                  pdf_frame.html(info);
-                  pdf.style("display", "inline");
-                  pdfClose.style("left", "638px");
-                  d3.select(".popup").style("right", "620px");
-
+                    pdf_frame.html(info);
+                    pdf.style("display", "inline");
+                    pdfClose.style("left", "638px");
+                    d3.select(".popup").style("right", "620px");
+                  }
                   //pdf_bg.style("display", "inline");
                 });
             }
@@ -3726,7 +3731,7 @@
       pdf_frame = pdf.append("div").attr("class", "pdf-frame");
 
       a.html(
-        "<div id='popup-comment-container'><span class='ui-icon ui-icon-close' id='close-btn'></span><textarea id='popup-comment-textarea' readonly></textarea></div>"
+        "<div id='popup-comment-container'><span class='ui-icon ui-icon-close' id='close-btn'></span><textarea id='popup-comment-textarea'></textarea></div>"
       );
       d3.select("#popup-comment-textarea").style("width", "370px");
 

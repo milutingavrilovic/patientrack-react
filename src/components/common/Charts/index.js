@@ -89,7 +89,7 @@ function Charts(props) {
                           ? 
                           <Pie
                             data = {{
-                              labels: chart[1].map(item => item.year),
+                              labels: chart[1].map(item => item.label),
                               datasets: [{
                                 data: chart[1].map(item => item.value),
                                 backgroundColor: chart[1].map( (item, index)  => chartColors[index])
