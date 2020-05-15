@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "./styles";
 
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import TabsContainer from '../Tabs';
 
 import { Line, Pie } from 'react-chartjs-2';
+
+import { DataSet, Graph3d } from "vis-graph3d/standalone";
 
 import 'chartjs-plugin-labels';
 
@@ -17,6 +19,8 @@ import classnames from 'classnames';
 
 import { getCharts, setChartTabIndex } from "../../../actions/patenTrackActions";
 
+
+
 const backgroundColor = 'rgb(255, 170, 0)';
 
 function Charts(props) {
@@ -28,6 +32,41 @@ function Charts(props) {
  
   const charts = (props.chatWithLabel[tabLabel]) ? props.chatWithLabel[tabLabel] : [];
   const isExpaned = props.currentWidget === 'charts';
+
+  const [data, setData] = useState(null);
+
+  var graph = null;
+
+  const [options, setOptions] = useState({
+    width:  '100%',
+    height: '100%',
+    style: 'dot-line',
+    showPerspective: true,
+    showGrid: true,
+    showShadow: false,
+    keepAspectRatio: true,
+    verticalRatio: 0.5
+  });
+
+  useEffect(() => {
+    if(props.chatWithLabel['tab2'] != undefined && props.chatWithLabel['tab2'].chart1.length > 0) {
+      let tempData = new DataSet();
+      let counter = 0, steps = 5, axisMax = 10, axisStep = axisMax / steps;
+      for (let x = 0; x < axisMax; x+=axisStep) {
+        for (let y = 0; y < axisMax; y+=axisStep) {
+          const value = custom(x,y);
+          tempData.add({x:x, y:y, z: value});
+        }
+      }
+      console.log(tempData);
+      setData(tempData);
+      if(chartTab == "tab2") {
+        callChart()      
+      }
+    }
+  }, [props.chatWithLabel]);
+
+
   //console.log("tabLabel", tabLabel, props.chatWithLabel, charts);
   const getWidthChart = () => {
     if(props.screenHeight < 400)
@@ -43,6 +82,32 @@ function Charts(props) {
 
   const chartColors = ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'];
 
+  const custom = (x, y) =>{
+    return (-Math.sin(x/Math.PI) * Math.cos(y/Math.PI) * 10 + 10);
+  }
+
+  const callChart = () => {
+    const container = document.getElementById("graphChart");
+    console.log("container", container);
+    if(container != null && container != undefined) {
+      let newOption;
+      if(isExpaned){
+        newOption = {...options};
+        newOption.width = ( props.screenWidth - 200 ) +'px';
+        newOption.height = ( props.screenHeight - 200 )+'px';
+      } else {
+        newOption = {...options};
+        newOption.width = '100%';
+        newOption.height = '100%';
+      }
+      graph = new Graph3d(container, data, newOption)
+    }
+  }
+
+  const createGraph = () => {
+    callChart();
+  }
+  
   return (
     <div
       className={classes.charts}
@@ -54,7 +119,12 @@ function Charts(props) {
             !props.isLoading
             ?
               <div className={classes.container} style={{width: '100%'}}>
-                {
+                <div id={"graphChart"}/>   
+                {     
+                  chartTab == 1
+                  ? 
+                    createGraph()
+                  :                            
                   Object.entries(charts).map((chart, index) =>
                     <Grid
                       key={index}
@@ -133,7 +203,16 @@ function Charts(props) {
                               }]
                             }}
                             options={{
-                              responsive: true
+                              responsive: true,
+                              maintainAspectRatio: false,
+                              layout: {
+                                padding: {
+                                  left: 5,
+                                  right: 5,
+                                  top: 5,
+                                  bottom: 5
+                                }
+                              },
                             }}
                             lg={6}
                             xs={6}
@@ -172,6 +251,7 @@ const mapStateToProps = state => {
     chatWithLabel: state.patenTrack.charts,
     currentWidget: state.patenTrack.currentWidget,
     isLoading: state.patenTrack.chartsLoading,
+    screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,
     chartTab: state.patenTrack.chartTab
   };

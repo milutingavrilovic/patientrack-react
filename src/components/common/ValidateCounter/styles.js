@@ -4,7 +4,6 @@ export default makeStyles(theme => ({
   container: {
     backgroundColor: theme.color.background,
     margin: 5,
-    padding: `0 1rem`,
     color: 'white',
     border: '1px solid #363636',
     display: 'flex',
@@ -26,7 +25,7 @@ export default makeStyles(theme => ({
     color: '#e60000'
   },
   title: {
-    fontSize: '1.6rem',
+    /* fontSize: '1.6rem', */
     color: theme.color.white,
     lineHeight: 1.5,
     padding: `${theme.spacing(1)}px 0`,
@@ -34,15 +33,15 @@ export default makeStyles(theme => ({
     wordBreak: 'break-word'
   },
   titleExpand: {
-    fontSize: '3.6rem !important',
+    /* fontSize: '3.6rem !important', */
     color: theme.color.white,
     lineHeight: 1.5,
     padding: `${theme.spacing(2)}px 0`,
     textAlign: 'center'
   },
   body: {
-    lineHeight: 1.5,
-    fontSize: '1.5rem',
+    /* lineHeight: 1.5,
+    fontSize: '1.5rem', */
     display: 'table',
     width: '100%'
   },
@@ -53,11 +52,13 @@ export default makeStyles(theme => ({
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(1),
     margin: '0 auto',
-    lineHeight: 1.5,
-    fontSize: '2.3rem !important',
+    /* lineHeight: 1.5,
+    fontSize: '2.3rem !important', */
   },
   wrapper: {
-    width: '100%'
+    width: '100%',
+    padding: '0 0.5rem',
+    height: '100%',
   },
   wrapperExpand: {
     width: '100%',

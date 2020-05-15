@@ -1,166 +1,349 @@
 import React, { useState } from "react";
 import {connect} from 'react-redux';
-import useStyles from "./styles";
+import useStyles, { useMatStyles } from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import classnames from 'classnames';
 import Loader from "../Loader";
 import TabsContainer from "../Tabs";
 import CustomTab from "../CustomTab";
-import {getRecordItems, getLawyers, setFixItTabIndex, postRecordItems} from "../../../actions/patenTrackActions";
-/** Changes by Vikas */
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, TextareaAutosize, TextField  } from '@material-ui/core';
+import {getRecordItems, setFixItTabIndex} from "../../../actions/patenTrackActions";
+// MATERIAL UI IMPORTS START
+import Checkbox from '@material-ui/core/Checkbox';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+// MATERIAL UI IMPORTS END
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
 
-function PaperComponent(props) {
-  /*return (
-    <Draggable handle="#draggable-dialog-title" cancel={'[class*="MuiDialogContent-root"]'}>
-      <Paper {...props} />
-    </Draggable>
-  );*/
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+function EnhancedTableHead(props) {
+  const { classes, order, orderBy, onRequestSort } = props;
+  const classesMat = useMatStyles();
+  const headCells = [
+    { id: 'Id', numeric: true, disablePadding: false, label: '#' },
+    { id: 'Asset', numeric: false, disablePadding: false, label: 'Asset' },
+    { id: 'Comment', numeric: false, disablePadding: false, label: 'Comment' },
+    { id: 'CompanyName', numeric: false, disablePadding: false, label: 'Company Name' },
+    { id: 'Telephone', numeric: false, disablePadding: false, label: 'Telephone' },
+    { id: 'CreatedAt', numeric: false, disablePadding: false, label: 'Created At' },
+    { id: 'EmailAddress', numeric: false, disablePadding: false, label: 'EmailAddress' },
+  ];
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
   return (
-    <Paper {...props} />
+    <TableHead>
+      <TableRow className={classesMat.tablehHeaderRow}>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={'center'}
+            padding={headCell.disablePadding ? 'none' : 'default'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            className={classnames(classesMat.tableHeader) }
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+function ErrorTableHead(props) {
+  const { classes, order, orderBy, onRequestSort } = props;
+  const classesMat = useMatStyles();
+  const headCells = [
+    { id: 'key', numeric: false, disablePadding: false, label: '' },
+    { id: 'value', numeric: false, disablePadding: false, label: '' },
+  ];
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={(headCell.id === 'key') ?'left' : 'right'}
+            padding={headCell.disablePadding ? 'none' : 'default'}
+            sortDirection={orderBy === headCell.id ? order : false}
+            className={classnames(classesMat.smallTableCell) }
+          >
+            <TableSortLabel
+              active={orderBy === headCell.id}
+              direction={orderBy === headCell.id ? order : 'asc'}
+              onClick={createSortHandler(headCell.id)}
+            >
+              {headCell.label}
+              {orderBy === headCell.id ? (
+                <span className={classes.visuallyHidden}>
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                </span>
+              ) : null}
+            </TableSortLabel>
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 }
 
 
+// MATERIAL UI ENDS
 function FixItemsContainer(props) {
   const { fixitTab, setFixItTabIndex } = props;
   const classes = useStyles();
   const isExpanded = props.currentWidget === 'fixItems';
-  const [showSwitcher, setShowSwitcher] = useState(0);  
-  /**Changes by Vikas */
-  const [open, setOpen] = useState(false);
-  const [lawyer, setLawyer] = useState(0);
-  const [asset, setAsset] = useState("");
-  const [comment, setComment] = useState("");
-  const defaultValue = 0;
+  const [showSwitcher, setShowSwitcher] = useState(0);
+  const [toDoFixItemList, setToDoFixItemList] = useState([]);
+  const [sortDate, setSortDate] = useState('asc');
+  const [sortAsset, setSortAsset] = useState('asc');
+  const [sortName, setSortName] = useState('asc');
+  const [itemList, setItemList] = useState([]);
+  const [errorsList, setErrorsList] = useState([]);
+  // MATERIAL UI DATATABLE START
+  const classesMat = useMatStyles();
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('Asset');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const errorsType = ['Uspto', 'Patents', 'Total'];
 
-  const lawyers = props.lawyers;
-  console.log("lawyers", lawyers);
-  const handleClose = () => {
-    setOpen(false);
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
   };
-
-  const handleSave = () => {
-    /*console.log(lawyer, asset, comment);
-    const params = {asset, comment};
-    params.user_id = lawyer;
-    const data = Object.entries(params)
-      .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
-      .join('&');*/
-    let data = new FormData();
-
-    data.append('asset', asset);
-    data.append('comment', comment);
-    data.append('user_id', lawyer);
-    console.log("FOMRDATA", data);
-    props.postRecordItems(data, 0);
+  
+  const  sortMe = (e) =>{
+    const col = e.target.getAttribute('data-col');
+    const direction = e.target.getAttribute('data-sort');
+    const type = e.target.getAttribute('data-type');
+    const newItems = [...props.fixItemList[type]];
+    switch(col) {
+      case 'created_at': 
+        newItems.sort((a, b) => {
+          var key = new Date(a.created_at);
+          var key1 = new Date(b.created_at);
+          if (key < key1) {
+            return direction === 'asc' ? -1 : 1;
+          }
+          if (key > key1) {
+            return direction === 'asc' ? 1 : -1;
+          }
+          return 0;
+        }); 
+        break;
+      case 'asset':
+        newItems.sort((a, b) => {
+          if (a[col] < b[col]) {
+            return direction === 'asc' ? -1 : 1;
+          }
+          if (a[col] > b[col]) {
+            return direction === 'asc' ? 1 : -1;
+          }
+          return 0;
+        });
+        break;
+      case 'name':
+        newItems.sort((a, b) => {
+          var key = a.company_lawyer.first_name;
+          var key1 = b.company_lawyer.first_name;
+          if (key < key1) {
+            return direction === 'asc' ? -1 : 1;
+          }
+          if (key > key1) {
+            return direction === 'asc' ? 1 : -1;
+          }
+          return 0;
+        }); 
+        break;
+    }
+    col === 'created_at' ? setSortDate(direction=== 'asc' ? 'desc' : 'asc') : col === 'asset' ? setSortAsset(direction=== 'asc' ? 'desc' : 'asc') : setSortName(direction=== 'asc' ? 'desc' : 'asc') ;
+    setItemList(Object.assign({}, {
+      ...props.fixItemList,
+      [type]: newItems
+    }))
   }
-  console.log("props.shareUrl", props.shareUrl);
-  if(props.shareUrl !== '') {
-    handleClose();
+  
+  function CustomHeader(props){
+    return (
+      <TableContainer>
+        <Table aria-labelledby="Table Heading"
+          size={'small'}
+          aria-label="Table Heading"
+          className={classes.sortTable}
+        >
+          <TableHead>
+            <TableRow>
+              <TableCell align="left" onClick={sortMe} data-type={props.type} data-col={'created_at'} data-sort={sortDate}>Date</TableCell>
+              <TableCell align="center" onClick={sortMe} data-type={props.type} data-col={'asset'} data-sort={sortAsset}>Asset</TableCell>
+              <TableCell align="right" onClick={sortMe} data-type={props.type} data-col={'name'} data-sort={sortName}>Lawyer</TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>
+    );
   }
 
-  const handleChange = (event) => {
-    setLawyer(event.target.value);
-  };
+  React.useEffect(() => {
+    if(props.fixItemList && (props.fixItemList['todo'].length > 0 || props.fixItemList['complete'].length > 0)){
+      setItemList(props.fixItemList);
+    }
+    if(props.fixItemList && props.fixItemList['todo'] && props.fixItemList['todo'].length > 0) {
+      const toDoItems = props.fixItemList['todo'].map(item => ({
+        Id: item.id,
+        Asset: item.asset,
+        LawyeId: item.lawyer_id,
+        Comment: item.comment,
+        CompanyName: item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name,
+        Telephone: item.company_lawyer.telephone,
+        CreatedAt: new Intl.DateTimeFormat('en-US').format(new Date(item.created_at)),
+        EmailAddress: item.company_lawyer.email_address
+      }) );
+      setToDoFixItemList(toDoItems); 
+    }
+    //if(props.fixItemCount > 0) {
+      const makeErrorsList = errorsType.map(error => ({
+        key: error,
+        value: props.fixItemCount || 0
+      }) );
+      setErrorsList(makeErrorsList)
+    //}
 
-  const handleAssetChange = (event) => {
-    setAsset(event.target.value);
-  };
+  },[props.fixItemList, props.fixItemCount]);
 
-  const handleCommentChange = (event) => {
-    setComment(event.target.value);
-  };
-
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, toDoFixItemList.length - page * rowsPerPage);
+  // MATERIAL UI DATATABLE END
   const renderItemList = ( type ) => {
     if(!isExpanded) {
-      /*console.log(" ITEMSSSS", props.fixItemList);*/
       return (
-        <div className={classes.column}>
+      <div className={`todo-list ${classes.column}`}>
         {
-          props.fixItemList[type]
-            ?
-            props.fixItemList[type].map(item => {
-              const createdAt = (type === 'todo') ? new Date(item.created_at): new Date(item.updated_at);
-
-              return (
-                <div
-                  key={item.id}
-                  className={classes.columnItem}
-                >
-                  <div className={classnames(classes.telephone, classes.gridItem)}>
-                    {item.company_lawyer.telephone}
-                  </div>
-                  <div className={classnames(classes.created_dt, classes.gridItem)}>
-                    {new Intl.DateTimeFormat('en-US').format(createdAt)}
-                  </div>
-                  <div className={classnames(classes.name, classes.gridItem)}>
-                    {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
-                  </div>
-                </div>
-              )
-            })
-            :
-            ''
+          itemList[type]
+          ?            
+          <Table
+            aria-labelledby="tableTitle"
+            size={'small'}
+            aria-label="short table"
+          >            
+          <TableBody>
+            {
+              itemList[type].map(item => {
+                const createdAt = (type === 'todo') ? new Date(item.created_at): new Date(item.updated_at);
+                return (
+                  <TableRow hover tabIndex={-1} key={item.id} >
+                    <TableCell align="left">
+                      <span className={`white ${classnames(classes.displayBlock, classes.ellipsis)}`}>{new Intl.DateTimeFormat('en-US').format(createdAt)}</span>
+                      <span className={`grey ${classnames(classes.displayBlock, classes.ellipsis)}`}>{item.asset}</span>
+                    </TableCell>
+                    <TableCell align="right">
+                      <span className={`grey ${classnames(classes.displayBlock, classes.ellipsis)}`}>{`${item.company_lawyer.first_name}  ${item.company_lawyer.last_name}`}</span>
+                    </TableCell>
+                  </TableRow>
+                );
+              })
+            }         
+          </TableBody>
+        </Table>
+        :
+        ''
         }
       </div>);
     }
     return (
-      <div className={classes.row}>
-        <div className={classes.rowItem}>
-          <span className={classes.gridItemExpand}>Id</span>
-          <span className={classes.gridItemExpand}>Asset</span>
-          <span className={classes.gridItemExpand}>LawyerId</span>
-          <span className={classes.gridItemExpand}>Comment</span>
-          <span className={classes.gridItemExpand}>Company Name</span>
-          <span className={classes.gridItemExpand}>Telephone</span>
-          <span className={classes.gridItemExpand}>Created At</span>
-          <span className={classes.gridItemExpand}>EmailAddress</span>
-        </div>
-        {
-          props.fixItemList[type]
-            ?
-            props.fixItemList[type].map(item => {
-              const createdAt = new Date(item.created_at);
-
-              return (
-                <div
-                  key={item.id}
-                  className={classes.rowItem}
-                >
-                  <div className={classes.gridItemExpand}>
-                    {item.id}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {item.asset}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {item.lawyer_id}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {item.comment}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {item.company_lawyer.first_name + ' ' + item.company_lawyer.last_name}
-                  </div>
-
-                  <div className={classes.gridItemExpand}>
-                    {item.company_lawyer.telephone}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {new Intl.DateTimeFormat('en-US').format(createdAt)}
-                  </div>
-                  <div className={classes.gridItemExpand}>
-                    {item.company_lawyer.email_address}
-                  </div>
-                </div>
-              )
-            })
-            :
-            ''
-        }
-      </div>
+        <TableContainer>
+          <Table
+            aria-labelledby="tableTitle"
+            size={'small'}
+            aria-label="enhanced table"
+          >
+            <EnhancedTableHead
+              classes={classesMat}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={handleRequestSort}
+              rowCount={toDoFixItemList.length}
+            />
+            <TableBody>
+              {stableSort(toDoFixItemList, getComparator(order, orderBy))
+                .map((row, index) => {
+                  const labelId = `enhanced-table-${index}`;
+                  return (
+                    <TableRow
+                      hover
+                      tabIndex={-1}
+                      key={row.Id}
+                      className={classesMat.tableHeader}
+                    >
+                      <TableCell component="th" id={labelId} scope="row" align="center" className={classesMat.tableHeader}>
+                      <Checkbox
+                        color="default"
+                        value={row.Id}
+                      />
+                      </TableCell>                      
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.Asset}</TableCell>
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.CompanyName}</TableCell>
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.Comment}</TableCell>                      
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.Telephone}</TableCell>
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.CreatedAt}</TableCell>
+                      <TableCell align="center" className={classesMat.tableHeader}>{row.EmailAddress}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 33 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
     );
   };
 
@@ -174,30 +357,76 @@ function FixItemsContainer(props) {
         {
           fixitTab === 0 &&
           <div className={classes.context}>
-          <span
-            className={classes.headerWrapper}
-            style={{minHeight: props.isLoading ? 80 : 'initial'}}
-          >
-            {
-              props.isLoading
-                ?
-                <Loader/>
-                :
-                <div className={classes.header} style={{ fontSize: '1rem' }}>
-                  Fix it:
-                  <span className={classes.itemsCount} style={{ fontSize: '3.5rem'}}>
-                    {props.fixItemCount.toLocaleString()}
-                  </span>
-                </div>
-            }
-          </span>
+            <div className={classes.tableContainer}>
+              <div className={`info-box ${classes.wrapper}`}>
+                {
+                  props.isLoading
+                  ?
+                  <Loader/>
+                  :
+                  <TableContainer component={Paper}>
+                    <Table className={`head_box_table `} size="small" aria-label="a dense table">
+                      <TableBody>                    
+                        <TableRow key={1}>
+                          <TableCell align="center" colSpan={2}>                            
+                            <Typography variant="h2" component="h2" className={"white"}>
+                              {`Errors: 578`}
+                            </Typography>  
+                          </TableCell>
+                        </TableRow>
+                        <TableRow key={2}>
+                          <TableCell>
+                            <Typography variant="h6" component="h6" align="left">
+                              {`Uspto: `}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="h6" component="h6" className={"white"} align="right">
+                              {props.fixItemCount.toLocaleString()}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>
+                        <TableRow key={3}>
+                          <TableCell>
+                            <Typography variant="h6" component="h6" align="left">
+                              {`Patents: `}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="h6" component="h6" className={"white"} align="right">
+                              {props.fixItemCount.toLocaleString()}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>     
+                        <TableRow key={4}>
+                          <TableCell>
+                            <Typography variant="h6" component="h6" align="left">
+                              {`Total: `}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>                            
+                            <Typography variant="h6" component="h6" className={"white"} align="right">
+                              {props.fixItemCount.toLocaleString()}
+                            </Typography>
+                          </TableCell>
+                        </TableRow>                  
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                }
+              </div>          
+            </div>
+            <div style={{minHeight:'30px'}}>
+              <CustomHeader type={'todo'}/>
+            </div>
             <div className={classes.scrollbar}>
               {
                 props.isLoading
                   ?
                   <Loader/>
-                  :
+                  :                  
                   <PerfectScrollbar
+                    className={(isExpanded) ? classesMat.enhancedTableContainer: ''}
                     options={{
                       suppressScrollX: true,
                       minScrollbarLength: 20,
@@ -205,7 +434,7 @@ function FixItemsContainer(props) {
                     }}
                   >
                     {renderItemList('todo')}
-                  </PerfectScrollbar>
+                  </PerfectScrollbar>                
               }
             </div>
           </div>
@@ -213,23 +442,40 @@ function FixItemsContainer(props) {
         {
           fixitTab === 1 &&
           <div className={classes.context}>
-          <span
-            className={classes.headerWrapper}
-            style={{minHeight: props.isLoading ? 80 : 'initial'}}
-          >
-            {
-              props.isLoading
+            <div className={classes.tableContainer}>
+              <div className={classes.wrapper}>
+              {
+                props.isLoading
                 ?
                 <Loader/>
                 :
-                <div className={classes.header} style={{ fontSize: '1rem' }}>
-                  Fix it:
-                  <span className={classes.itemsCount} style={{ fontSize: '3.5rem' }}>
-                    {props.fixItemCount.toLocaleString()}
-                  </span>
-                </div>
-            }
-          </span>
+                <TableContainer component={Paper}>
+                  <Table className={`head_box_table `} size="small" aria-label="a dense table">
+                    <TableBody>                    
+                      <TableRow key={1}>
+                        <TableCell align="center" colSpan={2} className={"head_box_heading white"}>{`Errors`}</TableCell>
+                      </TableRow>
+                      <TableRow key={2}>
+                        <TableCell align="left" className={"head_box_text"}>{'Uspto: '}</TableCell>
+                        <TableCell align="right" className={"head_box_number white"}>{props.fixItemCount.toLocaleString()}</TableCell>
+                      </TableRow>
+                      <TableRow key={3}>
+                        <TableCell align="left" className={"head_box_text"}>{'Patents: '}</TableCell>
+                        <TableCell align="right" className={"head_box_number white"}>{props.fixItemCount.toLocaleString()}</TableCell>
+                      </TableRow>     
+                      <TableRow key={4}>
+                        <TableCell align="left" className={"head_box_text"}>{'Total: '}</TableCell>
+                        <TableCell align="right" className={"head_box_number white"}>{props.fixItemCount.toLocaleString()}</TableCell>
+                      </TableRow>                  
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              }
+              </div>          
+            </div>
+            <div style={{minHeight:'30px'}}>
+              <CustomHeader type={'complete'}/>
+            </div>
             <div className={classes.scrollbar}>
               {
                 props.isLoading
@@ -237,6 +483,7 @@ function FixItemsContainer(props) {
                   <Loader/>
                   :
                   <PerfectScrollbar
+                    className={(isExpanded) ? classesMat.enhancedTableContainer: ''}
                     options={{
                       suppressScrollX: true,
                       minScrollbarLength: 20,
@@ -250,75 +497,53 @@ function FixItemsContainer(props) {
           </div>
         }
         {
+          fixitTab === 2 &&
+          <div className={classes.context}>
+            <div className={classes.tableContainer}>
+              <div className={classes.wrapper}>
+
+              </div>
+            </div>
+          </div>
+        }
+        {
+          fixitTab === 3 &&
+          <div className={classes.context}>
+            <div className={classes.tableContainer}>
+              <div className={classes.wrapper}>
+
+              </div>
+            </div>
+          </div>
+        }
+        {
+          fixitTab === 4 &&
+          <div className={classes.context}>
+            <div className={classes.tableContainer}>
+              <div className={classes.wrapper}>
+
+              </div>
+            </div>
+          </div>
+        }
+        {
           !isExpanded && (props.screenWidth < 1335 || props.screenHeight < 420)
           ?
             <div style={{width: '100%'}}>
               <CustomTab
                 activeTabId={fixitTab}
                 setActiveTabId={setFixItTabIndex}
-                tabs={['To Do', 'Complete']}
+                tabs={['Invent', 'Assign.', 'Corr', 'Address', 'Security']}
               />
             </div>
           :
             <TabsContainer
               activeTabId={fixitTab}
               setActiveTabId={setFixItTabIndex}
-              tabs={['To Do', 'Complete']}
+              tabs={['Invent', 'Assign.', 'Corr', 'Address', 'Security']}
             />
         }
-
-      </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll={"paper"}
-        PaperComponent={PaperComponent}
-        aria-labelledby="draggable-dialog-title"
-      >
-        <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Fix-it
-        </DialogTitle>
-        <DialogContent>          
-          <div>
-            <form className={classes.root} noValidate autoComplete="off">            
-              <div>              
-                <div className={"MuiFormControl-root MuiTextField-root"}>
-                  <label className={"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"} >Lawyer</label>
-                  <div className={"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"}>
-                    <select value={lawyer}  onChange={handleChange} name="user_id" id="user_id" className={"MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input"}>   
-                      <option value={defaultValue} disable={"true"}>--select--</option>           
-                      {lawyers.map((option) => (
-                        <option key={option.id} value={option.id}>{option.first_name} {option.first_name}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <TextField
-                  required 
-                  id="asset"
-                  label="Asset Number"
-                  name="asset"
-                  value={asset}
-                  onChange={handleAssetChange}
-                />
-              </div>
-              <div>
-                <TextareaAutosize id="comment" label="Description" name="comment" value={comment} rowsMin={9} onChange={handleCommentChange}/>
-              </div>
-            </form>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSave} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+      </div>      
       <FullWidthSwitcher show={showSwitcher} widget={"fixItems"}/>
     </div>
   )
@@ -334,16 +559,12 @@ const mapStateToProps = state => {
     screenWidth: state.patenTrack.screenWidth,
     screenHeight: state.patenTrack.screenHeight,
     fixitTab: state.patenTrack.fixitTab,
-    lawyers: state.patenTrack.lawyerList ? state.patenTrack.lawyerList : [],
-    shareUrl: state.patenTrack.shareUrl ? state.patenTrack.shareUrl : ''
   };
 };
 
 const mapDispatchToProps = {
   getRecordItems,
-  getLawyers,
-  setFixItTabIndex,
-  postRecordItems
+  setFixItTabIndex
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FixItemsContainer);

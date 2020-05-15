@@ -14,7 +14,7 @@ export default makeStyles(theme => ({
     marginLeft: '14px'
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+    zIndex: theme.zIndex.drawer + 6,
     transition: theme.transitions.create(["margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -73,7 +73,41 @@ export default makeStyles(theme => ({
     cursor: 'pointer',
     display: 'flex',
     position: 'relative',
-    borderLeft: '3px solid transparent'
+    borderLeft: '3px solid transparent',
+    color: theme.color.lightGray,
+  },
+  fixItMenu: {
+    position: 'absolute',
+    top: 'calc(100% - 2px)',
+    background: 'black',
+    border: '1px solid #2b2b2b',
+    borderTop: 'none',
+    right: 0,
+    boxShadow: '5px 5px 3px -3px rgba(120,120,120,.3)',
+    textAlign: 'left'
+  },
+  fixItMenuItem: {
+    padding: '0.5rem',
+    lineHeight: '1.5',
+    fontSize: '1rem',
+    borderTop: '1px solid #262626',
+    cursor: 'pointer',
+    display: 'flex',
+    position: 'relative',
+    borderLeft: '3px solid transparent',
+    "&:hover": {
+      background: "#bdbdbd",
+      color: '#2b2b2b'
+    }
+  },
+  textarea: {
+    width: '100%',
+    backgroundColor: theme.color.background,
+    color: '#bdbdbd',
+    /*border: 0,*/
+    resize: 'none',
+    outline: 'none',
+    fontFamily: 'inherit'
   },
   userlogo: {
     width: '3rem',
@@ -110,5 +144,8 @@ export default makeStyles(theme => ({
       fontSize: '1.328125rem',
     },
     lineHeight: 1.3875
+  },
+  customPadding: {
+    padding:'30px'
   }
 }));

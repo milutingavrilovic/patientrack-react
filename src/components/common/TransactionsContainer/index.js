@@ -4,6 +4,13 @@ import {connect} from 'react-redux';
 import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import Loader from "../Loader";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { getTransactions } from "../../../actions/patenTrackActions";
 
 function TransactionsContainer(props) {
@@ -31,7 +38,7 @@ function TransactionsContainer(props) {
 
   return (
     <div
-      className     = {classes.transactionsContainer}
+      className     = {`info-box ${classes.transactionsContainer}`}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
@@ -47,36 +54,43 @@ function TransactionsContainer(props) {
             <div
               className={isExpanded ? classes.wrapperExpand : classes.wrapper}
             >
-
-              <table className={isExpanded ? classes.contextExpand : classes.context}>
-                <tbody>
-                  <tr
-                    className={isExpanded ? classes.headingExpand : classes.heading}
-                    style={{
-                      fontSize: getFontSize() * 1.3
-                    }}
-                  >
-                    <td colSpan={2}>Transactions</td>
-                  </tr>
-                  <tr
-                    className={ isExpanded ? classes.typographyExpand : classes.typography}
-                    style={{ height: '25%'}}
-                  >
-                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>Last year</td>
-                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize()}}>This year</td>
-                  </tr>
-                  <tr
-                    className={ isExpanded ? classes.typographyExpand : classes.typography}
-                  >
-                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
-                      { getYearValue(curYear - 1) }
-                    </td>
-                    <td style={{fontSize: isExpanded ? getFontSize() * 2 : getFontSize() * 1.5}}>
-                      { getYearValue(curYear) }
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <TableContainer component={Paper}>
+                <Table className={`head_box_table `} size="small" aria-label="a dense table">
+                  <TableBody>                    
+                    <TableRow key={1}>
+                      <TableCell align="center" colSpan={2} className={"head_box_heading "}>
+                        <Typography variant="h2" component="h2">
+                        {`Transact: 453`}
+                        </Typography> 
+                      </TableCell>
+                    </TableRow>
+                    <TableRow key={3}>
+                      <TableCell>
+                        <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'This year: '}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="h6" component="h6" className={"white"} align="right">
+                        {getYearValue(curYear)}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow key={2}>
+                     <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'Last year: '}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="h6" component="h6" className={"white"} align="right">
+                        {getYearValue(curYear - 1)}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>                    
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
         }
       </div>
@@ -84,6 +98,7 @@ function TransactionsContainer(props) {
     </div>
   );
 }
+
 
 const mapStateToProps = state => {
   return {

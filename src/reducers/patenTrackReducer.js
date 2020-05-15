@@ -3,6 +3,10 @@ import initialState from './initialState';
 
 const patenTrackReducer = (state = initialState.patient, action) => {
   switch (action.type) {
+    case types.INIT_STAGE:
+      return {
+        ...initialState.patient
+      };    
     case types.SET_CURRENT_WIDGET:
       return {
         ...state,
@@ -42,30 +46,94 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         assetsCountLoading: action.data
       };
     case types.SET_CUSTOMERS_NAME_COLLECTIONS:
+      const params = action.tabId == 0 ? 'employee' : action.tabId == 1 ? 'ownership' : action.tabId == 2 ? 'security' : 'other';
+      const newItems = [...state.customersData[params]];
+      const parentIndex = newItems.findIndex(x => x.id == action.parentNode);
+      const childIndex = newItems[parentIndex].child.findIndex(x => x.id == action.currentNode);
+      newItems[parentIndex].child[childIndex]['child'] = [...action.data]
+      console.log("newItems1", newItems);
       return {
+        ...state,
+        customersData: Object.assign({}, {
+          ...state.customersData,
+          [params]: [...newItems]
+        })
+      }
+      /*return {
         ...state,
         customersNamesCollections: Object.assign({}, {
           ...state.customersNamesCollections,
           [action.name]: [...action.data]
         })
-      };
-    case types.SET_CUSTOMERS_NAME_COLLECTIONS_LOADING:
+      };*/
+    case types.SET_CUSTOMERS_NAME_COLLECTIONS_LOADING:      
       return {
         ...state,
         customersNameCollectionsLoading: action.data
       };
+      
     case types.SET_CUSTOMER_RFID_ASSETS:
+      const propIndex = action.tabId == 0 ? 'employee' : action.tabId == 1 ? 'ownership' : action.tabId == 2 ? 'security' : 'other';
+      const oldItems = [...state.customersData[propIndex]];
+      const parentNode = oldItems.findIndex(x => x.id == action.parentNode);
+      const parentNode2 = oldItems[parentNode].child.findIndex(x => x.id == action.parentNode1);
+      const childNode = oldItems[parentNode].child[parentNode2].child.findIndex(x => x.id == action.currentNode);
+      oldItems[parentNode].child[parentNode2].child[childNode]['child'] = [...action.data]
+      console.log("newItems2", oldItems);
       return {
+        ...state,
+        customersData: Object.assign({}, {
+          ...state.customersData,
+          [propIndex]: [...oldItems]
+        })
+      }
+      /*return {
         ...state,
         customersRFIDAssets: Object.assign({}, {
           ...state.customersRFIDAssets,
           [action.rfID]: [...action.data]
         })
-      };
+      };*/
     case types.SET_LAWYERS_LIST:
       return {
         ...state,
         lawyerList: [...action.data]
+      };
+    case types.SET_DOCUMENTS_LIST:
+      return {
+        ...state,
+        documentList: [...action.data]
+      };
+    case types.SET_COMPANIES_LIST:
+      return {
+        ...state,
+        companiesList: [...action.data]
+      };
+    case types.SET_USERS_LIST:
+      return {
+        ...state,
+        userList: [...action.data]
+      };
+    case types.SET_USERS_LIST_LOADING:
+      return {
+        ...state,
+        userListLoading: action.data
+      };
+    case types.SET_EDIT_ROW:
+      return {
+        ...state,
+        user_edit_row: action.payload
+      };
+    case types.SET_DELETE_ROW:
+      return {
+        ...state,
+        user_delete_row: action.payload
+      };
+    case types.SET_DOCUMENT_UPDATE_ROW:
+      console.log("DOCUMENTROW");
+      return {
+        ...state,
+        update_document_row: action.row
       };
     case types.SET_CUSTOMER_RFID_ASSETS_LOADING:
       return {
@@ -142,6 +210,11 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         comments: action.data
       };
+    case types.SET_COMMENT_SAVED:
+      return {
+        ...state,
+        commentMessage: action.message
+      };      
     case types.SET_COMMENTS_LOADING:
       return {
         ...state,
@@ -175,10 +248,46 @@ const patenTrackReducer = (state = initialState.patient, action) => {
           [action.key]: action.value
         })
       };
+    case types.SET_COMPANY_TREE_OPEN:
+      return {
+        ...state,
+        company_tree: Object.assign({}, {
+          ...state.company_tree,
+          [action.key]: action.value
+        })
+      }; 
+    case types.RESET_COMPANY_TREE:
+      return {
+        ...state,
+        company_tree: {}
+      };       
     case types.SET_CURRENT_ASSET:
       return {
         ...state,
         currentAsset: action.data
+      };
+    case types.SET_CURRENT_COLLECTION_ID:
+      return {
+        ...state,
+        selectedRFID: action.data
+      };
+    case types.SET_SUB_COMPANIES:
+      return {
+        ...state,
+        childCompanies: Object.assign({}, {
+          ...state.childCompanies,
+          [action.name]: action.data
+        })
+      };
+    case types.SET_MAIN_COMPANY_SELECTED:
+      return {
+        ...state,
+        main_company_selected: action.payload
+      };
+    case types.SET_SUB_COMPANY_SELECTED_NAME:
+      return {
+        ...state,
+        main_company_selected_name: action.name
       };
     case types.SET_SITE_LOGO:
       return {
@@ -286,6 +395,26 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         nestGridTab: action.payload
       };
+    case types.SET_SEARCH_COMPANY:
+      return {
+        ...state,
+        searchCompanies: action.list
+      };
+    case types.SET_SEARCH_COMPANY_LOADING:
+      return {
+        ...state,
+        searchCompanyLoading: action.payload
+      };
+    case types.SET_COMPANY_LOADING:
+      return {
+        ...state,
+        companyListLoading: action.payload
+      };
+    case types.SET_DOCUMENT_ITEMS_LOADING:
+      return {
+        ...state,
+        documentListLoading: action.payload
+      };
     case types.SET_TIMELINE_TAB:
       return {
         ...state,
@@ -311,10 +440,15 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         ...state,
         pdfTab: action.payload
       };
-    case types.SET_SHARE_URL:
+    case types.SET_SETTING_TAB:
       return {
         ...state,
-        shareUrl: action.url
+        settingTab: action.payload
+      };
+    case types.SET_ILLUSTRATION_URL:
+      return {
+        ...state,
+        illustrationUrl: action.illustrationUrl
       };
     default:
       return state;

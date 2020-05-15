@@ -8,6 +8,10 @@ import Header from "../common/Header";
 import useStyles from "./styles";
 import { Grid } from '@material-ui/core';
 
+/**
+ * Load components for the dashboard
+ */
+
 import ValidateCounter from "../common/ValidateCounter";
 import LevelsNestedTreeGrid from "../common/LevelsNestedTreeGrid";
 import UpdatedAssests from "../common/UpdatedAssests";
@@ -18,6 +22,7 @@ import RecordItemsContainer from "../common/RecordItemsContainer";
 import TransactionsContainer from "../common/TransactionsContainer";
 import CommentComponents from "../common/CommentComponents";
 import PdfViewer from "../common/PdfViewer";
+import UserSettings from "../common/UserSettings";
 
 function DashBoard(props) {
   const {authenticated} = props.auth;
@@ -29,6 +34,16 @@ function DashBoard(props) {
       props.actions.signOut();
     }
   };
+
+  /*const getFontSize = () => {
+    if(props.screenWidth < 768)
+      return 6;
+    if(props.screenHeight > 768 && props.screenWidth < 900)
+      return 8;
+    if(props.screenHeight > 900 && props.screenWidth < 1400)
+      return 10;
+    return 12;
+  };*/
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -91,9 +106,17 @@ function DashBoard(props) {
     props.patentActions.getLawyers(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
+    props.patentActions.getDocuments(isMountedRef.current).catch(err => {
+      errorProcess({...err}.response);
+    });
 
+    /*console.log("DASHBOARD", props.screenHeight, props.screenWidth);  
+    console.log("FONTSIZE", getFontSize());
+    document.getElementsByTagName('html')[0].style.fontSize  =  getFontSize() > 0 ? getFontSize()+"px" : +"12px";*/
     return () => isMountedRef.current = false;
   });
+
+  
 
   const renderContext = () => {
     const {currentWidget} = props;
@@ -110,20 +133,21 @@ function DashBoard(props) {
             <Grid
               item
               className={classes.flexColumn}
-              style={{flexGrow: 1, height: '80%'}}
+              style={{flexGrow: 1, height: '100%'}}
             >
               <div style={{height: '20%'}}>
                 <ValidateCounter/>
               </div>
-              <div style={{height: '80%'}}>
+              <div style={{height: '60%'}}>
                 <LevelsNestedTreeGrid/>
               </div>
-            </Grid>
-            <Grid item style={{ height: '20%'}}>
-              <UpdatedAssests/>
+              <div style={{height: '20%'}}>
+                <UpdatedAssests/>
+              </div>
             </Grid>
           </Grid>
           <Grid
+            item lg={6} md={6} sm={6} xs={6}
             className={classes.flexColumn}
             style={{flexGrow: 1}}
           >
@@ -135,11 +159,11 @@ function DashBoard(props) {
               <TimeLineContainer/>
             </Grid>
             <Grid container style={{ height: '20%'}}>
-              <Grid item lg={3} md={3} sm={3} xs={3}>
+              <Grid item lg={4} md={4} sm={4} xs={4}>
                 <TransactionsContainer/>
               </Grid>
               <Grid
-                item lg={9} md={9} sm={9} xs={9}
+                item lg={8} md={8} sm={8} xs={8}
                 className={classes.flexColumn}
               >
                 <CommentComponents/>
@@ -148,7 +172,7 @@ function DashBoard(props) {
           </Grid>
           <Grid
             className={classes.flexColumn}
-            style={{width: '28.5%'}}
+            item lg={4} md={4} sm={4} xs={4}
           >
             <Grid container style={{flexGrow: 1, height: '70%'}} id={"ms23wd"}>
               <Grid
@@ -208,6 +232,9 @@ function DashBoard(props) {
     if(currentWidget === 'agreement') {
       return <PdfViewer/>
     }
+    if(currentWidget === 'settings') {
+      return <UserSettings/>
+    }
   };
 
   if(!authenticated)
@@ -224,7 +251,7 @@ function DashBoard(props) {
       <Header/>
       <Grid
         container
-        className={classes.dashboardContainer}
+        className={classes.dashboardWarapper}
       >
         {renderContext()}
       </Grid>

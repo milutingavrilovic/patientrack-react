@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
   },
   tabItem: {
     minWidth: 'initial',
-    fontSize: '.875rem',
+    /* fontSize: '.875rem', */
     lineHeight: '1.5rem',
     minHeight: 'initial',
     marginLeft: 2.5,

@@ -8,7 +8,7 @@ export default makeStyles(theme => ({
     right: 0,
     bottom: 0
   },
-  dashboardContainer: {
+  dashboardWarapper: {
     position: 'relative',
     flexGrow: 1,
     flexDirection: 'column',
@@ -23,7 +23,7 @@ export default makeStyles(theme => ({
     padding: 5,
     display: 'flex',
     flexDirection: 'column',
-    flexWrap: 'nowrap',
+    flexWrap: 'nowrap !important',
     overflowX: 'hidden',
     overflowY: 'hidden',
     [theme.breakpoints.down("md")]: {

@@ -21,11 +21,12 @@ export default makeStyles(theme => ({
   },
   typography: {
     lineHeight: 'inherit',
-    fontSize: 'inherit',
+    /* fontSize: 'inherit', */
+    textAlign: 'center'
   },
   typographyExpand: {
     lineHeight: 2,
-    fontSize: '2.2rem',
+    /* fontSize: '2.2rem', */
     display: 'flex',
     justifyContent: 'space-between',
     padding: '0 10px'
@@ -33,13 +34,13 @@ export default makeStyles(theme => ({
   heading: {
     height: '35%',
     textAlign: 'center',
-    fontSize: '1.375rem',
+    /* fontSize: '1.375rem', */
     margin: 0,
     wordBreak: 'break-word'
   },
   headingExpand: {
     paddingBottom: theme.spacing(2),
-    fontSize: '3.375rem !important',
+    /* fontSize: '3.375rem !important', */
     textAlign: 'center',
     margin: 0
   },

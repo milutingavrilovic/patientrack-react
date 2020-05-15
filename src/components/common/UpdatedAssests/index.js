@@ -4,6 +4,13 @@ import {connect} from 'react-redux';
 import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import Loader from "../Loader";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { getAssetsCount } from "../../../actions/patenTrackActions";
 
 function UpdatedAssests(props) {
@@ -12,7 +19,7 @@ function UpdatedAssests(props) {
   const isExpanded = props.currentWidget === 'updatedAssets';
   const {today, month, last_month} = props.assetsCount;
 
-  const getFontSize = () => {
+  const getFontSizes = () => {
     if(props.screenHeight < 500 || props.screenWidth < 992)
       return 8;
     if(props.screenHeight < 600 || props.screenWidth < 1092)
@@ -24,9 +31,11 @@ function UpdatedAssests(props) {
     return 18;
   };
 
+  
+
   return (
     <div
-      className     = {classes.updatedAssetContainer}
+      className     = {`info-box ${classes.updatedAssetContainer}`}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
@@ -41,36 +50,56 @@ function UpdatedAssests(props) {
             :
               <div
                 className={isExpanded ? classes.wrapperExpand : classes.wrapper}
-              >
-                <table
-                  className={ isExpanded ? classes.contextExpand : classes.context}
-                  style={{
-                    fontSize: isExpanded ? getFontSize() * 2 : getFontSize(),
-                  }}
-                >
-                  <tbody>
-                    <tr
-                      className={ isExpanded ? classes.headingExpand : classes.heading}
-                      style={{
-                        fontSize: getFontSize() * 1.3,
-                      }}
-                    >
-                      <td colSpan={2}>Updated Assets</td>
-                    </tr>
-                    <tr>
-                      <td>Today:</td>
-                      <td>{today}</td>
-                    </tr>
-                    <tr>
-                      <td>This month:</td>
-                      <td>{month}</td>
-                    </tr>
-                    <tr>
-                      <td>Last month:</td>
-                      <td>{last_month}</td>
-                    </tr>
-                  </tbody>
-                </table>
+              >                
+                <TableContainer component={Paper}>
+                  <Table className={`head_box_table `} size="small" aria-label="a dense table">
+                    <TableBody>                    
+                      <TableRow key={1}>
+                        <TableCell align="center" colSpan={2}>
+                          <Typography variant="h2" component="h2">
+                            {`Updates: 457`}
+                          </Typography>   
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={2}>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'Today: '}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="right">
+                        {today}
+                        </Typography>
+                      </TableCell>
+                      </TableRow>
+                      <TableRow key={3}>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'This month: '}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="right">
+                        {month}
+                        </Typography>
+                      </TableCell>    
+                      </TableRow>
+                      <TableRow key={4}>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'Last month: '}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="right">
+                        {last_month}
+                        </Typography>
+                      </TableCell>                        
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </div>
         }
 

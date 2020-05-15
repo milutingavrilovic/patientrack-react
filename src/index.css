@@ -1,7 +1,7 @@
 @import "./assets/font.css";
 
 html {
-  font-size: 14px;
+  font-size: 100%;
 }
 
 body {
@@ -10,7 +10,7 @@ body {
 }
 
 span {
-  font-family: "Avenir Next W01","Avenir Next W00","Avenir Next",Avenir,"Helvetica Neue",sans-serif !important;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
 }
 
 span {
@@ -87,10 +87,10 @@ span {
   border: 1px solid #888;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  -webkit-animation-name: animatetop;
+  /*-webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s*/
 }
 
 
@@ -109,7 +109,7 @@ span {
   width: 542px;
   /*changes by vikas*/
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 68px;
 	background: #000;
 	color:#bdbdbd;
@@ -121,6 +121,12 @@ span {
 .blue{color:#2493f2 !important;border-color:#2493f2 !important;}
 .orange{color:#ffaa00 !important;border-color:#ffaa00 !important;}
 .green{color:#70A800 !important;border-color:#70A800 !important;}
+.white{color: white !important;}
+.grey{color: #bdbdbd !important;}
+
+.list_companies .MuiToolbar-regular{
+  display: none;
+}
 
 #assignment_details .close {
   color: white;
@@ -177,11 +183,15 @@ span {
 
 .vis-labelset .vis-label, .vis-timeline {
   color:#d6d6d6 !important;
-  border-bottom:1px solid #bfbfbf !important;
+  border-bottom:1px solid #5c5c5c !important;
+}
+
+.vis-timeline {
+  border:1px solid #5c5c5c !important;
 }
 
 .vis-labelset .vis-label{
-	border-right:1px solid #bfbfbf !important;
+	border-right:0px solid #5c5c5c !important;
 }
 
 .vis-time-axis .vis-text, .vis-item {
@@ -191,13 +201,212 @@ span {
 .vis-timeline {
   background-color:#222222 !important;
 }
+.vis-tooltip p {
+  margin: 5px 0 0 0;
+}
 
 .vis-content {
   top: 0 !important;
 }
 
+.vis-nested-group{
+  min-height: 22%;
+}
+
+#timeline .vis-panel.vis-center, #timeline .vis-panel.vis-left, #timeline .vis-panel.vis-right, #timeline .vis-panel.vis-top, #timeline .vis-panel.vis-bottom{
+  border:1px #5c5c5c;
+}
+#timeline .vis-panel.vis-top, #timeline .vis-panel.vis-bottom, #timeline .vis-panel.vis-left{
+  border-style: solid;
+}
+#timeline .vis-panel.vis-left{
+  /*border-right: 0;*/
+}
+#timeline .vis-panel.vis-top{
+  border-top: 0;
+}
+#timeline .vis-panel.vis-bottom{
+  border-bottom: 0;
+}
+.vis-item.vis-point.vis-selected{
+  background-color: inherit !important;
+  color: #E60000 !important;
+  font-weight: bold;;
+}
 .tooltip_frame{border: 0px; min-height: 300px; width: 100%;}
 
+div.vis-tooltip{
+  background-color: #222 !important;
+  color:#bdbdbd !important;
+  border-radius: 0px !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  /*box-shadow: 5px 5px 3px -3px rgba(120,120,120,.3) !important;*/
+  padding: 10px 20px;
+  line-height: 1.5rem;
+  border: 2px solid #404040 !important;
+}
+
+.MuiPaper-root{  
+  /*font-size: inherit;*/
+}
+.info-box .MuiPaper-root{
+  background-color: inherit !important;  
+}
+.MuiGrid-item .MuiPaper-root{
+  color: inherit !important;
+}
+.MuiTableCell-body, .MuiTableCell-head{
+  color: inherit !important;
+  /*font-size: inherit;*/
+}
+.MuiTableCell-root, .MuiTableCell-head{
+  border: 0px !important;
+  /*font-size: inherit !important;
+  font-family: inherit !important;*/
+}
+.todo-list .MuiTableCell-root{
+  border-bottom: 1px solid #5c5c5c !important;
+}
+.MuiListItemIcon-root{
+  min-width: 20px !important;
+}
+.MuiListItem-gutters{
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+.MuiTableCell-sizeSmall{
+  padding: 5px 0px 5px 5px !important
+}
+.MuiPaper-elevation1{
+  box-shadow: none !important;
+}
+.MuiTableCell-sizeSmall:last-child{
+  padding-right: 10px !important;
+  vertical-align: bottom;
+}
+.MuiFormControl-root{
+  width:100%
+}
+.MuiIconButton-root{
+  color:inherit !important;
+}
+.record-modal .MuiPaper-root{
+  color: #bdbdbd !important;
+  background-color: #222!important;
+  box-shadow: 5px 5px 3px -3px rgba(120,120,120,.3) !important;
+}
+.record-modal .MuiPaper-rounded{
+  border-radius: 0 !important;
+}
+.record-modal .MuiFormControl-root{
+  width:100%;
+  margin-bottom: 20px;
+}
+.record-modal .MuiInputBase-input, .MuiFormLabel-root{
+  color: #bdbdbd !important;
+  /*font-family: inherit;
+  font-size: initial;*/
+}
+.record-modal .MuiInputBase-input{
+  margin-top:10px;
+}
+.record-modal .MuiInputLabel-shrink{
+  transform: translate(0, 1.5px) !important;
+}
+.record-modal .MuiDialogTitle-root{
+  text-align: center;
+}
+.record-modal .MuiButton-textPrimary{
+  color: white !important;
+}
+.record-modal .MuiButton-textSecondary{
+  color: #E60000 !important;
+}
+.userSettings .list_companies div{
+  background-color: inherit;
+}
+.userSettings{
+  width: 100%;
+}
+.userSettings table{
+  background-color: #222;
+  color: #bdbdbd;
+  /*font-family: inherit;
+  font-size: inherit;*/
+}
+.userSettings table td, .userSettings table th{
+  border-bottom: 1px solid #5c5c5c !important;
+  /*font-family: inherit;
+  font-size: inherit;*/
+}
+
+.userSettings table th{
+  font-weight: bold;
+}
+
+.userSettings .MuiTableCell-body, .userSettings .MuiTableCell-head, .userSettings .MuiTableSortLabel-root.MuiTableSortLabel-active, .userSettings .MuiTableSortLabel-root.MuiTableSortLabel-active.MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon, .userSettings .MuiSelect-icon, .userSettings .MuiInputBase-input{
+  color: #bdbdbd;  font-family: inherit;   font-size: inherit;
+}
+
+.userSettings  .MuiButton-textPrimary, .userSettings .MuiTableCell-body input, .userSettings .MuiTableCell-body select{
+  color: #73B2FF;
+  /*font-family: inherit;
+  font-size: inherit;*/
+}
+.userSettings .MuiTableSortLabel-root:hover, .userSettings .MuiSelect-selectMenu, .userSettings .MuiButton-label, .userSettings .MuiCheckbox-root{
+  color: #73B2FF;
+}
+
+.userSettings .MuiTableCell-root, .userSettings .MuiIconButton-root{
+  padding: 4px 4px;
+}
+
+.userSettings .MuiIconButton-root{
+  margin: 0 !important;
+}
+
+.head_box_table{
+  width:100%;
+  padding:0px;
+  margin:0px;
+}
+.head_box_heading {
+  font-size: 2.5rem !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
+.head_box_table .head_box_text{
+  font-size: 1.2rem !important;
+  font-weight: 500;
+  vertical-align: middle;
+  text-align: left;
+}
+.head_box_table .head_box_number{
+  font-size: 1.2rem !important;
+  font-weight: bold;
+  vertical-align: middle;
+  text-align: right;
+}
+
+.head_box_table .head_box_number.red, .head_box_table .head_box_heading.red{
+  color: #E60000 !important
+}
+
+.head_box_table .head_box_number.green, .head_box_table .head_box_heading.green{
+  color: rgb(112, 168, 0 ) !important
+}
+
+.head_box_table .head_box_number.white, .head_box_table .head_box_heading.white{
+  color: #ffffff !important
+}
+
+.MuiTypography-h2, .MuiTypography-h6{
+  font-weight: 400 !important;
+}
+.MuiTypography-h6{
+  line-height: 1 !important;
+}
 .ps {
   overflow: hidden !important;
   overflow-anchor: none;
@@ -309,3 +518,58 @@ span {
   }
 }
 .scrollbar-container{position:relative;height:100%}
+
+.MuiTableSortLabel-root.MuiTableSortLabel-active, .MuiTableSortLabel-root:hover, .MuiTableSortLabel-root.MuiTableSortLabel-active .MuiTableSortLabel-icon {
+  color: #bdbdbd !important;
+}
+
+@media only screen and (max-width: 1140px) {
+  .makeStyles-tableHeaderShort-334:first-child {
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-right: 0;
+    padding-bottom: 2px;
+  }
+  .makeStyles-tableHeaderShort-334:last-child {
+    padding-top: 2px;
+    padding-left: 0;
+    padding-right: 5px;
+    padding-bottom: 2px;
+  }
+  .makeStyles-tableCellCollapse-335:first-child {
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 0;
+    padding-bottom: 10px;
+  }
+  .makeStyles-tableCellCollapse-335:last-child {
+    padding-top: 10px;
+    padding-left: 0;
+    padding-right: 5px;
+    padding-bottom: 10px;
+}
+}
+@media (80em <= width <= 95em ) {
+  html{
+    font-size: 0.85rem;
+  }
+  .MuiTypography-h2, .MuiTypography-h6{
+    font-size: 1.5rem;
+  }
+}
+@media (60em <= width <= 79em ) {
+  html{
+    font-size: 0.70rem;
+  }
+}
+@media (40em <= width <= 59em ) {
+  html{
+    font-size: 0.50rem;
+  }
+}
+
+@media (max-width: 39em ) {
+  html{
+    font-size: 0.40rem;
+  }
+}

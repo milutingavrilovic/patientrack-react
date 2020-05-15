@@ -5,16 +5,17 @@ import routes from '../routes';
 
 class App extends Component {
   componentDidMount() {
-    this.props.initEnvironment();
+    this.props.initEnvironment();    
   }
   render() {
     return routes;
   }
 }
 
-const mapStateToProps = () => {
+const mapStateToProps = (state) => {
   return {
-
+    screenHeight: state.patenTrack.screenHeight,
+    screenWidth: state.patenTrack.screenWidth
   };
 };
 

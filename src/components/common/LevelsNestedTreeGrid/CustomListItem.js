@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {connect} from 'react-redux';
 import { ArrowRight, ArrowDropDown } from "@material-ui/icons";
 import CustomList from "./CustomList";
@@ -8,6 +8,7 @@ import {
   getCustomersNameCollections,
   getCustomerRFIDAssets,
   setTreeOpen,
+  setCurrentCollectionID,
   setCurrentAsset,
   getAssetsOutsource,
   getAssets,
@@ -20,7 +21,10 @@ import {
   initCurTreeLevel2,
   initCurTreeLevel3,
   initCurTreeLevel4,
-  getComments
+  getComments,
+  setIllustrationUrl,
+  setTimelineTabIndex,
+  getCollectionIllustration
 } from "../../../actions/patenTrackActions";
 import { signOut } from "../../../actions/authActions";
 
@@ -41,6 +45,8 @@ const getLabel = (depth, props) => {
 function CustomListItem(props) {
   const {depth} = props;
   const classes = useStyles();
+  const [redirect, setRedirect] = useState(false);
+  const { timelineTab, setTimelineTabIndex } = props;
 
   const errorProcess = (err) => {
     if(err !== undefined && err.status === 401 && err.data === 'Authorization error') {
@@ -97,70 +103,120 @@ function CustomListItem(props) {
         onClick={() => {
           switch (depth) {
             case 0:
-              isSelected() ?
-                props.initCurTreeLevel1(props.tabId)
+              /*isSelected() ? 
+                props.initCurTreeLevel1(props.tabId)                
               :
                 props.setCurTreeLevel1(props.tabId, getLabel(depth, props));
-              props.setCurTreeLevel2(props.tabId, '');
-              props.setCurTreeLevel3(props.tabId, '');
-              props.setCurTreeLevel4(props.tabId, '');
+                props.setCurTreeLevel2(props.tabId, '');
+                props.setCurTreeLevel3(props.tabId, '');
+                props.setCurTreeLevel4(props.tabId, '');
+                if( props.timelineTab == 1 ) {
+                  props.setTimelineTabIndex(0);
+                }*/
+                props.initCurTreeLevel1(props.tabId);     
+                props.setCurTreeLevel1(props.tabId, getLabel(depth, props));
+                props.setCurTreeLevel2(props.tabId, '');
+                props.setCurTreeLevel3(props.tabId, '');
+                props.setCurTreeLevel4(props.tabId, '');
+                if( props.timelineTab == 1 ) {
+                  props.setTimelineTabIndex(0);
+                }
               break;
             case 1:
-              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              /*props.setCurTreeLevel1(props.tabId, props.parent[0]);
               isSelected() ?
                 props.initCurTreeLevel2(props.tabId)
               :
                 props.setCurTreeLevel2(props.tabId, getLabel(depth, props));
-              props.setCurTreeLevel3(props.tabId, '');
-              props.setCurTreeLevel4(props.tabId, '');
+                props.setCurTreeLevel3(props.tabId, '');
+                props.setCurTreeLevel4(props.tabId, '');
+                if( props.timelineTab == 1 ) {
+                  props.setTimelineTabIndex(0);
+                }*/
+                props.setCurTreeLevel1(props.tabId, props.parent[0]);              
+                props.initCurTreeLevel2(props.tabId);
+                props.setCurTreeLevel2(props.tabId, getLabel(depth, props));
+                props.setCurTreeLevel3(props.tabId, '');
+                props.setCurTreeLevel4(props.tabId, '');
+                if( props.timelineTab == 1 ) {
+                  props.setTimelineTabIndex(0);
+                }
               break;
             case 2:
-              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              /*props.setCurTreeLevel1(props.tabId, props.parent[0]);
               props.setCurTreeLevel2(props.tabId, props.parent[1]);
               isSelected() ?
                 props.initCurTreeLevel3(props.tabId)
               :
                 props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
-              props.setCurTreeLevel4(props.tabId, '');
-
-              props.getComments('collection', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
+                props.setCurTreeLevel4(props.tabId, '');
+                props.getComments('collection', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
+                */
+                props.setCurTreeLevel1(props.tabId, props.parent[0]);
+                props.setCurTreeLevel2(props.tabId, props.parent[1]);
+                props.initCurTreeLevel3(props.tabId);
+                props.setCurTreeLevel3(props.tabId, getLabel(depth, props));
+                props.setCurTreeLevel4(props.tabId, '');
+                props.getComments('collection', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
               break;
             case 3:
-              props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              /*props.setCurTreeLevel1(props.tabId, props.parent[0]);
               props.setCurTreeLevel2(props.tabId, props.parent[1]);
               props.setCurTreeLevel3(props.tabId, props.parent[2]);
               isSelected() ?
                 props.initCurTreeLevel4(props.tabId)
               :
                 props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
-              props.getComments('asset', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
+                props.getComments('asset', getLabel(depth, props)).catch(err => errorProcess({...err}.response));*/
+                props.setCurTreeLevel1(props.tabId, props.parent[0]);
+              props.setCurTreeLevel2(props.tabId, props.parent[1]);
+              props.setCurTreeLevel3(props.tabId, props.parent[2]);
+              props.initCurTreeLevel4(props.tabId);
+              props.setCurTreeLevel4(props.tabId, getLabel(depth, props));
+                props.getComments('asset', getLabel(depth, props)).catch(err => errorProcess({...err}.response));
               break;
             default:
               break;
           }
-          if(props.isOpened) {
+          /*if(props.isOpened) {
             props.setTreeOpen(getLabel(depth, props), !props.isOpened);
             return;
           }
-          props.setTreeOpen(getLabel(depth, props), !props.isOpened);
+          props.setTreeOpen(getLabel(depth, props), !props.isOpened);*/
+          if(!props.isOpened) {
+            props.setTreeOpen(getLabel(depth, props), !props.isOpened);
+            
+          }
           const label = getLabel(depth, props);
+          console.log("depth", depth);
           if(depth === 0) {
-            props.getFilterTimeLine(label,0).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine( label, label, 0 ).catch(err => errorProcess({...err}.response));
           }
           if(depth === 1) {
             props.getCustomersNameCollections(label).catch(err => errorProcess({...err}.response));
-            props.getFilterTimeLine(label,1).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine( props.parent[0], label, 1 ).catch(err => errorProcess({...err}.response));
           }
           if(depth === 2) {
+            console.log("SET:"+label);
+            props.setCurrentCollectionID(label);
+            props.setCurrentAsset('');
             props.getCustomerRFIDAssets(label).catch(err => errorProcess({...err}.response));
-            props.getFilterTimeLine(label,2).catch(err => errorProcess({...err}.response));
+            props.setIllustrationUrl('about:blank');
+            props.getCollectionIllustration(label).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine( props.parent[0], label, 2 ).catch(err => errorProcess({...err}.response));
           }
           if(depth === 3)
           {
+            console.log("3rd level")
             props.setCurrentAsset(label);
+            props.setCurrentCollectionID('');
+            /**Reset iframe */
+            props.setIllustrationUrl('about:blank');
+            /*console.log("In iframe");*/
+            /**Reset iframe */
             props.getAssetsOutsource(label).catch(err => errorProcess({...err}.response));
             props.getAssets(label).catch(err => errorProcess({...err}.response));
-            props.getFilterTimeLine(label,3).catch(err => errorProcess({...err}.response));
+            props.getFilterTimeLine( props.parent[0], label, 3 ).catch(err => errorProcess({...err}.response));
           }
         }}
         style={{display: 'flex'}}
@@ -168,12 +224,7 @@ function CustomListItem(props) {
         {
           depth !== 3 && (props.isOpened ? <ArrowDropDown/> : <ArrowRight/>)
         }
-        <span
-          style={{
-            paddingLeft: depth === 3 ? '1rem' : 0,
-            fontSize: getFontSize()
-          }}
-        >
+        <span>
           { getLabel(depth, props)}
         </span>
       </div>
@@ -191,7 +242,13 @@ function CustomListItem(props) {
     </li>
   )
 }
-
+/**
+ * 
+          style={{
+            paddingLeft: depth === 3 ? '1rem' : 0,
+            fontSize: getFontSize()
+          }}
+ */
 const mapStateToProps = (state, ownProps) => {
   const label = getLabel(ownProps.depth, ownProps);
 
@@ -202,7 +259,8 @@ const mapStateToProps = (state, ownProps) => {
         screenHeight: state.patenTrack.screenHeight,
         screenWidth: state.patenTrack.screenWidth,
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
-        curTree: state.patenTrack.curTree[ownProps.tabId]
+        curTree: state.patenTrack.curTree[ownProps.tabId],
+        timelineTab: state.patenTrack.timelineTab,
       };
     case 1:
       return {
@@ -211,7 +269,8 @@ const mapStateToProps = (state, ownProps) => {
         screenWidth: state.patenTrack.screenWidth,
         child: state.patenTrack.customersNamesCollections[ownProps.name],
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
-        curTree: state.patenTrack.curTree[ownProps.tabId]
+        curTree: state.patenTrack.curTree[ownProps.tabId],
+        timelineTab: state.patenTrack.timelineTab,
       };
     case 2:
       return {
@@ -219,6 +278,7 @@ const mapStateToProps = (state, ownProps) => {
         child: state.patenTrack.customersRFIDAssets[ownProps.rf_id],
         isOpened: state.patenTrack.tree[label] ? state.patenTrack.tree[label] : false,
         curTree: state.patenTrack.curTree[ownProps.tabId],
+        timelineTab: state.patenTrack.timelineTab,
         screenHeight: state.patenTrack.screenHeight,
         screenWidth: state.patenTrack.screenWidth,
       };
@@ -227,12 +287,14 @@ const mapStateToProps = (state, ownProps) => {
         ...ownProps,
         screenHeight: state.patenTrack.screenHeight,
         screenWidth: state.patenTrack.screenWidth,
-        curTree: state.patenTrack.curTree[ownProps.tabId]
+        curTree: state.patenTrack.curTree[ownProps.tabId],
+        timelineTab: state.patenTrack.timelineTab,
       };
     default:
       return {
         screenHeight: state.patenTrack.screenHeight,
-        screenWidth: state.patenTrack.screenWidth
+        screenWidth: state.patenTrack.screenWidth,
+        timelineTab: state.patenTrack.timelineTab,
       };
   }
 };
@@ -242,6 +304,7 @@ const mapDispatchToProps =  {
   getCustomerRFIDAssets,
   getAssetsOutsource,
   setTreeOpen,
+  setCurrentCollectionID,
   setCurrentAsset,
   getAssets,
   getFilterTimeLine,
@@ -254,6 +317,9 @@ const mapDispatchToProps =  {
   initCurTreeLevel3,
   initCurTreeLevel4,
   getComments,
+  setIllustrationUrl,
+  setTimelineTabIndex,
+  getCollectionIllustration,
   signOut
 };
 

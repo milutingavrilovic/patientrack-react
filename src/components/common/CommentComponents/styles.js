@@ -30,14 +30,23 @@ export default makeStyles(theme => ({
   typography: {
     paddingBottom: theme.spacing(1),
     margin: 0,
-    fontSize: '1.075rem',
+    /* fontSize: '1.075rem', */
     wordBreak: 'break-all'
   },
   typographyExpand: {
     paddingBottom: theme.spacing(1),
     margin: 0,
-    fontSize: '1.475rem',
+    /* fontSize: '1.475rem', */
     lineHeight: 1.5,
     wordBreak: 'break-all'
+  },
+  textarea: {
+    width: '100%',
+    backgroundColor: theme.color.background,
+    color: '#bdbdbd',
+    border: 0,
+    resize: 'none',
+    outline: 'none',
+    fontFamily: 'inherit'
   }
 }));

@@ -1,10 +1,15 @@
 import moment from 'moment';
-import assignmentTimeline from './TimeLine1';
+/*import assignmentTimeline from './TimeLine1';*/
 
 function capitalFirstWord (value){
 	const splitWord = value.toLowerCase().split(' ');
 	return splitWord.map( w =>  w.substring(0,1).toUpperCase()+ w.substring(1)).join(' ');
 }
+
+/**
+ * 
+ * @param {Received timeline data from API} result 
+ */
 
 const modifyingData = (result) => {
   /*console.log('result:', result)*/
@@ -31,7 +36,7 @@ const modifyingData = (result) => {
     itemDates = [],
     itemIncrement = 1,
     mainGroup = "";
-
+  (async () => {
     if(result.assignment_assignors.length > 0){
       for(let i = 0; i < result.assignment_assignors.length; i++) {
         let name = result.assignment_assignors[i].normalize_name;
@@ -133,44 +138,17 @@ const modifyingData = (result) => {
           rfID = result.assignment_assignors[i].rf_id;
         }
         if(content.length > 0){
-          //console.log(start);
-          itemDates.push(start.valueOf());
-          /**Add items to group level 2 */
-          /*items2.push({
-            id: itemIncrement,
-            group: groupID,
-            content:  content[0],
-            title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>')  +"</p>",
-            trans_id: result.assignment_assignors[i].id,
-            rf_id: result.assignment_assignors[i].rf_id,
-            start: start,
-            end: end,
-            type: 'point',
-            className: result.className
-          });*/
+          itemDates.push(start.valueOf());   
+
           itemIncrement++;
-          /**Add items to Group Level 3 */
-          /*if(groupID != 'invented') {
-            //console.log("GG",groupID, name);
-            items3.push({
-              id: itemIncrement,
-              group: name,
-              content: name ,
-              title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>')  +"</p>",
-              trans_id: result.assignment_assignors[i].id,
-              rf_id: result.assignment_assignors[i].rf_id,
-              start: start,
-              end: end,
-              type: 'point',
-              className: result.className
-            });
-            itemIncrement++;
-          }*/
+          /**Add items to Group Level 2 */
           items3.push({
             id: itemIncrement,
             group: name,
-            content: name ,
-            title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>')  +"</p>",
+            convey_ty: groupID,
+            content_group: name,
+            content: name.split(' ')[0] ,
+            title: `<div><b>Date:</b> ${startFormatDate} </p><p><b>Type:</b> ${result.assignment_assignors[i].convey_ty} </p><p><b>Assignor:</b> <br/>${content.join('<div style="height:5px;">&nbsp;</div>')} </div>`,
             trans_id: result.assignment_assignors[i].id,
             rf_id: result.assignment_assignors[i].rf_id,
             start: start,
@@ -179,22 +157,25 @@ const modifyingData = (result) => {
             className: result.className
           });
           itemIncrement++;
+          mainGroup = "";
+
           /**Add items to Group Level 1 */
+          /**|| groupID === "correct" */
           if(groupID === "release" || groupID === "security"){
             mainGroup = "main_security";
           } else if(groupID === "invented" || groupID === "employee" ) {
             mainGroup = "main_employer";
-          } else if(groupID === "purchased" || groupID === "invented" || groupID === "merger" || groupID === "employee" || groupID === "mergerout" || groupID === "sale") {
+          } else if(groupID === "purchased" || groupID === "merger" || groupID === "mergerout" || groupID === "sale") {
             mainGroup = "main_ownership";
-          } else if(groupID === "other" || groupID === "namechg" || groupID === "govern" || groupID === "missing" || groupID === "correct") {
+          } else if(groupID === "other" || groupID === "namechg" || groupID === "govern" || groupID === "missing" ) {
             mainGroup = "main_other";
           }
-          if(mainGroup != "") {
+          if(mainGroup != "") {            
             items1.push({
               id: itemIncrement,
               group: mainGroup,
-              content:  content[0] ,
-              title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>')  +"</p>",
+              content:  name.split(' ')[0] ,
+              title: `<div><b>Date:</b> ${startFormatDate} </p><p><b>Type:</b> ${result.assignment_assignors[i].convey_ty} </p><p><b>Assignor:</b> <br/>${content.join('<div style="height:5px;">&nbsp;</div>')} </div>`,
               trans_id: result.assignment_assignors[i].id,
               rf_id: result.assignment_assignors[i].rf_id,
               start: start,
@@ -207,7 +188,7 @@ const modifyingData = (result) => {
         }
       }
     }
-
+    
     if(result.assignment_assignee.length > 0) {
       mainGroup = "";
       groupID = "";
@@ -269,28 +250,18 @@ const modifyingData = (result) => {
         }
         if(content.length > 0){
           itemDates.push(start.valueOf());
-          /**Add items to group level 2 */
-          /*items2.push({
-            id: itemIncrement,
-            trans_id: result.assignment_assignee[i].id,
-            rf_id: result.assignment_assignee[i].rf_id,
-            group: groupID,
-            content:  content[0] ,
-            title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>') +"</p>",
-            start: start,
-            end: end,
-            type: 'point',
-            className: result.className
-          })
-          itemIncrement++;*/
-          /**Add items to Group Level 3 */
+
+          itemIncrement++;         
+          /**Add items to Group Level 2 */
           items3.push({
             id: itemIncrement,
             trans_id: result.assignment_assignee[i].id,
             rf_id: result.assignment_assignee[i].rf_id,
             group: name,
-            content: content[0] ,
-            title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>') +"</p>",
+            convey_ty: groupID,
+            content_group: name,
+            content: name.split(' ')[0] ,
+            title: `<div><b>Date:</b> ${startFormatDate} </p><p><b>Type:</b> ${result.assignment_assignee[i].convey_ty} </p><p><b>Assignee:</b> <br/>${content.join('<div style="height:5px;">&nbsp;</div>')} </div>`,
             start: start,
             end: end,
             type: 'point',
@@ -298,22 +269,23 @@ const modifyingData = (result) => {
           })
           itemIncrement++;
   
-          /**Add items to Group Level 1 */
+          /**Add items to Group Level 1   
+           * || groupID === "correct"*/
           if(groupID === "release" || groupID === "security"){
             mainGroup = "main_security";
           } else if(groupID === "invented" || groupID === "employee" ) {
             mainGroup = "main_employer";
           } else if(groupID === "purchased" || groupID === "invented" || groupID === "merger" || groupID === "employee" || groupID === "mergerout" || groupID === "sale") {
             mainGroup = "main_ownership";
-          } else if(groupID === "other" || groupID === "namechg" || groupID === "govern" || groupID === "missing" || groupID === "correct") {
+          } else if(groupID === "other" || groupID === "namechg" || groupID === "govern" || groupID === "missing") {
             mainGroup = "main_other";
           }
-          if(mainGroup != "") {
+          if(mainGroup != "") { 
             items1.push({
               id: itemIncrement,
               group: mainGroup,
-              content: content[0],
-              title: "<p>Date: "+startFormatDate+"<br/>"+  content.join('<br/>')+"</p>",
+              content: name.split(' ')[0],
+              title: `<div><b>Date:</b> ${startFormatDate} </p><p><b>Type:</b> ${result.assignment_assignee[i].convey_ty} </p><p><b>Assignee:</b> <br/>${content.join('<div style="height:5px;">&nbsp;</div>')} </div>`,
               trans_id: result.assignment_assignee[i].id,
               rf_id: result.assignment_assignee[i].rf_id,
               start: start,
@@ -334,8 +306,8 @@ const modifyingData = (result) => {
   groups.push(
     {
       id: group1,
-      title: "Employer",
-      content: "Employer",
+      title: "Employees",
+      content: "Employees",
     },
     {
       id: group2,
@@ -353,6 +325,8 @@ const modifyingData = (result) => {
       content: "Other",
     }
   );
+  /** Checking group level2 to show nesting for group level 1*/
+
   if(invented.length > 0 || employee.length > 0) {
     groups[0]['nestedGroups'] = [];
     groups[0]['showNested'] = false;
@@ -380,7 +354,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'invented'
       });
       groups[0].nestedGroups.push(rfID);
       rfID += 1;
@@ -393,7 +368,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'employee'
       });
       groups[0].nestedGroups.push(rfID);
       rfID += 1;
@@ -406,7 +382,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'merger'
       });
       groups[1].nestedGroups.push(rfID);
       rfID += 1;
@@ -419,7 +396,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'mergerout'
       });
       groups[1].nestedGroups.push(rfID);
       rfID += 1;
@@ -433,7 +411,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'purchased'
       });
       groups[1].nestedGroups.push(rfID);
       rfID += 1;
@@ -446,7 +425,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'sale'
       });
       groups[1].nestedGroups.push(rfID);
       rfID += 1;
@@ -459,7 +439,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'security'
       });
       groups[2].nestedGroups.push(rfID);
       rfID += 1;
@@ -472,7 +453,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'release'
       });
       groups[2].nestedGroups.push(rfID);
       rfID += 1;
@@ -485,7 +467,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'govern'
       });
       groups[3].nestedGroups.push(rfID);
       rfID += 1;
@@ -514,7 +497,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'missing'
       });
       groups[3].nestedGroups.push(rfID);
       rfID += 1;
@@ -528,7 +512,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'other'
       });
       groups[3].nestedGroups.push(rfID);
       rfID += 1;
@@ -541,7 +526,8 @@ const modifyingData = (result) => {
       groups3.push({
         id: rfID,
         treeLevel: 2,
-        content: item
+        content: item,
+        convey_ty: 'namechg'
       });
       groups[3].nestedGroups.push(rfID);
       rfID += 1;
@@ -549,8 +535,8 @@ const modifyingData = (result) => {
   }
 
   /** Updating Group ID */
-//console.log("Items Before Updating",...items3);
-  (async () => {
+  /*console.log("Items Before Updating",...items1);*/
+  
     await items1.forEach( async ( item, index) => {
       let groupID = 0;
       switch(item.group){       
@@ -569,43 +555,45 @@ const modifyingData = (result) => {
       }
       items1[index].group = groupID;
     });
-
+    /*await console.log("Items Before Update",...items1);
     //console.log("PURCHASED",purchaseID);
-    //await console.log("Items After Update",...items2);
+    await console.log("Items Before Update",...items3);*/
 
     if(groups3.length > 0){
       //console.log("Items3 Before Update",...groups3);
       /*console.log("Items Before Update",...items3);*/
       for(let k = 0 ; k < groups3.length; k++) {
         for(let l = 0; l < items3.length; l++) {
-          if(items3[l].group === groups3[k].content) {
+          if(items3[l].content_group === groups3[k].content && items3[l].convey_ty === groups3[k].convey_ty) {
             items3[l].group = groups3[k].id;
           }
         }
       }
-      //console.log("Items3 After Update",...items3);
-      /*await groups3.forEach( grpItem => {
-        var objGroupindex = items3.map((e,i) => e.group === grpItem.content ? i : undefined).filter(x => x);
+      
+      /*await groups3.forEach( async grpItem => {
+        var objGroupindex = await items3.map((e,i) => (e.content_group === grpItem.content && grpItem.convey_ty == e.convey_ty) ? i : undefined).filter(x => x);
         if(objGroupindex.length > 0){
           objGroupindex.forEach( i => {
             items3[i].group = grpItem.id;
           });
         }
       });*/
+      /*await console.log("Items3 After Update",...items3);
+      await console.log(groups, groups3);*/
     }
 
   })();
-  if(groups3.length > 0){
+  /*if(groups3.length > 0){
     groups3.forEach( grpItem => {
       var objGroupindex = items3.map((e,i) => e.group === grpItem.content ? i : undefined).filter(x => x);
+      console.log("adada",...objGroupindex);
       if(objGroupindex.length > 0){
         objGroupindex.forEach( i => {
           items3[i].group = grpItem.id;
         });
       }
     });
-  }
-
+  }*/
   /*console.log(groups, groups3,  rfID, items1, items3, itemDates);*/
   return {
     groups,

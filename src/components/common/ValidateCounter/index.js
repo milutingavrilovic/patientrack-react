@@ -4,6 +4,14 @@ import useStyles from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
 import 'font-awesome/css/font-awesome.min.css';
 import Loader from "../Loader";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+
 import { getValidateCounter } from "../../../actions/patenTrackActions";
 import classnames from 'classnames';
 
@@ -13,7 +21,7 @@ function ValidateCounter(props) {
   const isExpanded = props.currentWidget === 'validateCounter';
   const {valid, application, encumbered} = props.validateCounter;
 
-  const getFontSize = () => {
+  const getFontSizes = () => {
     if(props.screenHeight < 500 || props.screenWidth < 992)
       return 8;
     if(props.screenHeight < 600 || props.screenWidth < 1092)
@@ -27,7 +35,7 @@ function ValidateCounter(props) {
 
   return (
     <div
-      className={classes.validateContainer}
+      className={`info-box ${classes.validateContainer}`}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
@@ -39,35 +47,57 @@ function ValidateCounter(props) {
           ?
             <Loader/>
           :
-            <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>
-              <table
-                className={isExpanded ? classes.bodyExpand : classes.body}
-                style={{
-                  fontSize: getFontSize(),
-                }}
-              >
-                <tbody>
-                  <tr className={classes.listItem}>
-                    <td className={classes.gridItem}>{'Valid: '}</td>
-                    <td className={classnames(classes.gridItem, classes.value)}>
-                      {valid && valid.countValid}
-                    </td>
-                  </tr>
-                  <tr className={classes.listItem}>
-                    <td className={classes.gridItem}>{'Applicaton: '}</td>
-                    <td className={classnames(classes.gridItem, classes.value)}>
+          <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>            
+            <TableContainer component={Paper}>
+              <Table className={`head_box_table  ${classes.table}`} size="small" aria-label="a dense table">
+                <TableBody>                    
+                  <TableRow key={1}>
+                    <TableCell align="center" colSpan={2} >
+                      <Typography variant="h2" component="h2" className={"red"}>
+                        {`Assets: 35,465`}
+                      </Typography>                      
+                    </TableCell>
+                  </TableRow>
+                  <TableRow key={2}>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                        {'Valid: '}
+                        </Typography>
+                      </TableCell>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"red"} align="right">
+                        {valid && valid.countValid}
+                        </Typography>
+                      </TableCell>
+                  </TableRow>
+                  <TableRow key={3}>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                      {'Applicaton: '}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"red"} align="right">
                       {application && application.countApplication}
-                    </td>
-                  </tr>
-                  <tr className={classes.listItem}>
-                    <td className={classes.gridItem}>{'Encumbered: '}</td>
-                    <td className={classnames(classes.gridItem, classes.value)}>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow key={4}>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"white"} align="left">
+                      {'Encumbered: '}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6" component="h6" className={"red"} align="right">
                       {encumbered && encumbered.countSecurity}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         }
       </div>
       <FullWidthSwitcher show={showSwitcher} widget={"validateCounter"}/>

@@ -46,7 +46,7 @@ export default makeStyles((theme) => ({
     width: 25,
     height: 25,
     margin: 2,
-    fontSize: 12,
+    /* fontSize: 12, */
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
@@ -57,7 +57,7 @@ export default makeStyles((theme) => ({
     cursor: 'pointer'
   },
   outsource: {
-    fontSize: '1.2rem',
+    /* fontSize: '1.2rem', */
     border: 0,
     width: '100%',
     height: '100%',

@@ -31,19 +31,19 @@ export default makeStyles((theme) => ({
     alignItems: 'center'
   },
   heading: {
-    fontSize: '1.2rem',
+    /* fontSize: '1.2rem', */
     lineHeight: 'normal',
     color: theme.color.lightGray,
-    padding: '0.375rem 0.375rem 0',
-    fontWeight: 700,
+    /* padding: '0.375rem 0.375rem 0',
+    fontWeight: 700, */
     alignSelf: 'center'
   },
   headingExpand: {
-    fontSize: '3rem !important',
+    /* fontSize: '3rem !important', */
     lineHeight: 'normal',
     color: theme.color.lightGray,
-    padding: '0.75rem 0.75rem 0',
-    fontWeight: 700,
+    /* padding: '0.75rem 0.75rem 0',
+    fontWeight: 700, */
     alignSelf: 'center'
   },
   scrollbar: {
@@ -71,11 +71,10 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     color: '#d6d6d6',
-    fontSize: '1.2019rem',
     padding: '0.375rem 0 0 0.375rem !important',
     margin: 0,
     fontStyle: 'normal',
-    fontWeight: 400,
-    lineHeight: 1.5
+    /* fontWeight: 400,
+    lineHeight: 1.5 */
   }
 }));

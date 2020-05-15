@@ -50,7 +50,7 @@
       }
 
       #container .thead {
-        text-anchor: end;
+        text-anchor: start;
         font-size: 11px;
 		fill:#bdbdbd;
       }
@@ -66,13 +66,13 @@
 
       #container .btext {
         font-size: 14px;
-		fill: #bdbdbd;
+        fill: #bdbdbd;
         font-weight: bold;
       }
 
       #container .btext2 {
         font-size: 12px;
-		fill: #bdbdbd;
+        fill: #bdbdbd;
       }
 
       #container .btext2 .active {
@@ -126,6 +126,9 @@
         background: #fff;
         z-index: 999;
         font-size: 12px;
+		background-color: #222;
+        box-shadow: 5px 5px 3px -3px rgba(120,120,120,.3);
+        border: 1px solid #404040;
       }
 
       .box-menu-tooltip > div,
@@ -137,8 +140,12 @@
         margin: 10px;
         position: relative;
         min-width: 190px;
+		border: 0px;
+        color: #bdbdbd;
       }
-
+	 .popup > div > table {
+        background-color: #222;
+      }
       .box-menu-tooltip > div {
         width: 400px;
       }
@@ -166,7 +173,7 @@
 
       .popup > div > label.prop {
         cursor: pointer;
-        color: #0057e7;
+        color: #dc143c;
       }
 
       #box-menu-close-btn {
@@ -231,12 +238,15 @@
       }
 
       .ui-slider-horizontal {
-        height: 0.4em;
+        height: 0.1em;
       }
 
       .ui-slider .ui-slider-handle {
-        height: 0.8em;
-        width: 0.8em;
+        /*height: 0.8em;
+        width: 0.8em;*/
+		border-radius: 10px;
+        width: 10px;
+        height: 10px;
       }
 
       #menu-button {
@@ -246,8 +256,8 @@
 
       .buttons {
         position: fixed;
-        top: 104px;
-        left: 30px;
+        top: 72px;
+        left: 45px;
         width: 138px;
         z-index: 10;
       }
@@ -258,6 +268,7 @@
         height: 28px;
         margin-right: 4px;
         margin-bottom: 4px;
+		background: #bdbdbd;
       }
 
       .buttons2 {
@@ -298,25 +309,28 @@
 
       .popup-comment > div {
         margin: 50px auto 0;
-        background: #000000;
+        background: #222;
         height: 230px;
         width: 400px;
         padding: 10px;
+		border: 1px solid #bdbdbd;
       }
 
       .popup-comment textarea {
-        width: 360px;
+        width: 100%;
         resize: none;
         height: 200px;
-        margin: 15px;
+        margin: 15px 0px;
         box-sizing: border-box;
         padding: 10px;
         font-family: "Roboto", sans-serif;
         line-height: 1.15;
-        background:#000000;
+		background:#222;
         color:#bdbdbd;
+        border: 0px;
+        outline: none;
         /*pointer-events: none;*/
-      }
+		}
 
       .popup-comment a {
         font-size: 13px;
@@ -429,6 +443,13 @@
         stroke-width: 3px;
         fill: none;
       }
+	.ui-widget.ui-widget-content{
+        border: 1px solid #bdbdbd;
+        background: #bdbdbd;
+      }
+      .ui-state-default, .ui-widget-content .ui-state-default{
+        border: 1px solid #bdbdbd;
+      }
 	.tab_btn{
         cursor: pointer;
         padding: 18px 10px;
@@ -440,15 +461,15 @@
         margin-right: 5px;
         color:#2d2d2d;
         text-decoration: none;
-      }
-      .tab_btn.active{
-        background-color: #2196f3;
-        color: #EEE;
-      }
-      .tab_btn.aform{margin-left:13px;}
-      #menu-toggle{color:#bdbdbd;}
-      .menu-contents, .top-bar{background: #000000 !important;color:#bdbdbd !important;}
-      .ui-state-default, .ui-widget-content .ui-state-default{background: #000000 !important;}
+	}
+	.tab_btn.active{
+	background-color: #2196f3;
+	color: #EEE;
+	}
+	.tab_btn.aform{margin-left:13px;}
+	#menu-toggle{color:#bdbdbd;}
+	.menu-contents, .top-bar{background: #000000 !important;color:#bdbdbd !important;}
+	.ui-state-default, .ui-widget-content .ui-state-default{background: #000000 !important;}
     </style>
   </head>
 
@@ -467,10 +488,10 @@
     var menuReveal = 0;
     var researchModeActive = 0;
     var researchModeWidth = 600;  
-
 	var menuToggle = 0;
 	var rawstring = null;
-	let currentURLHash = window.location.hash;
+  let currentURLHash = window.location.hash;
+  document.domain = "patentrack.com";
 	if(currentURLHash.indexOf('#share') >= 0) {
 		document.domain = "patentrack.com";
 		checkButton();
@@ -582,6 +603,7 @@
       rawstring = data;
       document.getElementById("container").innerHTML = '';
       let background = (typeof data.general.background != undefined) ? data.general.background : '#000000';
+
       d3.select("body").style("background-color", background);
       var inventors = 0;
       var inventorCount = 0;
@@ -2046,6 +2068,10 @@
               tEntry.items[tEntry.items.length - 1].execution_date
             ) {
               n.subCol = tEntry.items[tEntry.items.length - 1].subCol + 1;
+              if (tEntry.items[tEntry.items.length - 1].type === "Inventor" && n.type !== "Inventor" && n.type !== "3rdParties") {
+                n.subCol = 1
+                c.push(n.execution_date);
+              }
             }
           } else {
             n.subCol = 1;
@@ -2108,6 +2134,7 @@
         tEntry.items.push(n);
       });
 
+
       data.box.forEach(function(n) {
         if (
           (n.step = -1 && n.execution_date != null && n.execution_date != "")
@@ -2160,37 +2187,16 @@
             }
           }
         })
-        /* if (t[2].items.length >= 1) {
-        ownershipt = t[0].leftPad + d3.max(t[0].items, function(v) {
-          return v.subCol
-        }) * t[0].subWidth * (t[0].items.length > 0 ? 1 : 0) + t[2].leftPad + t[2].items[0].subCol * t[0].subWidth + t[0].subWidth / 2;
+        /*if (inventors >= 4) {
+          ownershipt = 90 + 4 * 260 * (t[0].items.length > 0 ? 1 : 0)
         } else {
-        ownershipt = t[0].leftPad + d3.max(t[0].items, function(v) {
-          return v.subCol
-        }) * t[0].subWidth * (t[0].items.length > 0 ? 1 : 0) + t[2].leftPad + t[0].subWidth / 2;
-        } */
-        if (inventors === 4) {
           ownershipt = 50 + d3.max(t[0].items, function(v) {
           return v.subCol
         }) * 240 * (t[0].items.length > 0 ? 1 : 0)
-        } else {
-          if (inventors > 5) {
-          ownershipt = 70 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
-          } else {
-            if (inventors === 3) {
-              ownershipt = 90 + 3 * 240 * (t[0].items.length > 0 ? 1 : 0)
-            } else {
-              if (inventors === 5) {
-                ownershipt = 90 + 5 * 240 * (t[0].items.length > 0 ? 1 : 0)
-              } else {
-                ownershipt = 90 + 3 * 240 * (t[0].items.length > 0 ? 1 : 0)
-              }
-            }
-          }
-          
-        }
+        } */
+        ownershipt = 1100;
         var column3
-              var inventorBlankDates = Math.ceil((inventors-5)/5)
+              var inventorBlankDates = Math.ceil((inventors-4)/4)
       for (let i = 0; i < inventorBlankDates; i++) {
         c.splice( 1, 0, "");
       }
@@ -2205,10 +2211,11 @@
       }
       global_height -= 80;
       global_width = d3.max([et, ownershipt]) + 40 + u.right;
+      global_width = 1060;
       if (global_width < window.innerWidth - 190) {
         global_width = window.innerWidth - 190;
-
       } 
+      
       (w = container
         .append("svg")
         .attr("width", global_width)
@@ -2220,7 +2227,7 @@
         (o = w.append("g")),
         (r = w.append("g"));  
       bm = w.append("g")
-
+      console.log('global_width', global_width)
       colorOptions.forEach(function(n, t) {
         wt.append("marker")
           .attr("id", "end" + t)
@@ -2253,8 +2260,9 @@
       */
       
 
-      b = 70;
+      b = 4;
       st = 0;
+      
       t.forEach(function(n, index) { 
         if (n.id === 0) {
           tlineDist = 95;
@@ -2283,29 +2291,30 @@
          addRows = false
 
         n.items.forEach(function(m, index) {
-          
+
           
           if (m.type === "Inventor") {
-            
             inventorCount += 1
             
-            if (inventorCount >= 6) {
+            if (inventorCount >= 5) {
               inventorCount = 1
               addRows = true
               inventorY += 120
             }
-            if (inventorCount >= 6 && inventorX !== 0) {
+            if (inventorCount >= 5 && inventorX !== 0) {
               inventorCount = 1
               inventorY += 120
             }
+
             if (addRows === true) {
-              inventorX = (inventorCount -3) * 480 + (inventorY/120)*(5*240)
+              inventorX = (inventorCount -2.5) * 520 + (inventorY/120)*(4*260)
             }
+            
           }
 
           m.x = b + n.leftPad + (m.subCol - 1) * n.subWidth + n.subWidth / 2;
           if (m.type === "Inventor" && inventors > 3) {
-            m.x = b + 50 + (m.subCol - 1) * 240 + 240 / 2 - inventorX
+            m.x = b + 40 + (m.subCol - 1) * 260 + 260 / 2 - inventorX
           } 
           
           if (
@@ -2315,9 +2324,9 @@
               m.recorded_date == null ||
               m.recorded_date == "")
           ) {
-            //m.x = b + n.leftPad + n.subWidth + n.subWidth / 2;
+            m.x = 570 + n.leftPad + n.subWidth + n.subWidth / 2;
             
-            maxX = 0
+            /* maxX = 0
             t.forEach(function(v, index) {
               if (index < 2) {
               v.items.forEach(function(w) {
@@ -2327,15 +2336,15 @@
                 }
               })
               }
-
             })
+            
             if (maxX > m.x) {
               m.x = maxX
-            }
- 
+            } */
+
             var inventorsYY = 0
-            if (inventors > 5) {
-              inventorsYY = Math.floor(1 + (inventors - 6)/3)
+            if (inventors > 4) {
+              inventorsYY = Math.floor(1 + (inventors -5)/3) 
             }
 
             m.y = t[0].subHeight + 
@@ -2425,20 +2434,22 @@
 
             if (m.type === "Inventor") {
               m.y =
-              c.lastIndexOf(m.execution_date) * t[0].subHeight +
+              c.indexOf(m.execution_date) * t[0].subHeight +
               t[0].subHeight / 2 + inventorY;
             }
 
             //sif (m.type )
 
             if (!(m.type === "Inventor" && addRows)) {
+              if (m.subCol === 1) {
             o.append("line")
               .attr("class", "tline")
               .datum(m)
-              .attr("x1", 70)
+              .attr("x1", 4)
               .attr("y1", m.y)
               .attr("x2", m.x - tlineDist)
               .attr("y2", m.y);
+              }
             }
             
 
@@ -2483,8 +2494,8 @@
                 boxmenuNEW(d, boxX, boxY);
               });
 
-            if (m.name.length <= 22 || m.type === "Inventor") {
-              if (m.type !== "Inventor" || m.name.length <= 22) {
+            if (m.name.length <= 24 || m.type === "Inventor") {
+              if (m.type !== "Inventor" || m.name.length <= 24) {
                 r.append("text")
                   .attr("class", "btext")
                   .datum(m)
@@ -2492,13 +2503,18 @@
                   .attr("y", m.y - 8)
                   .text(m.name);
               } else {
-                h = m.name.substr(0, 22).lastIndexOf(" ");
-                                r.append("text")
+                console.log('m.name', m.name)
+                
+                h = m.name.substr(0, 24);
+                if (h.slice(-1) == " ") {
+                  h = h.slice(0,-1)
+                }
+                r.append("text")
                   .attr("class", "btext")
                   .datum(m)
                   .attr("x", m.x - (s ? 65 : 84))
                   .attr("y", m.y - 8)
-                  .text(m.name.substr(0, h) + "...");
+                  .text(h + "...");
               }
 
             } else {
@@ -2545,21 +2561,23 @@
                 .style("cursor", "pointer")
                 .on("click", function() {
                   var pdf_height = window.innerHeight - 100;
-                  if(typeof window.parent != "undefined" && typeof window.parent.openPatentWindow == "function"){
+				if(typeof window.parent != "undefined" && typeof window.parent.openPatentWindow == "function"){
                     window.parent.openPatentWindow(m.document);
-                  } else {
-                    var info =
+                  } else {	
+
+                  var info =
                     "<iframe style='background-color: white;' class='pdf-container' src='" +
                     m.document +
                     "' width='620px' height='" +
                     pdf_height +
                     "px' /><\/iframe>";
 
-                    pdf_frame.html(info);
-                    pdf.style("display", "inline");
-                    pdfClose.style("left", "638px");
-                    d3.select(".popup").style("right", "620px");
-                  }
+                  pdf_frame.html(info);
+                  pdf.style("display", "inline");
+                  pdfClose.style("left", "638px");
+                  d3.select(".popup").style("right", "620px");
+				}
+
                   //pdf_bg.style("display", "inline");
                 });
             }
@@ -2575,8 +2593,8 @@
         o.append("text")
           .attr("class", "thead")
           .datum(n)
-          .attr("x", 60)
-          .attr("y", (i + 0.5) * t[0].subHeight)
+          .attr("x", 14)
+          .attr("y", (i + 0.5) * t[0].subHeight- 10) 
           .attr("dy", "0.32em")
           .text(n.replace("d", ""));
 
@@ -2584,7 +2602,7 @@
           o.append("text")
             .attr("class", "thead2")
             .datum(n)
-            .attr("x", 85)
+            .attr("x", 14)
             .attr("y", i * t[0].subHeight)
             .attr("dy", "0.32em")
             .text((new Date(n) - new Date(c[i - 1])) / ft + " days");
@@ -2773,14 +2791,14 @@
               if (t.mainCol === 3 && t.recorded_date === "") {
                 margin = [95, 160, 10, 5];
               } else {
-                margin = [95, 145, 30, 10]; // <<<<
+                margin = [95, 155, 30, 10]; // <<<<
               }
               e.push([t.x - margin[0], t.y - margin[2] + slotLeft * margin[3]]);
               e.push([t.x - margin[1], t.y - margin[2] + slotLeft * margin[3]]);
-              e.push([i.x + 145, i.y - 30 + slotRight * 10]);
+              e.push([i.x + 115, i.y - 30 + slotRight * 10]);
               e.push([i.x + 95, i.y - 30 + slotRight * 10]);
             }
-            if (t.x < i.x) {
+            if (t.x < i.x && t.type !== "Inventor") {
               var maxSlotLeft = i.connectLeft_short.length;
               var maxSlotRight = t.connectRight_short.length;
               i.connectLeft_short.forEach(function(v, i) {
@@ -2813,13 +2831,36 @@
               if (i.mainCol === 3 && i.recorded_date === "") {
                 margin = [95, 160, 10, 5];
               } else {
-                margin = [95, 145, 30, 10];
+                margin = [95, 155, 30, 10]; // 10 on bottom
               }
               e.push([t.x + 95, t.y - 30 + slotRight * 10]);
-              e.push([t.x + 145, t.y - 30 + slotRight * 10]);
+              e.push([t.x + 115, t.y - 30 + slotRight * 10]); // 30 on top
               e.push([i.x - margin[1], i.y - margin[2] + slotLeft * margin[3]]);
               e.push([i.x - margin[0], i.y - margin[2] + slotLeft * margin[3]]);
             }
+            if (t.x < i.x && t.type === "Inventor") {
+              var maxSlotLeft = i.connectLeft_short.length;
+
+              i.connectLeft_short.forEach(function(v, i) {
+                if (n.date === v) {
+                  tmp_slot = i;
+                  if (tmp_slot >= 6) {
+                    tmp_slot = 6;
+                  }
+                  if (maxSlotLeft <= 5) {
+                    slotLeft = tmp_slot + 1;
+                  } else {
+                    slotLeft = tmp_slot;
+                  }
+                }
+              });
+
+              e.push([t.x, t.y+36]);
+              e.push([t.x, t.y+56]);
+              e.push([i.x, i.y-76]);
+              e.push([i.x, i.y-36]);
+            }
+
             if (t.x > i.x && t.type === "Inventor") {
               var maxSlotRight = i.connectRight_short.length;
 
@@ -3186,8 +3227,11 @@
         .attr("id", "menu-contents")
         .style("width", "180px")
         .style("height", global_height - 40 + "px")
-        .style("top", "40px")
-        .style("left", "0px");
+        /*.style("top", "40px")
+        .style("left", "0px");*/
+		.style("top", "4px")
+		.style("z-index", 9999)
+        .style("left", "20px");
 
       /* l.append("div")
         .style("top", "40px")
@@ -3260,7 +3304,8 @@
         .style("top", "8px")
         .style("left", "266px")
         .style("position", "absolute")
-        .style("font-size", "22px");
+		.style("text-decoration", "underline")
+        .style("font-size", "16px");
 
       menu_contents
         .append("label")
@@ -3444,6 +3489,32 @@
         .style("left", "58px")
         .style("position", "absolute")
         .style("font-size", "12px");
+		if(typeof window.parent != "undefined"  && typeof window.parent.shareIllustration == "function") {
+        menu_comment_button = menu_contents
+        .append("a")
+        .attr("href", "javascript:void(0)")
+        .style("position", "absolute")
+        .style("top", "605px")
+        .style("left", "32px")
+        .attr("class", "fa fa-share-alt")
+        .style("color","#bdbdbd")
+        .style("width", "20px")
+        .style("height", "20px")
+        .style("text-decoration", "none")
+        .style("cursor", "pointer")
+        .on("click", function() {
+          /*shareURL*/
+          console.log("SHARE...");
+          window.parent.shareIllustration(data.general.original_number);
+        });  
+        menu_contents
+        .append("text")
+        .text("Share")
+        .style("top", "608px")
+        .style("left", "58px")
+        .style("position", "absolute")
+        .style("font-size", "12px");
+	}
 
       e = f.length - 1;
 
@@ -3600,18 +3671,6 @@
       /*
       LEGEND DEFINITION:
       */
-      var legendHeight = data.legend.length * 18 + 12;
-      var legendSVG = menu_contents
-        .append("svg")
-        .style("top", "446px")
-        .style("left", "40px")
-        .style("position", "fixed")
-        .attr("class", "legend-svg")
-        .attr("height", legendHeight)
-        .attr("width", 108)
-        .append("g")
-        .attr("transform", "translate(" + legendHeight / 2 + "," + 200 + ")");
-
       menu_contents
         .append("text")
         .text("Line Color:")
@@ -3713,28 +3772,48 @@
 				}
 			});
 	pdfAgreement = pdf.append("a")
-			.attr("href", "javascript://")
-			.attr("class","tab_btn aagreement")
-			.text("Agreement")
-			.on("click", () => {
-				const btnAgreement = document.getElementsByClassName('aagreement')[0];
-				const btnForm = document.getElementsByClassName('aform')[0];
-				btnForm.classList.remove('active');
-				if(btnAgreement.classList.contains('active') == false){
-				  btnAgreement.classList.add("active");
-				  openPDF("agreement");
-				} else {
-				  btnAgreement.classList.remove('active');
-				  openPDF("");
-				}                    
-			});
+		.attr("href", "javascript://")
+		.attr("class","tab_btn aagreement")
+		.text("Agreement")
+		.on("click", () => {
+			const btnAgreement = document.getElementsByClassName('aagreement')[0];
+			const btnForm = document.getElementsByClassName('aform')[0];
+			btnForm.classList.remove('active');
+			if(btnAgreement.classList.contains('active') == false){
+			  btnAgreement.classList.add("active");
+			  openPDF("agreement");
+			} else {
+			  btnAgreement.classList.remove('active');
+			  openPDF("");
+			}                    
+		});
       pdf_frame = pdf.append("div").attr("class", "pdf-frame");
 
       a.html(
-        "<div id='popup-comment-container'><span class='ui-icon ui-icon-close' id='close-btn'></span><textarea id='popup-comment-textarea'></textarea></div>"
+        "<div id='popup-comment-container'><span class='ui-icon ui-icon-close' id='close-btn'></span><textarea id='popup-comment-textarea' ></textarea></div>"
       );
-      d3.select("#popup-comment-textarea").style("width", "370px");
+      d3.select("#popup-comment-textarea")
 
+		.on("keyup", () => {
+          if(typeof window.parent != "undefined" && typeof window.parent.saveComment == "function"){
+            // Clear the timeout if it has already been set.
+            clearTimeout(timeout);
+            // Make a new timeout set to go off in 1000ms (1 second)
+            timeout = setTimeout( () => {
+              let input = document.getElementById('popup-comment-textarea');
+              console.log(input.value);
+              (async () => {
+                let updated = await window.parent.saveComment( data.comment, input.value, 'asset', data.general.original_number );
+                  console.log("updated",updated);
+                  if(updated === true) {
+                    console.log("SAVEDDD");
+                    data.comment = input.value;
+                    document.querySelector("#popup-comment-container").querySelector(".ui-icon-close")[0].click();
+                  }
+              })();
+            }, 1000);
+          }
+        });
 	function openPDF( t ) {
         console.log(t);
         const container = document.querySelector('.pdf-popup');
@@ -3757,8 +3836,7 @@
 			}
         }
 	}
-
-      //document.getElementById("popup-comment-textarea").value = data.comment;
+	//document.getElementById("popup-comment-textarea").value = data.comment;
 
       d3.select("#close-btn")
         .style("cursor", "pointer")
@@ -4059,6 +4137,7 @@
 
 
       function zoomFunction() {
+        console.log('zoom')
         //var element = document.querySelector("svg");
         //element.style.zoom = sval3;
         d3.select("svg")
@@ -4418,7 +4497,7 @@
         sval3 = initZoom;
         zoomFunction();
       });
-      zoomFunction();
+      //zoomFunction();
       var left_press = false;
       var right_press = false;
       var a_press = false;
@@ -4495,7 +4574,6 @@
           }
         });
       //blink();
-
     }
   </script>
 </html>

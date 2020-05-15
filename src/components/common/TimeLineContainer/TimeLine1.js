@@ -1,7 +1,8 @@
 import moment from 'moment';
-/*import { Timeline, DataSet } from "vis-timeline/standalone";*/
-import vis from "vis";
-import Timeline from 'react-visjs-timeline';
+import { Timeline, DataSet } from "vis-timeline/standalone";
+/*import "vis-timeline/styles/vis-timeline-graph2d.css";*/
+/*import vis from "vis";
+import Timeline from 'react-visjs-timeline';*/
 import {base_api_url} from "../../../config/config";
 import axios from 'axios';
 
@@ -15,6 +16,7 @@ let cloneTimelineItems1 = [],
     itemDetails,
     currentItemID = 0,
     closeHover = 1;
+  var timeline;
 
 export default function assignmentTimeline(groups1, groups3, items1,  items3, itemDates) {
   // DOM element where the Timeline will be attached
@@ -32,27 +34,31 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   }
   let startDay = moment().startOf("month").startOf("week").isoWeekday(1);
 
-  // create a data set with groups
-  let groups = new vis.DataSet();
+  /*console.log(groups1);
+  console.log(groups3);
+  console.log(items1);
+  console.log(items1);*/
 
-  groups.add(groups1);
-  groups.add(groups3);
+  // create a data set with groups
+  let groups = new DataSet();
+
+  const newGroups = [...groups1, ...groups3];
+
+  newGroups.forEach(group => groups.add(group));
 
   /*console.log('groups', groups);*/
 
   // create a dataset with items
-  let items = new vis.DataSet();
+  let items = new DataSet();
   items1.forEach(item => items.add(item));
 
   let min = new Date(Math.min(...itemDates));
   let max = new Date(Math.max(...itemDates));
-  min = moment(min).clone().subtract(1, 'year');
-  max = moment(max).clone().add(2, 'year');
+  min = moment(min).clone().subtract(4, 'months');
+  max = moment(max).clone().add(3, 'year');
 
-  // specify options
+  // specify options alignCurrentTime
   let options = {
-    start: startDay.toDate(),
-    end: new Date(1000 * 60 * 60 * 24 + (new Date()).valueOf()),
     horizontalScroll: true,
     zoomKey: 'ctrlKey',
     orientation: 'both',
@@ -62,51 +68,37 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
     tooltip: {
       followMouse: true,
       overflowMethod: 'cap'
-    },
-    /*groupHeightMode: "auto",
-		zoomFriction: 60,
-		maxHeight: parentHeight +"px",*/
-		minHeight: parentHeight +"px",
-    /*minHeight: "100%",*/
+    },  
+    height: parentHeight+'px', 
+    zoomFriction: 60,
+    groupHeightMode: "fixed", /**['auto', 'fixed', 'fitItems'] */
     verticalScroll: true,
-    onInitialDrawComplete: function(){
-      setTimeout(checkTimeLineHeight,300);
-    }
-
   };
+
+  /**
+   * Destroy timeline if already created before
+   */
+  if(typeof timeline != "undefined"){
+    timeline.destroy();
+  }
   // create a Timeline
   /*console.log(groups.getIds());*/
-  let timeline = new vis.Timeline(container, items, groups, options);
-  let intial = 0;
-  function checkTimeLineHeight(){
+  timeline = new Timeline(container, items, groups, options);
 
-    let containerTimeLine = document.getElementsByClassName('vis-timeline');
-    let mainContainer = document.getElementById('timeline');
-
-    if(containerTimeLine != null && containerTimeLine.length > 0) {
-      let timeLineHeight = containerTimeLine[0].style.height;
-      let containerHeight = mainContainer.clientHeight;
-      containerHeight -= 172;
-
-      if(parseInt(timeLineHeight) < containerHeight){
-        timeline.zoomOut( 0.7 );
-        setTimeout(checkTimeLineHeight,250);
-      } else {
-        intial = 1;
-      }
-    }
-  }
-
+  
   let btnZoomIn = document.getElementById('zoomIn');
+
   btnZoomIn.addEventListener('mouseover', () => {
     btnZoomIn.classList.add('hover');
   });
+
   btnZoomIn.addEventListener('mouseout', () => {
     btnZoomIn.classList.remove('hover');
     clearInterval(pressInterval);
   });
+
   btnZoomIn.addEventListener('mousedown', (e) => {
-    console.log(e.button);
+    /*console.log(e.button);*/
     if(e.button === 0){
       timeline.zoomIn( 0.2);
       clearInterval(pressInterval);
@@ -125,15 +117,18 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   });
 
   let btnZoomOut = document.getElementById('zoomOut');
+
   btnZoomOut.addEventListener('mouseover', () => {
     btnZoomOut.classList.add('hover');
   });
+
   btnZoomOut.addEventListener('mouseout', () => {
     btnZoomOut.classList.remove('hover');
     clearInterval(pressInterval);
   });
+
   btnZoomOut.addEventListener('mousedown', (e) => {
-    console.log(e.button);
+    /*console.log(e.button);*/
     if(e.button === 0){
       timeline.zoomOut( 0.2 );
       clearInterval(pressInterval);
@@ -155,54 +150,19 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
   timeline.on('click', function (properties) {
     /*console.log(properties);*/
     ( async () => {
-      /*console.log(properties);*/
-      if(properties.group !== null){
+      /*console.log("properties",properties);*/
+      if(properties.group !== null && properties.what == "group-label"){
         let group = groups.get(properties.group), groupName = group.content; 
-        /*console.log(group);*/
+        /*console.log("CLICKED", group);*/
         if(group.showNested === true) {
-          await hideItems.push(group.id);
-          await items.forEach( item => {
-            if(item.group === group.id){
-              items.remove(item.id);
-            }
-          });
-          if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
-            group.nestedGroups.forEach( async grp => {
-              let getItemList = await  cloneTimelineItems3.map(item => item.group === grp ? item: undefined).filter(x => x);
-              /*console.log('31',JSON.stringify(getItemList),group.id,cloneTimelineItems3);*/
-              if(getItemList !== undefined && getItemList.length > 0 ) {
-                try{
-                  await  getItemList.forEach( item => items.add(item));
-                } catch(e){
-                }
-                //console.log("Added level 3 from 3");
+          if(group.nestedGroups !== null && group.nestedGroups !== undefined && group.nestedGroups.length > 0){            
+            await items.forEach( item => {
+              if(group.nestedGroups.includes(parseInt(item.group))){
+                items.remove(item.id);
               }
-              getItemList.length = 0;
-            });
-          }
-        } else {
-          if(group.nestedGroups !== null && group.nestedGroups !== undefined && group.nestedGroups.length > 0){
-            await group.nestedGroups.forEach( async grp => {
-              await items.forEach( item => {
-                if(item.group === grp){
-                  items.remove(item.id);
-                }
-              });
             });
           }
           let getItemList = [];
-          if(cloneTimelineItems3.length > 0){
-            getItemList = await cloneTimelineItems3.map(item => item.group === group.id ? item: undefined).filter(x => x);
-            /*console.log('3',getItemList,group.id,cloneTimelineItems3);*/
-            if(getItemList !== undefined && getItemList.length > 0 ) {
-              try{
-                await getItemList.forEach( item => items.add(item));
-              }catch(e){
-              }
-              //console.log("Added level 3 from 3");
-            }
-            getItemList.length = 0;
-          }
           if(cloneTimelineItems1.length > 0){
             getItemList = await cloneTimelineItems1.map(item => item.group === group.id ? item: undefined).filter(x => x);
             /*console.log('1',getItemList,group.id,cloneTimelineItems1);*/
@@ -212,24 +172,42 @@ export default function assignmentTimeline(groups1, groups3, items1,  items3, it
               }catch(e){
               }
               //console.log("Added level 1 from 1");
+            }            
+          }
+
+        } else {
+          /*console.log("SHOWNESTED", false, cloneTimelineItems3);*/
+          await hideItems.push(group.id);
+          await items.forEach( item => {
+            if(item.group === group.id){
+              items.remove(item.id);
             }
-            getItemList.length = 0;
-          }
-          if(hideItems.includes(group.id)){
-            const filteredItems = await hideItems.filter(item => item !== group.id);
-            hideItems = filteredItems;
-          }
+          });
+          if(cloneTimelineItems3.length > 0 && group.nestedGroups.length > 0){
+            let getItemList = await  cloneTimelineItems3.map(item => group.nestedGroups.includes(parseInt(item.group)) ? item: undefined).filter(x => x);
+            /*console.log(getItemList);*/
+            if(getItemList !== undefined && getItemList.length > 0 ) {
+              try{
+                await  getItemList.forEach( item => items.add(item));
+              } catch(e){
+              }
+              //console.log("Added level 3 from 3");
+            }   
+          }          
         }
       }
     })();
   });
+
   timeline.on('select', function (properties) {
-    const getItem = items.get(properties.items);
-    closeHover = 1;
-    disableIllustration(getItem[0]);
-    callData(getItem[0], 1);
-    closeHover = 0;
-    callData(getItem[0], 0);
+    if(properties.items.length > 0) {
+      const getItem = items.get(properties.items);
+      closeHover = 1;
+      disableIllustration(getItem[0]);
+      callData(getItem[0], 1);
+      closeHover = 0;
+      callData(getItem[0], 0);
+    }    
   });
 }
 
@@ -277,6 +255,10 @@ function callIllustration() {
   let element = document.getElementById('illustration_modal');
   element.classList.remove('hide');
   element.classList.add('show');
+  const timeline = document.getElementById("timeline");
+  element.querySelector('.modal-content').style.top = timeline.getBoundingClientRect().top+'px';
+  /*const recordTodoList = document.getElementsByClassName('record-todo-list');
+  element.querySelector('.modal-content').style.right = recordTodoList[0].getBoundingClientRect().right+'px';*/
   /*console.log('illustration_'+currentItemID);  */
   element.classList.add('illustration_'+currentItemID);
   let iframe = document.getElementById('load_illustration_frame');
@@ -404,23 +386,38 @@ function callIllustration() {
         });
       }
     });    
+
     iframe.src = "./d3/index.html";
-    let illustrationData = {box: boxes, connection: connections, line: connections, all_boxes: itemDetails.box, legend: itemDetails.line, box_menu: { border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, general:{"background": "#000000" ,patent_number:"",logo_1:"",logo_2:"",copyright:""},popup:[],comment:""};
-    
+    const illustrationData = {
+      box: boxes,
+      connection: connections, 
+      line: connections, 
+      all_boxes: itemDetails.box, 
+      legend: itemDetails.line, 
+      box_menu: { 
+        border_color:["#e8665d","#e8a41c","#c1ed0e","#ed0e2f"], 
+        background_color:["#fae3e3","#f5f5d7","#d7f0f5","#f5d7dc"]}, 
+        general:{"background": "#000000" ,
+        patent_number:"", 
+        original_number: "", 
+        logo_1:"",
+        logo_2:"",
+        copyright:""
+      },
+      popup:[],
+      comment:""
+    };    
     loadIllustrationIframeData(illustrationData, fakeDate );
   }
   }, 200);
 }
 
 function loadIllustrationIframeData(illustrationData, fakeDate) {
-  /*console.log("loadIllustrationIframeData");*/
 	let iframe = document.getElementById('load_illustration_frame');
 	if(typeof iframe.contentWindow != 'undefined' && iframe.contentWindow != null && typeof iframe.contentWindow.renderData == "function"){
 		const element = iframe.contentDocument;	
 		if(element != null) {
-      /*console.log("illustrationData", illustrationData);*/
 			const container = element.querySelector("#container");
-			//container.innerHTML = '';
 			iframe.contentWindow.renderData(illustrationData);
 			const menuItem = element.querySelector('.menu');
 			if(menuItem != null ){
@@ -443,63 +440,6 @@ function loadIllustrationIframeData(illustrationData, fakeDate) {
 }
 
 function showDetails() {
-  /*console.log("showDetails");*/
   document.getElementById('comment_container').classList.remove("d-none");
-  //document.getElementById('assignment_container').classList.remove("d-none");
   document.getElementById('illustration_container').classList.remove("d-none");
-
-
-  //console.log(properties, getItem);
-  /*
-  console.log('itemDetails', itemDetails);
-  if(itemDetails !== undefined && itemDetails !== "" && itemDetails.hasOwnProperty('assignee')){
-    let assignors = [], assignees = [], correspondenceString = "";
-    if(itemDetails.assignor.length > 0){
-      itemDetails.assignor.forEach( assignor => {
-        let name = assignor.normalize_name;
-        if( name === '' || name == null){
-          name = assignor.or_name;
-        }
-        assignors.push(name);
-      });
-    }
-    if(itemDetails.assignee.length > 0){
-      itemDetails.assignee.forEach( assignee => {
-        let name = assignee.normalize_name;
-        if( name === '' || name == null){
-          name = assignee.ee_name;
-        }
-        let assigneeString = name;
-        if(assignee.ee_address_1 != ''){
-          assigneeString += '<br/>'+assignee.ee_address_1;
-        }
-        if(assignee.ee_address_2 != ''){
-          assigneeString += '<br/>'+assignee.ee_address_2;
-        }
-        if(assignee.ee_city != ''){
-          assigneeString += '<br/>'+assignee.ee_city+" "+ assignee.ee_postcode;
-        } else {
-          assigneeString += '<br/>'+assignee.ee_state+" "+ assignee.ee_postcode;
-        }
-
-        assignees.push(assigneeString);
-      });
-    }
-    correspondenceString = itemDetails.assignment.cname;
-    if(itemDetails.assignment.caddress_1 !== ''){
-      correspondenceString += '<br/>'+itemDetails.assignment.caddress_1;
-    }
-    if(itemDetails.assignment.caddress_2 !== ''){
-      correspondenceString += '<br/>'+itemDetails.assignment.caddress_2;
-    }
-    if(itemDetails.assignment.caddress_3 !== ''){
-      correspondenceString += '<br/>'+itemDetails.assignment.caddress_3;
-    }
-    if(itemDetails.assignment.caddress_4 !== ''){
-      correspondenceString += '<br/>'+itemDetails.assignment.caddress_4;
-    }
-    let html = `<div class="title">${(itemDetails.assignment.convey_text)}<span class="close" onClick="javascript: var element = document.getElementById('illustration_modal');
-  element.classList.remove('show');">&times;</span></div><div class="p-1"><table class="top"><tbody><tr><td>Execution Date<br>${itemDetails.assignor.length ? moment(new Date(itemDetails.assignor[0].exec_dt)).format('DD MMM YYYY') : ''}</td><td>Reel/frame<br>${itemDetails.assignment.reel_no}-${itemDetails.assignment.frame_no}</td></tr><tr><td>Assignors<br>${(assignors.join('<br/>'))}</td><td>Date Recorded<br>${moment(itemDetails.assignment.record_dt).format('DD MMM YYYY')}</td></tr><tr><td>Assignee<br>${(assignees.join('<br/>'))}</td><td>${(correspondenceString)}</td></tr></tbody></table></div>`;
-    document.getElementById('assignment_details').innerHTML = html;
-  }*/
 }

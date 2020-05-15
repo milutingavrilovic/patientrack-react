@@ -6,6 +6,7 @@ import Auth from "./components/auth";
 export default (
   <Switch>
     <Route path="/dashboard" component={DashBoard}/>
+    <Route path="/reset/:token" component={Auth}/>
     <Route path="/" component={Auth}/>
   </Switch>
 );

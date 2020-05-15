@@ -23,13 +23,13 @@ export default makeStyles(theme => ({
   heading: {
     height: '35%',
     textAlign: 'center',
-    fontSize: '1.375rem',
+    /* fontSize: '1.375rem', */
     margin: 0,
     wordBreak: 'break-word'
   },
   headingExpand: {
     paddingBottom: theme.spacing(2),
-    fontSize: '3.375rem !important',
+    /* fontSize: '3.375rem !important', */
     textAlign: 'center',
     margin: 0
   },
@@ -44,7 +44,7 @@ export default makeStyles(theme => ({
     padding: '0.5rem',
     display: 'table',
     lineHeight: 1.2,
-    fontSize: '2.2rem',
+    /* fontSize: '2.2rem', */
     width: '60%',
     fontWeight: 500,
     margin: '0 auto'

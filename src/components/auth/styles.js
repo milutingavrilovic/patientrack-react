@@ -107,5 +107,5 @@ export default makeStyles(theme => ({
   },
   loginLoader: {
     marginLeft: theme.spacing(4),
-  },
+  }
 }));

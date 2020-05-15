@@ -23,10 +23,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>PatienTrack Admin Dashboard</title>
+    <title>Dashboard</title>
     <meta name="description" content="React Material Admin is a React Template built with Material-UI">
     <meta name="keywords" content="react material, material ui admin, react template, react material admin, react material dashboard">
     <meta name="author" content="Flatlogic LLC.">
+    <script src="https://kit.fontawesome.com/d0697327eb.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -54,6 +55,7 @@
     </div>
   </body>
   <script>
+    document.domain = "patentrack.com";
     window.onclick = function(event) {
       const modal = document.getElementById('illustration_modal');
       if (event.target === modal) {
@@ -62,7 +64,7 @@
         window.pdf = '';
       }
     }
-    window.openPatentWindow = function( pdf ) {
+    window.openPatentWindow = ( pdf ) => {
       window.pdf = pdf;
       const element = document.getElementById("pdfViewer");
       const mainC = document.getElementById("ms23wd");   
@@ -77,9 +79,66 @@
       frameAgreement.style.height = heightC+"px";
 
       const frameForm = element.querySelector("#iframe_form");
-      frameForm.setAttribute('src', pdf);
-      frameForm.style.width = "100%";
-      frameForm.style.height = heightC+"px";
+      if(frameForm != null && frameForm != undefined) {
+        frameForm.setAttribute('src', pdf);
+        frameForm.style.width = "100%";
+        frameForm.style.height = heightC+"px"; 
+      }           
+    }
+    window.shareIllustration = ( share ) => {
+        console.log("shareIllustration", share);
+        (async () => {
+          let token = localStorage.getItem('token');
+          let shareData = {
+            assets: share,
+            folder_ids: '',
+            project_ids: '',
+            type: 2
+          };
+
+          let response = await fetch(`https://api.patentrack.com/share`, {
+            method: 'POST',
+            headers: {
+              'x-access-token': token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(shareData)
+          });
+
+          let shareURL = await response.text();
+          if(shareURL.indexOf('share') >= 0){
+            window.open(shareURL, '_BLANK');
+          }
+        })();        
+    }
+
+    window.saveComment = ( oldComment, newComment, type, value) => {
+      const method = oldComment ? "PUT" : "POST";
+      (async () => {
+          let token = localStorage.getItem('token');
+          let commentData = {
+            type: type == 'asset' ? 0 : 1,
+            folder_id: 0,
+            comment: newComment
+          };
+
+          let response = await fetch(`https://api.patentrack.com/comments/${type}/${value}`, {
+            method: method,
+            headers: {
+              'x-access-token': token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(commentData)
+          });
+
+          let reposneData = await response.text();
+          if(reposneData == "Comment saved."){
+            return true;
+          } else {
+            alert("Internal server error.")
+            return false;
+          }
+      })();  
       
     }
   </script>

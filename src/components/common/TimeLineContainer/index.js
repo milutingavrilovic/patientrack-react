@@ -27,6 +27,16 @@ function TimeLineContainer(props) {
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
   const ref = useRef(null);	
+
+  const activeTabChange = (tabId) => {
+    console.log("tabId", tabId);
+    if((tabId == 1 && (props.selectedRFID !== "" || props.currentAsset !== "")) || (tabId == 2 && props.currentAsset !== "")) {
+      console.log("tabId", tabId, props);
+      setTimelineTabIndex(tabId);
+    } else {
+      setTimelineTabIndex(0);
+    }
+  };
   useEffect(() => {
     const iframe = document.getElementById("outsource");
     if(timelineTab === 1 && iframe) {
@@ -41,14 +51,16 @@ function TimeLineContainer(props) {
 
   useEffect(() => {
     if(timelineTab === 0 && props.timeLine.assignees) {
-      const passingData = modifyingData(props.timeLine);
-      /*console.log('passingData:', passingData)*/
-      assignmentTimeline(
-        passingData.groups,
-        passingData.groups3,
-        passingData.items1,
-        passingData.items3,
-        passingData.itemDates);
+      (async () => {
+        const passingData = await modifyingData(props.timeLine);
+        /*console.log('passingData:', passingData)*/
+        assignmentTimeline(
+          passingData.groups,
+          passingData.groups3,
+          passingData.items1,
+          passingData.items3,
+          passingData.itemDates);
+      })();
     }
   }, [props.timeLine, timelineTab]);
 
@@ -84,7 +96,7 @@ function TimeLineContainer(props) {
               className={classes.outSourceWrapper}
             >
               <div className={classes.padding}>
-                <iframe ref={ref} id={"outsource"} onLoad={() => checkMe(props.assets)} className={classes.outsource} src='./d3/index.html'/>
+                <iframe ref={ref} id={"outsource"} onLoad={() => checkMe(props.assets)} className={classes.outsource} src={props.illustrationUrl}/>
               </div>
             </div>
           }
@@ -100,7 +112,7 @@ function TimeLineContainer(props) {
         <div style={{marginBottom: 5}}>
           <TabsContainer
             activeTabId={timelineTab}
-            setActiveTabId={setTimelineTabIndex}
+            setActiveTabId={activeTabChange}
             tabs={['Timeline', 'Illustration', 'PTO']}
           />
         </div>
@@ -114,20 +126,24 @@ function TimeLineContainer(props) {
 }
 
 const mapStateToProps = state => {
+  
   return {
     timeLine: state.patenTrack.timeLine,
     assetsOutsource: state.patenTrack.assetsOutsource,
     assets: state.patenTrack.assets,
     currentAsset: state.patenTrack.currentAsset,
     isLoading: state.patenTrack.timeLineLoading,
-    timelineTab: state.patenTrack.timelineTab
+    timelineTab: state.patenTrack.timelineTab,
+    illustrationUrl: state.patenTrack.illustrationUrl ? state.patenTrack.illustrationUrl : 'about:blank',
+    selectedRFID: state.patenTrack.selectedRFID,
+    currentAsset: state.patenTrack.currentAsset
   };
 };
 
 const mapDispatchToProps = {
   getAssetsOutsource,
   getTimeLine,
-  setTimelineTabIndex
+  setTimelineTabIndex,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimeLineContainer);
