@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import useStyles from "./styles";
 import CustomList from "./CustomList";
+import CollapsibleTable from "./CollapsibleTable"
 import Typography from '@material-ui/core/Typography';
 import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
@@ -154,7 +155,14 @@ function LevelsNestedTreeGrid(props) {
         <Typography variant="h2" component="h2" align="center">
           {`Portfolios:12`}
         </Typography> 
-        <DataTreeView treeItems={data} />
+        {
+          isExpanded 
+          ?
+          <CollapsibleTable data={data} />
+          :
+          <DataTreeView treeItems={data} />
+        }
+        
       </div>
     );
   };
