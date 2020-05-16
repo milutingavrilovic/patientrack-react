@@ -64,10 +64,7 @@ function Row(props) {
 }
 
 export default function CollapsibleTable(props) {
-  const row = [
-    {id: 'ahahha' , name: 'poojak' , level: '0' , child : [ {id: '882' , name: 'ahha' , level: 'ababa'}]}
-  ]
-  console.log(row, 'ajajaj')
+  const row = props.data
   return (
     <TableContainer >
       <Table aria-label="collapsible table">
