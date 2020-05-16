@@ -26,7 +26,6 @@ const useRowStyles = makeStyles({
   
 function Row(props) {
   const { row } = props;
-  console.log(props.row,'ashikah')
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   return (
@@ -62,7 +61,6 @@ function Row(props) {
 
 function RowWithoutCollapse(props) {
     const { row } = props;
-    console.log(props.row,'ashikah')
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
     return (
