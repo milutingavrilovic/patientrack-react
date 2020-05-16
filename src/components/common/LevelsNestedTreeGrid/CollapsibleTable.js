@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +12,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import useRowStyles from './styles';
+import CollapseLevel2 from './CollapseLevel2'
+
+
+const useRowStyles = makeStyles({
+  root: {
+    '& > *': {
+      borderBottom: 'unset',
+    },
+  },
+});
+
+
 
 function Row(props) {
   const { row } = props;
@@ -29,32 +41,17 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell align="left">{row.name}</TableCell>
-        <TableCell align="left">{row.level}</TableCell>
+        <TableCell>{row.name}</TableCell>
+        <TableCell>{row.level}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>ID</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell align="left">Type</TableCell>
-                    <TableCell align="left">Level</TableCell>
-                  </TableRow>
-                </TableHead>
                 <TableBody>
                   {row.child.map((historyRow) => (
-                    <TableRow key={historyRow.id}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.id}
-                      </TableCell>
-                      <TableCell>{historyRow.name}</TableCell>
-                      <TableCell>{historyRow.type}</TableCell>
-                      <TableCell align="left">{historyRow.level}</TableCell>
-                    </TableRow>
+                  <CollapseLevel2 data={historyRow}/>
                   ))}
                 </TableBody>
               </Table>
@@ -67,6 +64,10 @@ function Row(props) {
 }
 
 export default function CollapsibleTable(props) {
+  const row = [
+    {id: 'ahahha' , name: 'poojak' , level: '0' , child : [ {id: '882' , name: 'ahha' , level: 'ababa'}]}
+  ]
+  console.log(row, 'ajajaj')
   return (
     <TableContainer >
       <Table aria-label="collapsible table">
@@ -74,12 +75,12 @@ export default function CollapsibleTable(props) {
           <TableRow>
             <TableCell />
             <TableCell>ID</TableCell>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Level</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Level</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.map((row) => (
+          {row.map((row) => (
             <Row key={row.name} row={row} />
           ))}
         </TableBody>
@@ -87,3 +88,4 @@ export default function CollapsibleTable(props) {
     </TableContainer>
   );
 }
+
