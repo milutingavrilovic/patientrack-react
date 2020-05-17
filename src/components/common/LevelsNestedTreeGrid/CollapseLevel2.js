@@ -12,13 +12,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-// import CollapsibleTable from './CollapsibleTable'
+import CollapseLevel3 from './CollapseLevel3'
 
 const useRowStyles = makeStyles({
     root: {
       '& > *': {
-        borderBottom: 'unset',
+        borderBottom: '1px solid white !important',
+        // backgroundColor: 'red !important'
       },
+      table: {
+        minWidth: 650,
+      }
     },
   });
   
@@ -27,6 +31,8 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+  const data = {id: '11212' , name: 'lalal' , level:'2'}
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
@@ -41,12 +47,12 @@ function Row(props) {
         <TableCell align="left">{row ? row.name : ''}</TableCell>
         <TableCell align="left">{row ? row.level : ''}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+      <TableRow >
+        <TableCell colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
               <Table size="small" aria-label="purchases">
                 <TableBody>
-                  <CollapsibleTable row={row}/>
+                  <CollapseLevel3 row={data}/>
                 </TableBody>
               </Table>
           </Collapse>
@@ -56,58 +62,21 @@ function Row(props) {
   );
 }
 
-function RowWithoutCollapse(props) {
-    const { row } = props;
-    const [open, setOpen] = React.useState(false);
-    const classes = useRowStyles();
-    return (
-      <React.Fragment>
-        <TableRow className={classes.root}>
-          <TableCell>
-            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell>
-            {row ? row.id : ''}
-          </TableCell>
-          <TableCell >{row ? row.name : ''}</TableCell>
-          <TableCell>{row ? row.level : ''}</TableCell>
-        </TableRow>
-        <TableRow className={classes.root}>
-          <TableCell colSpan={6}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <Table size="small" aria-label="purchases">
-                  <TableBody>
-                   <TableRow className={classes.root} >
-                      <TableCell component="th" scope="row">
-                        ID level 4
-                      </TableCell>
-                      <TableCell>Name level 4</TableCell>
-                      <TableCell align="left">Level 4</TableCell>
-                     
-                    </TableRow>
-                  </TableBody>
-                </Table>
 
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-    );
-  }
 
 export default function CollapsibleTable(props) {
-  const row = props.data
+  const {row} = props
   return (
    <>
-            {
-                row 
-                ?
-                <Row key={row.name} row={row} /> 
-                :
-                <RowWithoutCollapse />
-            }
+          <TableRow >
+            <TableCell />
+            <TableCell>ID</TableCell>
+            <TableCell >Name</TableCell>
+            <TableCell >Level</TableCell>
+          </TableRow>
+
+               <Row key={row.name} row={row} /> 
+
             
 </>
   );

@@ -18,7 +18,9 @@ import CollapseLevel2 from './CollapseLevel2'
 const useRowStyles = makeStyles({
   root: {
     '& > *': {
-        borderBottom: 'unset',
+        borderBottom: '1px solid white !important',
+        // backgroundColor: 'blue !important'
+
     },
   },
 });
@@ -43,13 +45,13 @@ function Row(props) {
         <TableCell align="left">{row.name}</TableCell>
         <TableCell align="left">{row.level}</TableCell>
       </TableRow>
-      <TableRow className={classes.root} >
+      <TableRow  >
         <TableCell colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
               <Table size="small" aria-label="purchases">
                 <TableBody>
                   {row.child.map((historyRow) => (
-                  <CollapseLevel2 data={historyRow}/>
+                  <CollapseLevel2 row={historyRow}/>
                   ))}
                 </TableBody>
               </Table>
@@ -68,7 +70,7 @@ export default function CollapsibleTable(props) {
     <TableContainer >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow className={classes.root}>
+          <TableRow >
             <TableCell />
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
