@@ -18,7 +18,7 @@ import CollapseLevel2 from './CollapseLevel2'
 const useRowStyles = makeStyles({
   root: {
     '& > *': {
-      borderBottom: 'unset',
+        borderBottom: 'unset',
     },
   },
 });
@@ -27,7 +27,6 @@ const useRowStyles = makeStyles({
 
 function Row(props) {
   const { row } = props;
-  console.log(props.row,'ashikah')
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   return (
@@ -41,13 +40,12 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell>{row.name}</TableCell>
-        <TableCell>{row.level}</TableCell>
+        <TableCell align="left">{row.name}</TableCell>
+        <TableCell align="left">{row.level}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+      <TableRow className={classes.root} >
+        <TableCell colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
               <Table size="small" aria-label="purchases">
                 <TableBody>
                   {row.child.map((historyRow) => (
@@ -55,7 +53,7 @@ function Row(props) {
                   ))}
                 </TableBody>
               </Table>
-            </Box>
+
           </Collapse>
         </TableCell>
       </TableRow>
@@ -64,12 +62,13 @@ function Row(props) {
 }
 
 export default function CollapsibleTable(props) {
+  const classes = useRowStyles();
   const row = props.data
   return (
     <TableContainer >
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
+          <TableRow className={classes.root}>
             <TableCell />
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>

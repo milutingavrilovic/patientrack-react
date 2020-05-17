@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -12,7 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-// import useRowStyles from './styles';
 // import CollapsibleTable from './CollapsibleTable'
 
 const useRowStyles = makeStyles({
@@ -36,22 +35,20 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>
+        <TableCell  component="th" scope="row">
           {row ? row.id : ''}
         </TableCell>
-        <TableCell>{row ? row.name : ''}</TableCell>
-        <TableCell>{row ? row.level : ''}</TableCell>
+        <TableCell align="left">{row ? row.name : ''}</TableCell>
+        <TableCell align="left">{row ? row.level : ''}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
               <Table size="small" aria-label="purchases">
                 <TableBody>
                   <CollapsibleTable row={row}/>
                 </TableBody>
               </Table>
-            </Box>
           </Collapse>
         </TableCell>
       </TableRow>
@@ -74,26 +71,25 @@ function RowWithoutCollapse(props) {
           <TableCell>
             {row ? row.id : ''}
           </TableCell>
-          <TableCell>{row ? row.name : ''}</TableCell>
+          <TableCell >{row ? row.name : ''}</TableCell>
           <TableCell>{row ? row.level : ''}</TableCell>
         </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableRow className={classes.root}>
+          <TableCell colSpan={6}>
             <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box margin={1}>
                 <Table size="small" aria-label="purchases">
                   <TableBody>
-                   <TableRow >
+                   <TableRow className={classes.root} >
                       <TableCell component="th" scope="row">
                         ID level 4
                       </TableCell>
                       <TableCell>Name level 4</TableCell>
-                      <TableCell align="right">Level 4</TableCell>
+                      <TableCell align="left">Level 4</TableCell>
                      
                     </TableRow>
                   </TableBody>
                 </Table>
-              </Box>
+
             </Collapse>
           </TableCell>
         </TableRow>
@@ -104,15 +100,7 @@ function RowWithoutCollapse(props) {
 export default function CollapsibleTable(props) {
   const row = props.data
   return (
-    <TableContainer >
-      <Table aria-label="collapsible table">
-      <TableRow>
-            <TableCell />
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Level</TableCell>
-        </TableRow>
-        <TableBody>
+   <>
             {
                 row 
                 ?
@@ -121,8 +109,6 @@ export default function CollapsibleTable(props) {
                 <RowWithoutCollapse />
             }
             
-        </TableBody>
-      </Table>
-    </TableContainer>
+</>
   );
 }
