@@ -31,8 +31,7 @@ function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
-  const data = {id: '11212' , name: 'lalal' , level:'2'}
-
+  
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
@@ -52,7 +51,7 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
               <Table size="small" aria-label="purchases">
                 <TableBody>
-                  <CollapseLevel3 row={data}/>
+                  <CollapseLevel3 row={row.child ? row.child : []}/>
                 </TableBody>
               </Table>
           </Collapse>
@@ -68,12 +67,7 @@ export default function CollapsibleTable(props) {
   const {row} = props
   return (
    <>
-          <TableRow >
-            <TableCell />
-            <TableCell>ID</TableCell>
-            <TableCell >Name</TableCell>
-            <TableCell >Level</TableCell>
-          </TableRow>
+         
 
                <Row key={row.name} row={row} /> 
 
