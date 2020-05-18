@@ -26,8 +26,17 @@ export default makeStyles(theme => ({
     flexGrow: 1,
     overflow: 'hidden',
     position: 'relative',
+    width: '100%',
     '& .MuiPaper-root': {
       backgroundColor: 'inherit'
+    },
+    '& .MuiTableCell-head': {
+      backgroundColor: 'inherit'
+    },
+    '& .MuiToolbar-regular': {
+      '& .MuiSvgIcon-root': {
+        color: theme.color.lightGray
+      }
     }
   },
   table: {
@@ -48,5 +57,9 @@ export default makeStyles(theme => ({
   },
   deleteIcon: {
     color: theme.color.lightGray
+  },
+  open: {
+    color: theme.color.lightGray,
+    textDecoration:'none'
   }
 }));

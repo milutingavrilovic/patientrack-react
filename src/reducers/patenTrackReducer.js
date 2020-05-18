@@ -287,7 +287,17 @@ const patenTrackReducer = (state = initialState.patient, action) => {
     case types.SET_SUB_COMPANY_SELECTED_NAME:
       return {
         ...state,
-        main_company_selected_name: action.name
+        searchCompaniesSelected: action.name
+      };
+    case types.SET_SEARCH_COMPANY_SELECTED:
+      return {
+        ...state,
+        search_companies_selected: action.name
+      };
+    case types.SET_SETTING_TEXT:
+      return {
+        ...state,
+        settingText: action.name
       };
     case types.SET_SITE_LOGO:
       return {

@@ -61,6 +61,7 @@ function CommentComponents(props) {
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
       <div className={classes.container}>
+        <div className={classes.context} >
         <div className={classes.scrollbar}>
           {
           props.isLoading
@@ -74,12 +75,10 @@ function CommentComponents(props) {
                 maxScrollbarLength: 30,
               }}
             >
-              <TableContainer>
-                <Table
+              <Table
                   aria-labelledby="tableTitle"
                   size={'small'}
-                  aria-label="short table"
-                >            
+                  aria-label="short table">            
                 <TableBody>
                   {
                     props.comments.length > 0
@@ -87,8 +86,8 @@ function CommentComponents(props) {
                     props.comments.map( (c, index) => {
                       const createdAt = new Date(c.created_at);
                       return (
-                        <TableRow hover tabIndex={-1} key={index} >                      
-                          <TableCell align="left">
+                        <TableRow hover tabIndex={-1} key={index}>                      
+                          <TableCell align="left" style={{ verticalAlign: 'top' }}>
                             {new Intl.DateTimeFormat('en-US').format(createdAt)}
                           </TableCell>
                           <TableCell align="left">
@@ -101,11 +100,11 @@ function CommentComponents(props) {
                     ''
                   }
                 </TableBody>
-                </Table>
-              </TableContainer>
+              </Table>
             </PerfectScrollbar>
           }
         </div>
+      </div>
       </div>
       <FullWidthSwitcher show={showSwitcher} widget={"comments"}/>
     </div>

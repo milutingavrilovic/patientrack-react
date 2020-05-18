@@ -39,7 +39,11 @@ export default makeStyles(theme => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        '& .MuiCollapse-container': {
+            position: 'absolute',
+            zIndex: 9
+        }
     },
     input:{
         color: theme.color.lightGray,
@@ -49,6 +53,17 @@ export default makeStyles(theme => ({
             color: '#ffffff !important',
             fontWeight: 700,
             /* fontFamily: 'inherit' */        
+        },
+        '& .MuiFormControl-root':{
+            width: '90%'
         }
+    },
+    iconRelative: {
+        position: 'relative',
+        top: '22px',
+        cursor: 'pointer'
+    },
+    left:{
+        left: '15px'
     }
 }));

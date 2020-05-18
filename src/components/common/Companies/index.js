@@ -64,6 +64,17 @@ function Companies(props) {
         props.setMainCompanyChecked( true );
         props.setSelectedCompany(findCompany[0].parent);
       }
+      if(props.searchCompaniesSelected.length > 0) {
+        let form = new FormData();
+        form.append("name", JSON.stringify(props.searchCompaniesSelected));
+        if(props.main_company_selected === true) {
+          form.append("parent_company", props.main_company_selected_name);
+        }
+        props.addCompany(form);
+      } else {
+        /** */
+        console.error("Select child companies...");
+      }
     } else {
       setSelection(d);
       props.setMainCompanyChecked( false );
@@ -167,7 +178,8 @@ const mapStateToProps = state => {
       companiesList: state.patenTrack.companiesList,
       isLoading: state.patenTrack.companyListLoading,
       main_company_selected: state.patenTrack.main_company_selected,
-      main_company_selected_name: state.patenTrack.main_company_selected_name
+      main_company_selected_name: state.patenTrack.main_company_selected_name,
+      searchCompaniesSelected: state.patenTrack.searchCompaniesSelected
     };
   };
   

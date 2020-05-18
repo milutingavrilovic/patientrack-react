@@ -59,8 +59,8 @@ function TransactionsContainer(props) {
                   <TableBody>                    
                     <TableRow key={1}>
                       <TableCell align="center" colSpan={2} className={"head_box_heading "}>
-                        <Typography variant="h2" component="h2">
-                        {`Transact: 453`}
+                        <Typography variant="h4" component="h4">
+                        {`Transaction: 453`}
                         </Typography> 
                       </TableCell>
                     </TableRow>

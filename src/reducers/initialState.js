@@ -13,7 +13,9 @@ export default {
       'security': [],
       'other': []
     },
+    settingText: 'Settings',
     customersLoading: false,
+    searchCompaniesSelected: [],
     customersNamesCollections: [],
     customersNameCollectionsLoading: false,
     selectedRFID: '',

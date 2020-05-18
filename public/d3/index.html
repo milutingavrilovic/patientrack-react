@@ -491,6 +491,7 @@
 	var menuToggle = 0;
 	var rawstring = null;
   let currentURLHash = window.location.hash;
+  var sval3;
   document.domain = "patentrack.com";
 	if(currentURLHash.indexOf('#share') >= 0) {
 		document.domain = "patentrack.com";
@@ -506,7 +507,14 @@
 			checkButton();
 		  }      
 		}, 200);
-	}
+  }
+  
+  function applyZoomFunction() {
+    console.log('zoom', sval3);
+
+    var element = document.querySelector("svg");
+    element.style = "transform:scale(" + sval3 + ") ; -moz-transform: scale(" + sval3 * 100 + "%); -moz-transform-origin: top left;transform-origin:left top;zoom: "+ sval3 * 0.9;
+  }
 	
 	function removeFakeDates(date, date2){	
 		if(document.getElementsByClassName('btext2').length > 0) {
