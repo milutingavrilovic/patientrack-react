@@ -422,7 +422,8 @@ function loadIllustrationIframeData(illustrationData, fakeDate) {
 			const menuItem = element.querySelector('.menu');
 			if(menuItem != null ){
 				menuItem.remove();
-				iframe.contentWindow.removeFakeDates(fakeDate.format('DD MMM YYYY'),fakeDate.format('YYYY-MM-DD'));
+        iframe.contentWindow.removeFakeDates(fakeDate.format('DD MMM YYYY'),fakeDate.format('YYYY-MM-DD'));
+        iframe.contentWindow.applyZoomFunction();
 				const svg = container.querySelector('svg');
 				let widthSvg = svg.getAttribute('width');
 				let heightSvg = svg.getAttribute('height');
@@ -440,6 +441,12 @@ function loadIllustrationIframeData(illustrationData, fakeDate) {
 }
 
 function showDetails() {
-  document.getElementById('comment_container').classList.remove("d-none");
-  document.getElementById('illustration_container').classList.remove("d-none");
+  const commentContainer = document.getElementById('comment_container');
+  const illustrationContainer = document.getElementById('illustration_container');
+  if( commentContainer != null) {
+    commentContainer.classList.remove("d-none");
+  }
+  if( illustrationContainer != null) {
+    illustrationContainer.classList.remove("d-none");
+  }
 }

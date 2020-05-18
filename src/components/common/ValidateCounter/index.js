@@ -21,18 +21,6 @@ function ValidateCounter(props) {
   const isExpanded = props.currentWidget === 'validateCounter';
   const {valid, application, encumbered} = props.validateCounter;
 
-  const getFontSizes = () => {
-    if(props.screenHeight < 500 || props.screenWidth < 992)
-      return 8;
-    if(props.screenHeight < 600 || props.screenWidth < 1092)
-      return 10;
-    if(props.screenHeight < 700 || props.screenWidth < 1200)
-      return 14;
-    if(props.screenHeight < 900 || props.screenWidth < 1400)
-      return 16;
-    return 18;
-  };
-
   return (
     <div
       className={`info-box ${classes.validateContainer}`}
@@ -50,9 +38,9 @@ function ValidateCounter(props) {
           <div className={isExpanded ? classes.wrapperExpand : classes.wrapper}>            
             <TableContainer component={Paper}>
               <Table className={`head_box_table  ${classes.table}`} size="small" aria-label="a dense table">
-                <TableBody>                    
+                <TableBody>
                   <TableRow key={1}>
-                    <TableCell align="center" colSpan={2} >
+                    <TableCell align="center" colSpan={2}>
                       <Typography variant="h2" component="h2" className={"red"}>
                         {`Assets: 35,465`}
                       </Typography>                      

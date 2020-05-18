@@ -1,6 +1,8 @@
 import React, { useState, useRef  } from "react";
 import {connect} from 'react-redux';
 import useStyles from "./styles";
+import Alert from '@material-ui/lab/Alert';
+import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import Loader from "../Loader";
@@ -13,7 +15,7 @@ import {
   TableSelection,
   VirtualTable,
 } from "@devexpress/dx-react-grid-material-ui";
-import { searchCompany, addCompany, setSearchCompanies, setSearchCompanyLoading, cancelRequest  } from "../../../actions/patenTrackActions";
+import { searchCompany, addCompany, setSearchCompanies, setSearchCompanyLoading, cancelRequest, setSelectedSearchCompanies  } from "../../../actions/patenTrackActions";
 
 
 function SearchCompanies(props) {
@@ -47,7 +49,6 @@ function SearchCompanies(props) {
     }
   };
 
-
   
   const [columns] = useState([
     { name: "name", title: "Name" },
@@ -58,6 +59,8 @@ function SearchCompanies(props) {
   const [rows, setRows] = useState([]);
 
   const [selection, setSelection] = useState([]);
+
+  const [open, setOpen] = useState(false);
 
   React.useEffect(() => {
     if(props.searchCompanies && props.searchCompanies.length > 0 ){
@@ -81,16 +84,16 @@ function SearchCompanies(props) {
 
   const getRowId = row => row.name;
 
-  const addCompany = (company) => {
-    let form = new FormData();
-    form.append("name", company);
-    if(props.main_company_selected === true) {
-      form.append("parent_company", props.main_company_selected_name);
+  const addCompany = () => {
+    console.log("selection", selection);
+    if( selection && selection.length > 0) {
+      let form = new FormData();
+      form.append("name", JSON.stringify(selection));
+      props.addCompany(form);
     }
-    props.addCompany(form);
   }
 
-  const updateSelection = (d) => {
+  /*const updateSelection = (d) => {
     if(d.length > 0) {
       const newValue = [d[d.length-1]];
       setSelection(newValue);
@@ -98,7 +101,24 @@ function SearchCompanies(props) {
     } else {
       setSelection(d);
     }    
-  };
+  };*/
+
+  const updateSelection = (d) => {
+    setSelection(d);
+    props.setSelectedSearchCompanies(d);
+  }
+
+  const selectParentCompany = () => {
+    /** */
+    if( selection && selection.length > 0) {
+      setOpen(true);
+      setTimeout(() => {
+        setOpen(false);
+      }, 3000);
+    } else {
+      /** */
+    }    
+  }
 
   return (
     <div
@@ -108,8 +128,15 @@ function SearchCompanies(props) {
         className={classes.container}
       >
          <div className={classes.context}>
+          <Collapse in={open}>
+            <Alert severity="warning">
+              Please selected parent company
+            </Alert>
+          </Collapse>
           <form noValidate autoComplete="off" className={classes.form}>
             <TextField id="search_company" name="search_company" ref={inputEl} label="Enter a Company Name to Search" onChange={handleSearchCompany}/>
+            <a onClick={addCompany} title="Click to create a parent" className={classes.iconRelative}><i className={"fas fa-plus"}></i></a>
+            <a onClick={selectParentCompany} title="Click to associate a parent" className={`${classes.iconRelative} ${classes.left}`}><i className={"far fa-layer-plus"}></i></a> 
           </form>
           <div className={`search-list ${classes.scrollbar}`} >
             {
@@ -135,7 +162,7 @@ function SearchCompanies(props) {
                       >
                         <SelectionState
                           selection={selection}
-                          onSelectionChange={updateSelection}
+                          onSelectionChange={setSelection}
                         />
                         <SortingState
                           defaultSorting={[]}
@@ -178,6 +205,7 @@ const mapStateToProps = state => {
     addCompany,
     setSearchCompanyLoading,
     setSearchCompanies,
+    setSelectedSearchCompanies,
     cancelRequest
   };
   

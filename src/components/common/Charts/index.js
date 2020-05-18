@@ -108,6 +108,7 @@ function Charts(props) {
     callChart();
   }
   
+  
   return (
     <div
       className={classes.charts}
@@ -119,7 +120,13 @@ function Charts(props) {
             !props.isLoading
             ?
               <div className={classes.container} style={{width: '100%'}}>
-                <div id={"graphChart"}/>   
+                {
+                  chartTab == 1
+                  ?
+                  <div id={"graphChart"}/>   
+                  :
+                  ''
+                }                
                 {     
                   chartTab == 1
                   ? 

@@ -370,18 +370,22 @@ div.vis-tooltip{
   width:100%;
   padding:0px;
   margin:0px;
+  background-color: inherit !important;
 }
+
 .head_box_heading {
   font-size: 2.5rem !important;
   font-weight: bold !important;
   text-align: center !important;
 }
+
 .head_box_table .head_box_text{
   font-size: 1.2rem !important;
   font-weight: 500;
   vertical-align: middle;
   text-align: left;
 }
+
 .head_box_table .head_box_number{
   font-size: 1.2rem !important;
   font-weight: bold;

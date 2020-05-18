@@ -92,7 +92,7 @@ function LevelsNestedTreeGrid(props) {
               props.setIllustrationUrl('about:blank');
               props.getComments('collection', itemText).catch(err => errorProcess({...err}.response));
               props.getCustomerRFIDAssets(itemText, tabId, parentNode, parentNode1, nodeIds).catch(err => errorProcess({...err}.response)); 
-              props.getFilterTimeLine( parentCompany, itemText, 3 ).catch(err => errorProcess({...err}.response));              
+              props.getFilterTimeLine( parentCompany, itemText, 2 ).catch(err => errorProcess({...err}.response));              
               props.getCollectionIllustration(itemText).catch(err => errorProcess({...err}.response));
               break;
             case 3: 
@@ -176,6 +176,9 @@ function LevelsNestedTreeGrid(props) {
     >
       <div className={classes.container}>
         <div className={classes.context} >
+          <Typography variant="h2" component="h2" align="center" className={classes.customPadding}>
+            {`Portfolios:12`}
+          </Typography> 
           {
             props.customersData
             ?

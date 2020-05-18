@@ -236,17 +236,19 @@ export const postRecordItems = (data, type) => {
       .postRecordItems(data, type)
       .then(res => {        
         if(typeof res == "object") {
-          console.log(res);
           if(typeof res.data !== "undefined" && typeof res.data.share_url !== "undefined") {
+            dispatch(getComments(res.data.option == '0' ? 'asset' : 'collection', res.data.patent_number));
             //dispatch(setShareUrl( res.data.share_url ));
             let body  = `${res.data.comment} \n\n\n ${res.data.document} \n\n\n ${res.data.share_url}`;
             window.open(`mailto:${res.data.email_address}?subject=Fix it&body=${encodeURIComponent(body)}`,"_BLANK");
+
           } else {
             //
           }
         }
+        
         dispatch(getRecordItems(type, 'count', 1))
-        dispatch(getRecordItems(type, 'list', 1))
+        dispatch(getRecordItems(type, 'list', 1))        
       })
       .catch(err => {
         throw(err);
@@ -464,6 +466,21 @@ export const setSelectedCompany = ( name ) => {
     name
   };
 };
+
+export const setSelectedSearchCompanies = ( name ) => {
+  return {
+    type: types.SET_SEARCH_COMPANY_SELECTED,
+    name
+  };
+};
+
+export const setSettingText = ( name ) => {
+  return {
+    type: types.SET_SETTING_TEXT,
+    name
+  };
+};
+
 
 export const setSearchCompanyLoading = ( t ) => {
   return {

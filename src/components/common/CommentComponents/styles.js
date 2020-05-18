@@ -48,5 +48,25 @@ export default makeStyles(theme => ({
     resize: 'none',
     outline: 'none',
     fontFamily: 'inherit'
-  }
+  },
+  scrollbar: {
+    flexGrow: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    width: '100%',
+    '& .MuiTableCell-root':{
+      color: theme.color.lightGray + ' !important'
+    }
+  },
+  context: {
+    backgroundColor: theme.color.background,
+    color: 'white',
+    flexGrow: 1,
+    overflow: 'hidden',
+    height: '100%',
+    border: '1px solid #363636',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
 }));

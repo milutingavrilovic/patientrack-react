@@ -109,7 +109,7 @@ function DashBoard(props) {
     props.patentActions.getDocuments(isMountedRef.current).catch(err => {
       errorProcess({...err}.response);
     });
-
+    
     /*console.log("DASHBOARD", props.screenHeight, props.screenWidth);  
     console.log("FONTSIZE", getFontSize());
     document.getElementsByTagName('html')[0].style.fontSize  =  getFontSize() > 0 ? getFontSize()+"px" : +"12px";*/
@@ -232,7 +232,7 @@ function DashBoard(props) {
     if(currentWidget === 'agreement') {
       return <PdfViewer/>
     }
-    if(currentWidget === 'settings') {
+    if(currentWidget === 'settings') {      
       return <UserSettings/>
     }
   };

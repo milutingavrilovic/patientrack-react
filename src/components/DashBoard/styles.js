@@ -16,7 +16,8 @@ export default makeStyles(theme => ({
     height: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+    zIndex: 1
   },
   container: {
     backgroundColor: theme.color.spacing,

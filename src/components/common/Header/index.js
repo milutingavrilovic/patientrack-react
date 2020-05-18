@@ -20,7 +20,7 @@ import useStyles from "./styles";
 
 import { signOut } from "../../../actions/authActions";
 
-import { getLawyers, postRecordItems, updateComment, setCurrentWidget } from "../../../actions/patenTrackActions";
+import { getLawyers, postRecordItems, updateComment, setCurrentWidget, setSettingText } from "../../../actions/patenTrackActions";
 
 
 
@@ -42,7 +42,6 @@ function Header(props) {
   const [openComment, setOpenComment] = useState(false);
   const [lawyer, setLawyer] = useState(0);
   const [document, setDocument] = useState(0);
-  const [comment, setComment] = useState("");
   const [header, setHeader] = useState("Correct a Record");
   const [formId, setFormId] = useState(0);
   const ref = useRef(null);	
@@ -149,7 +148,7 @@ function Header(props) {
           }
         </div>
         <div className={classes.headerTitle}>
-          <div className={classes.headerTitleContent}>PatienTrack Significant Legal Saving</div>
+          <div className={classes.headerTitleContent}>PatenTrack Significant Legal Saving</div>
         </div>
 
           
@@ -227,8 +226,11 @@ function Header(props) {
           color             = "inherit"
           className         = {classes.headerMenuButton}
           aria-controls     = "profile-menu"
-          onClick           = {() => {
-            setProfileMenu(!profileMenu);
+          onMouseEnter           = {() => {
+            setProfileMenu(!profileMenu)
+          }}
+          onMouseLeave           = {() => {
+            setProfileMenu(false)
           }}
         >
           <img src={menuIcon} className={classes.headerMenuIcon} alt="header menu icon" />
@@ -236,16 +238,19 @@ function Header(props) {
             className = {classes.profileMenu}
             style = {{
               display: profileMenu ? 'initial' : 'none',
-              minWidth: 200
+              minWidth: 130
             }}
           >
-            <div className={classes.profileMenuItem}>
-            <span onClick = {() => {props.setCurrentWidget('settings')}}>
-              Settings
+            <div className={classes.profileMenuItem} onClick = {() => {
+              props.setSettingText(props.settingText == "Settings" ? "Close Settings" : "Settings")
+              props.setCurrentWidget('settings')
+            }}>
+            <span>
+              {props.settingText}
             </span>
             </div>
-            <div className={classes.profileMenuItem}>
-            <span onClick = {() => {props.signOut()}}>
+            <div className={classes.profileMenuItem} onClick = {() => {props.signOut()}}>
+            <span>
               Sign Out
             </span>
             </div>
@@ -372,7 +377,8 @@ const mapStateToProps = (state) => {
     selectedRFID: state.patenTrack.selectedRFID,
     currentAsset: state.patenTrack.currentAsset,
     width: state.patenTrack.screenWidth,
-    height: state.patenTrack.screenHeight
+    height: state.patenTrack.screenHeight,
+    settingText: state.patenTrack.settingText ? state.patenTrack.settingText : 'Settings'
   };
 };
 
@@ -381,6 +387,7 @@ const mapDispatchToProps = {
   getLawyers,
   postRecordItems,  
   updateComment,
+  setSettingText,
   setCurrentWidget
 };
 

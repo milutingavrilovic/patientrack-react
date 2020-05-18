@@ -76,5 +76,9 @@ export default makeStyles((theme) => ({
     fontStyle: 'normal',
     /* fontWeight: 400,
     lineHeight: 1.5 */
+  },
+  customPadding:{
+    paddingTop: '7px',
+    paddingBottom: '5px'
   }
 }));

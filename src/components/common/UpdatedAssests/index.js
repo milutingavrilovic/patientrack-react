@@ -56,7 +56,7 @@ function UpdatedAssests(props) {
                     <TableBody>                    
                       <TableRow key={1}>
                         <TableCell align="center" colSpan={2}>
-                          <Typography variant="h2" component="h2">
+                          <Typography variant="h4" component="h4">
                             {`Updates: 457`}
                           </Typography>   
                         </TableCell>
