@@ -57,6 +57,8 @@ function RowWithoutCollapse(props) {
           <TableCell />
           <TableCell />
           <TableCell />
+          <TableCell />
+            <TableCell />
           <TableCell component="th" scope="row">
             {row ? row.id : ''}
           </TableCell>
@@ -84,6 +86,8 @@ export default function CollapsibleTable(props) {
    <>
           <TableRow >
             {/* <TableCell /> */}
+            <TableCell />
+            <TableCell />
             <TableCell />
             <TableCell />
             <TableCell />
