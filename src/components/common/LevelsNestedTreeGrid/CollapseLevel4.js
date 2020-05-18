@@ -31,10 +31,30 @@ const useRowStyles = makeStyles({
 
 function RowWithoutCollapse(props) {
     const { row } = props;
+    const [open, setOpen] = React.useState(false);
+
     const classes = useRowStyles();
     return (
+      // <React.Fragment>
+      //   <TableRow className={classes.root}>
+      //     {/* <TableCell colSpan={6} />
+      //     <TableCell /> */}
+      //     <TableCell component="th" scope="row">
+      //       {row ? row.id : ''}
+      //     </TableCell>
+      //     <TableCell align="left" >{row ? row.name : ''}</TableCell>
+      //     <TableCell align="left">{row ? row.level : ''}</TableCell>
+      //   </TableRow>
+      // </React.Fragment>
+
       <React.Fragment>
         <TableRow className={classes.root}>
+          <TableCell >
+            <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+              {' '}
+            </IconButton>
+          </TableCell>
+          <TableCell />
           <TableCell />
           <TableCell />
           <TableCell component="th" scope="row">
@@ -42,6 +62,17 @@ function RowWithoutCollapse(props) {
           </TableCell>
           <TableCell align="left" >{row ? row.name : ''}</TableCell>
           <TableCell align="left">{row ? row.level : ''}</TableCell>
+        </TableRow>
+        <TableRow >
+          <TableCell colSpan={4}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+            <Table size="small" aria-label="purchases">
+                <TableBody>
+                  {/* <CollapseLevel4 row={row.child ? row.child : []}/> */}
+                </TableBody>
+              </Table>
+            </Collapse>
+          </TableCell>
         </TableRow>
       </React.Fragment>
     );
@@ -52,6 +83,9 @@ export default function CollapsibleTable(props) {
   return (
    <>
           <TableRow >
+            {/* <TableCell /> */}
+            <TableCell />
+            <TableCell />
             <TableCell />
             <TableCell />
             <TableCell>ID</TableCell>

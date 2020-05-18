@@ -50,6 +50,12 @@ function Row(props) {
           <Collapse in={open} timeout="auto" unmountOnExit>
               <Table size="small" aria-label="purchases">
                 <TableBody>
+                <TableRow >
+            <TableCell />
+            <TableCell>ID</TableCell>
+            <TableCell >Name</TableCell>
+            <TableCell >Level</TableCell>
+          </TableRow>
                   {row.child.map((historyRow) => (
                   <CollapseLevel2 row={historyRow}/>
                   ))}

@@ -33,7 +33,6 @@ function RowWithoutCollapse(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
-    const data = {id: '11212' , name: 'lalal' , level:'2'}
 
     return (
       <React.Fragment>
@@ -50,11 +49,11 @@ function RowWithoutCollapse(props) {
           <TableCell align="left">{row ? row.level : ''}</TableCell>
         </TableRow>
         <TableRow >
-          <TableCell colSpan={6}>
+          <TableCell colSpan={4}>
             <Collapse in={open} timeout="auto" unmountOnExit>
             <Table size="small" aria-label="purchases">
                 <TableBody>
-                  <CollapseLevel4 row={data}/>
+                  <CollapseLevel4 row={row.child ? row.child : []}/>
                 </TableBody>
               </Table>
             </Collapse>
