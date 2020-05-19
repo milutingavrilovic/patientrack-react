@@ -43,7 +43,6 @@ const useRowStyles = makeStyles({
   },
 });
 
-
 function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
@@ -324,7 +323,7 @@ Row.propTypes = {
 export default function CollapsibleTable(props) {
   const row = props.data;
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table aria-label="collapsible table">
         <TableHead>
           <TableRow>
