@@ -15,10 +15,9 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import CollapseLevel4 from "./CollapseLevel4";
 
 const useRowStyles = makeStyles({
-  root: {
+  root3: {
     "& > *": {
       borderBottom: "1px solid white !important",
-      // backgroundColor: 'green !important'
     },
     table: {
       minWidth: 650,
@@ -33,7 +32,7 @@ function RowWithoutCollapse(props) {
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root}>
+      <TableRow className={classes.root3}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -50,9 +49,17 @@ function RowWithoutCollapse(props) {
         <TableCell align="left">{row ? row.level : ""}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell colSpan={4}>
+        <TableCell
+          style={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+          }}
+          colSpan={4}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Table size="small" aria-label="purchases">
+            <Table aria-label="collapsible table">
               <TableBody>
                 <CollapseLevel4 row={row.child ? row.child : []} />
               </TableBody>

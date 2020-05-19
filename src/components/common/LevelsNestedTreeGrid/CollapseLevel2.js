@@ -15,10 +15,9 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import CollapseLevel3 from "./CollapseLevel3";
 
 const useRowStyles = makeStyles({
-  root: {
+  root1: {
     "& > *": {
       borderBottom: "1px solid white !important",
-      // backgroundColor: 'red !important'
     },
     table: {
       minWidth: 650,
@@ -33,7 +32,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root}>
+      <TableRow className={classes.root1}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -50,14 +49,22 @@ function Row(props) {
         <TableCell align="left">{row ? row.level : ""}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell colSpan={6}>
+        <TableCell
+          style={{
+            paddingBottom: 0,
+            paddingTop: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+          }}
+          colSpan={4}
+        >
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Table size="small" aria-label="purchases">
+            <Table aria-label="collapsible table">
               <TableRow>
                 <TableCell />
-                <TableCell>ID</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Level</TableCell>
+                <TableCell style={{ width: "41%" }}>ID</TableCell>
+                <TableCell style={{ width: "31%" }}>Name</TableCell>
+                <TableCell style={{ width: "7%" }}>Level</TableCell>
               </TableRow>
               <TableBody>
                 <CollapseLevel3 row={row.child ? row.child : []} />
