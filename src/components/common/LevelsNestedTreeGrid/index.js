@@ -153,7 +153,7 @@ function LevelsNestedTreeGrid(props) {
     return (
       <div className={classes.flexColumn}>
         <Typography variant="h2" component="h2" align="center">
-          {`Portfolios:12`}
+          {/* {`Portfolios:12`} */}
         </Typography> 
         {
           isExpanded 
@@ -176,7 +176,7 @@ function LevelsNestedTreeGrid(props) {
     >
       <div className={classes.container}>
         <div className={classes.context} >
-          <Typography variant="h2" component="h2" align="center" className={classes.customPadding}>
+          <Typography variant="h3" component="h3" align="center" className={classes.customPadding}>
             {`Portfolios:12`}
           </Typography> 
           {
