@@ -24,6 +24,15 @@ const useRowStyles = makeStyles({
       minWidth: 650,
     },
   },
+  tableCell1: {
+    width: "45%",
+  },
+  tableCell2: {
+    width: "40%",
+  },
+  tableCell3: {
+    width: "10%",
+  },
 });
 
 function RowWithoutCollapse(props) {
@@ -43,11 +52,15 @@ function RowWithoutCollapse(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell className={classes.tableCell1} component="th" scope="row">
           {row ? row.id : ""}
         </TableCell>
-        <TableCell align="left">{row ? row.name : ""}</TableCell>
-        <TableCell align="left">{row ? row.level : ""}</TableCell>
+        <TableCell className={classes.tableCell2}>
+          {row ? row.name : ""}
+        </TableCell>
+        <TableCell className={classes.tableCell3}>
+          {row ? row.level : ""}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell colSpan={4}>

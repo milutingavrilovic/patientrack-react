@@ -21,6 +21,20 @@ const useRowStyles = makeStyles({
       // backgroundColor: 'blue !important'
     },
   },
+  tableCell1: {
+    width: "45%",
+    paddingRight: 0,
+  },
+  tableCell2: {
+    width: "40%",
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  tableCell3: {
+    width: "10%",
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
 });
 
 function Row(props) {
@@ -39,31 +53,33 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.id}
+        <TableCell className={classes.tableCell1} component="th" scope="row">
+          {row ? row.id : "&nbsp;"}
         </TableCell>
-        <TableCell align="left">{row.name}</TableCell>
-        <TableCell align="left">{row.level}</TableCell>
+        <TableCell className={classes.tableCell2}>{row.name}</TableCell>
+        <TableCell className={classes.tableCell3}>{row.level}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Table size="small" aria-label="purchases">
-              <TableBody>
-                <TableRow>
-                  <TableCell />
-                  <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Level</TableCell>
-                </TableRow>
-                {row.child.map((historyRow) => (
-                  <CollapseLevel2 row={historyRow} />
-                ))}
-              </TableBody>
-            </Table>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+      {open && (
+        <TableRow>
+          <TableCell colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Table size="small" aria-label="purchases">
+                <TableBody>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell className={classes.tableCell1}>ID</TableCell>
+                    <TableCell className={classes.tableCell2}>Name</TableCell>
+                    <TableCell className={classes.tableCell3}>Level</TableCell>
+                  </TableRow>
+                  {row.child.map(historyRow => (
+                    <CollapseLevel2 row={historyRow} />
+                  ))}
+                </TableBody>
+              </Table>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </React.Fragment>
   );
 }
@@ -77,13 +93,13 @@ export default function CollapsibleTable(props) {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Level</TableCell>
+            <TableCell className={classes.tableCell1}>ID</TableCell>
+            <TableCell className={classes.tableCell2}>Name</TableCell>
+            <TableCell className={classes.tableCell3}>Level</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {row.map((row) => (
+          {row.map(row => (
             <Row key={row.name} row={row} />
           ))}
         </TableBody>

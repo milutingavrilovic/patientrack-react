@@ -24,6 +24,15 @@ const useRowStyles = makeStyles({
       minWidth: 650,
     },
   },
+  tableCell1: {
+    width: "45%",
+  },
+  tableCell2: {
+    width: "40%",
+  },
+  tableCell3: {
+    width: "10%",
+  },
 });
 
 function RowWithoutCollapse(props) {
@@ -43,16 +52,11 @@ function RowWithoutCollapse(props) {
             {" "}
           </IconButton>
         </TableCell>
-        <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell />
         <TableCell component="th" scope="row">
           {row ? row.id : ""}
         </TableCell>
-        <TableCell align="left">{row ? row.name : ""}</TableCell>
-        <TableCell align="left">{row ? row.level : ""}</TableCell>
+        <TableCell>{row ? row.name : ""}</TableCell>
+        <TableCell>{row ? row.level : ""}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell colSpan={4}>
@@ -69,18 +73,14 @@ function RowWithoutCollapse(props) {
 
 export default function CollapsibleTable(props) {
   const { row } = props;
+  const classes = useRowStyles();
   return (
     <>
       <TableRow>
         <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell />
-        <TableCell>ID</TableCell>
-        <TableCell>Name</TableCell>
-        <TableCell>Level</TableCell>
+        <TableCell className={classes.tableCell1}>ID</TableCell>
+        <TableCell className={classes.tableCell2}>Name</TableCell>
+        <TableCell className={classes.tableCell3}>Level</TableCell>
       </TableRow>
       {<RowWithoutCollapse key={row.name} row={row} />}
     </>
