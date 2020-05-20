@@ -91,13 +91,49 @@ function Users(props) {
       });
     }
     const columns = [
-      { field: "first_name", title: "First Name" },
-      { field: "last_name", title: "Last Name" },
-      { field: "job_title", title: "Title" },
-      { field: "email_address", title: "Email" },
-      { field: "telephone", title: "Telephone" },
-      { field: "telephone1", title: "Telephone" },
-      { field: "role", title: "Type", lookup: { 0: "Admin", 1: "Manager" } },
+      {
+        field: "first_name",
+        title: "First Name",
+        width: "150px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "last_name",
+        title: "Last Name",
+        width: "150px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "job_title",
+        title: "Title",
+        width: "300px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "email_address",
+        title: "Email",
+        width: "200px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "telephone",
+        title: "Telephone",
+        width: "150px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "telephone1",
+        title: "Telephone",
+        width: "150px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
+      {
+        field: "role",
+        title: "Type",
+        lookup: { 0: "Admin", 1: "Manager" },
+        width: "150px",
+        cellStyle: { whiteSpace: "nowrap" },
+      },
     ];
     setState({
       columns: columns,
