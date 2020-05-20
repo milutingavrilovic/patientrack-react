@@ -69,6 +69,7 @@ function Users(props) {
   const options = {
     paging: false,
     search: false,
+    addRowPosition: "first",
     maxBodyHeight: (props.height * 39) / 100,
   };
 
