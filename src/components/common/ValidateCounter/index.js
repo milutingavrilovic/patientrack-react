@@ -41,7 +41,7 @@ function ValidateCounter(props) {
                 <TableBody>
                   <TableRow key={1}>
                     <TableCell align="center" colSpan={2}>
-                      <Typography variant="h2" component="h2" className={"red"}>
+                      <Typography variant="h4" component="h4" className={"red"}>
                         {`Assets: 35,465`}
                       </Typography>                      
                     </TableCell>
