@@ -97,6 +97,20 @@ function CommentComponents(props) {
                       )
                     })
                     :
+                    props.record_item != null
+                    ?
+                    <TableRow hover tabIndex={-1} key={props.record_item.id}>
+                      <TableCell align="left" style={{ verticalAlign: 'top' }}>
+                        {new Intl.DateTimeFormat('en-US').format(new Date(props.record_item.created_at))}
+                      </TableCell>
+                      <TableCell align="left" style={{ verticalAlign: 'top' }}>
+                        
+                      </TableCell>
+                      <TableCell align="left" style={{ verticalAlign: 'top' }}>
+                      <a href={props.record_item.documents.file} target={"_blank"} className={classes.open}><i class="fal fa-file-alt"></i></a>{props.record_item.comment}
+                      </TableCell>
+                    </TableRow>
+                    :
                     ''
                   }
                 </TableBody>

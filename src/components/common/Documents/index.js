@@ -50,7 +50,9 @@ function Documents(props) {
   const options = {
     paging: false,
     search: false,
-    maxBodyHeight: props.height * 39  / 100
+    maxBodyHeight: props.height * 39  / 100,
+    addRowPosition: 'first',
+    toolbarButtonAlignment: 'left'
   };
 
   const [file, setFile] = useState("");
@@ -63,9 +65,8 @@ function Documents(props) {
   }
 
   const columns = [
-    { field: 'name', title: 'Name'},
-    { field: 'file', title: 'File',
-      render: rowData => <a target={"_BLANK"} href={rowData.file} className={classes.open}>Open</a>,
+    { field: 'file', width:'80px', title: 'File',
+      render: rowData => <a target={"_BLANK"} href={rowData.file} className={classes.open}><i className={rowData.file.toString().toLowerCase().indexOf('.pdf') ? 'fal fa-file-pdf' : rowData.file.toString().toLowerCase().indexOf('.doc') ? 'fal fa-file-word' : 'fal fa-file'}></i></a>,
       editComponent: () => (
         <div>
           <input
@@ -76,10 +77,12 @@ function Documents(props) {
         </div>
       )
     },
+    { field: 'name', title: 'Name'},    
     { field: 'description', title: 'Description'}
   ];
 
   useEffect(() => {
+    let mounted = true;
     if( props.documentList.length > 0 ) {
       
       setState({
@@ -98,7 +101,7 @@ function Documents(props) {
       console.log("changedRows", props.documentList);
       setState({...state, data: props.documentList})
     }
-
+    return () => mounted = false;
   },[props.documentList, props.update_document_row]);
 
   const errorProcess = (err) => {
@@ -115,6 +118,11 @@ function Documents(props) {
         >
           {      
             <MaterialTable
+              localization={{
+                header: {
+                  actions: '#'
+                }
+              }}
               title=""
               icons={tableIcons}
               columns={state.columns}

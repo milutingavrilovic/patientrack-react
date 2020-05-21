@@ -53,12 +53,20 @@ function LevelsNestedTreeGrid(props) {
     setExpanded(nodeIds);
   };
 
+
   const handleSelect = (event, nodeIds) => {
     setSelected(nodeIds);
     if(nodeIds != "") {
       const targetEvent = event.currentTarget;
       const selectElement = targetEvent.querySelector('.MuiTreeItem-label');
       if(selectElement != null && selectElement != undefined) {
+        const svgICON = targetEvent.querySelector('.MuiSvgIcon-root');
+        if(svgICON == null) {
+          const newNodeIds = [...expanded];
+          console.log(newNodeIds);
+          newNodeIds.push(nodeIds);
+          setExpanded(newNodeIds);
+        }
         const itemText = event.currentTarget.innerText;
         const parentElement = targetEvent.parentNode;
         if(parentElement != null && parentNode != undefined) {
@@ -111,11 +119,9 @@ function LevelsNestedTreeGrid(props) {
   };
 
   const getTreeItemsFromData = treeItems => {
-    console.log("treeItems",treeItems);
     return treeItems.map( treeItemData => {
       let children = undefined;
       if (treeItemData.child && treeItemData.child.length > 0) {
-        console.log("treeItems1",treeItemData.child);
         children = getTreeItemsFromData(treeItemData.child);
       }
       return (
@@ -152,9 +158,9 @@ function LevelsNestedTreeGrid(props) {
       return <Loader/>;
     return (
       <div className={classes.flexColumn}>
-        <Typography variant="h2" component="h2" align="center">
+        <Typography variant="h2" component="h2" className={classes.customPadding} align="center">
           {`Portfolios:12`}
-        </Typography> 
+        </Typography>
         {
           isExpanded 
           ?
@@ -176,9 +182,6 @@ function LevelsNestedTreeGrid(props) {
     >
       <div className={classes.container}>
         <div className={classes.context} >
-          <Typography variant="h2" component="h2" align="center" className={classes.customPadding}>
-            {`Portfolios:12`}
-          </Typography> 
           {
             props.customersData
             ?
@@ -223,7 +226,6 @@ function LevelsNestedTreeGrid(props) {
             />
         }
       </div>
-
       <FullWidthSwitcher show={showSwitcher} widget={"nestedTree"}/>
     </div>
   );

@@ -41,6 +41,9 @@ export default makeStyles(theme => ({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden'
-      },
+        overflow: 'hidden',
+        '& .MuiToolbar-root': {
+            minHeight: 'auto'
+        }
+    }
 }));

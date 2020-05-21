@@ -51,7 +51,6 @@ const patenTrackReducer = (state = initialState.patient, action) => {
       const parentIndex = newItems.findIndex(x => x.id == action.parentNode);
       const childIndex = newItems[parentIndex].child.findIndex(x => x.id == action.currentNode);
       newItems[parentIndex].child[childIndex]['child'] = [...action.data]
-      console.log("newItems1", newItems);
       return {
         ...state,
         customersData: Object.assign({}, {
@@ -78,9 +77,8 @@ const patenTrackReducer = (state = initialState.patient, action) => {
       const parentNode = oldItems.findIndex(x => x.id == action.parentNode);
       const parentNode2 = oldItems[parentNode].child.findIndex(x => x.id == action.parentNode1);
       const childNode = oldItems[parentNode].child[parentNode2].child.findIndex(x => x.id == action.currentNode);
-      oldItems[parentNode].child[parentNode2].child[childNode]['child'] = [...action.data]
-      console.log("newItems2", oldItems);
-      return {
+      oldItems[parentNode].child[parentNode2].child[childNode]['child'] = [...action.data];
+        return {
         ...state,
         customersData: Object.assign({}, {
           ...state.customersData,
@@ -130,10 +128,14 @@ const patenTrackReducer = (state = initialState.patient, action) => {
         user_delete_row: action.payload
       };
     case types.SET_DOCUMENT_UPDATE_ROW:
-      console.log("DOCUMENTROW");
       return {
         ...state,
         update_document_row: action.row
+      };
+    case types.SET_RECORD:
+      return {
+        ...state,
+        record_item: action.data
       };
     case types.SET_CUSTOMER_RFID_ASSETS_LOADING:
       return {

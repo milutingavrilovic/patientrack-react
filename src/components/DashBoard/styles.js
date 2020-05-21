@@ -34,5 +34,8 @@ export default makeStyles(theme => ({
   flexColumn: {
     display: 'flex',
     flexDirection: 'column'
+  },
+  customIndex:{ 
+    zIndex: 1001
   }
 }));

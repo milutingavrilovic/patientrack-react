@@ -57,13 +57,14 @@ export default makeStyles(theme => ({
   },
   profileMenu: {
     position: 'absolute',
-    top: 'calc(100% - 2px)',
+    top: 'calc(100%)',
     background: 'black',
     border: '1px solid #2b2b2b',
     borderTop: 'none',
-    right: 0,
+    right: '-1px',
     boxShadow: '5px 5px 3px -3px rgba(120,120,120,.3)',
-    textAlign: 'left'
+    textAlign: 'left',
+    minWidth: '9vw'
   },
   profileMenuItem: {
     padding: '0.5rem',
@@ -104,7 +105,6 @@ export default makeStyles(theme => ({
     width: '100%',
     backgroundColor: theme.color.background,
     color: '#bdbdbd',
-    /*border: 0,*/
     resize: 'none',
     outline: 'none',
     fontFamily: 'inherit'
@@ -147,5 +147,18 @@ export default makeStyles(theme => ({
   },
   customPadding: {
     padding:'30px'
+  },
+  customSelect:{
+    padding: '5px',
+    width: '50%',
+    backgroundColor: '#222 !important',
+    border: '1px solid #5c5c5c !important',
+    '& option:hover': {
+      backgroundColor: '#bdbdbd !important',
+      color: 'white'
+    }
+  },
+  btn:{
+    marginLeft: '0px !important'
   }
 }));

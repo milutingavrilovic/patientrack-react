@@ -22,8 +22,20 @@ export default makeStyles(theme => ({
     right: 5,
     bottom: 0
   },
+  context_main:{
+    border: '1px solid #363636',
+    borderBottom: 0,
+    backgroundColor: theme.color.background,
+    width: '100%',
+    margin: '0 auto',
+    height: '23vh',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden'
+  },
   context: {
     border: '1px solid #363636',
+    borderTop: 0,
     backgroundColor: theme.color.background,
     width: '100%',
     margin: '0 auto',
@@ -138,6 +150,9 @@ export default makeStyles(theme => ({
     '& th': {
       textDecoration: 'underline'
     }
+  },
+  expandMode: {
+    width: '300px'
   }
 }));
 

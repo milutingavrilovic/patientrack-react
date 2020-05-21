@@ -14,6 +14,7 @@ export default {
       'other': []
     },
     settingText: 'Settings',
+    record_item: null,
     customersLoading: false,
     searchCompaniesSelected: [],
     customersNamesCollections: [],

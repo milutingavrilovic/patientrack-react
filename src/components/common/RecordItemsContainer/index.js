@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {connect} from 'react-redux';
 import useStyles, { useMatStyles }  from "./styles";
 import FullWidthSwitcher from "../FullWidthSwitcher";
@@ -17,7 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import TabsContainer from "../Tabs";
 import CustomTab from "../CustomTab";
 import Typography from '@material-ui/core/Typography';
-import {getRecordItems, setRecordItTabIndex, completeRecord} from "../../../actions/patenTrackActions";
+import {getRecordItems, setRecordItTabIndex, findRecord, completeRecord} from "../../../actions/patenTrackActions";
 
 // MATERIAL UI IMPORTS END
 function descendingComparator(a, b, orderBy) {
@@ -205,7 +205,7 @@ function RecordItemsContainer(props) {
     );
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(props.fixItemList && (props.fixItemList['todo'].length > 0 || props.fixItemList['complete'].length > 0)){
       setFixList(props.fixItemList);
       const toDoItems = props.fixItemList['todo'].map(item => ({
@@ -253,8 +253,6 @@ function RecordItemsContainer(props) {
   },[props.fixItemList, props.recordItemList]);
   
   const completeItem = (e) => {
-    console.log(`Selected main company`);
-    console.log(e.target.value, e.target.checked); 
     const type = e.target.getAttribute('data-type');   
     if( e.target.checked ) {
       let formData = new FormData();
@@ -278,9 +276,15 @@ function RecordItemsContainer(props) {
     }    
   };
 
+  const openAllData = (ID) => {
+    console.log("Record", ID);
+    props.findRecord(ID);
+  }
+
   const renderItemList = ( t,  type ) => {
     const items = t == 0 ? fixList[type] : recordList[type];
     const itemsExpand = t == 0 ? toDoFixItemList : t == 2 ? toDoCompleteItemList : toDoRecordItemList;
+    
     if(!isExpanded) {
       return (
         <div className={`todo-list ${classes.column}`}>
@@ -297,7 +301,7 @@ function RecordItemsContainer(props) {
               items.map(item => {
                 const createdAt = (type === 'todo') ? new Date(item.created_at): new Date(item.updated_at);
                 return (
-                  <TableRow hover tabIndex={-1} key={item.id} >
+                  <TableRow hover tabIndex={-1} key={item.id} onClick={() => {openAllData(item.id)}}>
                     <TableCell align="left">
                       <span className={`green ${classnames(classes.displayBlock, classes.ellipsis)}`}>{new Intl.DateTimeFormat('en-US').format(createdAt)}</span>
                       <span className={`grey ${classnames(classes.displayBlock, classes.ellipsis)}`}>{item.asset}</span>
@@ -360,7 +364,7 @@ function RecordItemsContainer(props) {
                     </TableRow>
                   );
                 })}
-              {itemsExpand.length > 0 && (
+              {itemsExpand.length == 0 && (
                 <TableRow style={{ height: 33 * 1 }}>
                   <TableCell colSpan={6} />
                 </TableRow>
@@ -370,7 +374,10 @@ function RecordItemsContainer(props) {
         </TableContainer>
     );
   };
-
+  let classFull = "";
+  if(props.display == 'true'){
+    classFull = classes.expandMode;
+  }
 
   return (
     <div
@@ -379,11 +386,9 @@ function RecordItemsContainer(props) {
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
       <div className={classes.container}>
-        {
-          recorditTab === 0 &&
-          <div className={classes.context}>
+          <div className={classes.context_main}>
             <div className={classes.tableContainer}>
-              <div className={`info-box ${classes.wrapper}`}>
+              <div className={`info-box ${classes.wrapper} ${classFull}`}>
               {
                 props.isLoading
                 ?
@@ -395,13 +400,13 @@ function RecordItemsContainer(props) {
                       <TableRow key={1}>
                         <TableCell align="center" colSpan={2} >
                           <Typography variant="h2" component="h2" className={"green"}>
-                            {`Process: 345`}
+                            {`InProcess: 345`}
                           </Typography>                           
                         </TableCell>
                       </TableRow>
                       <TableRow key={2}>
                         <TableCell>
-                          <Typography variant="h6" component="h6" align="left">
+                          <Typography variant="h6" component="h6" className={"white"} align="left">
                             {'Fix: '}
                           </Typography>
                         </TableCell>
@@ -413,7 +418,7 @@ function RecordItemsContainer(props) {
                       </TableRow>
                       <TableRow key={3}>
                         <TableCell>
-                          <Typography variant="h6" component="h6" align="left">
+                          <Typography variant="h6" component="h6" className={"white"} align="left">
                             {'Records: '}
                           </Typography>
                         </TableCell>
@@ -425,7 +430,7 @@ function RecordItemsContainer(props) {
                       </TableRow>     
                       <TableRow key={4}>
                         <TableCell>
-                          <Typography variant="h6" component="h6" align="left">
+                          <Typography variant="h6" component="h6" className={"white"} align="left">
                             {'Complete: '}
                           </Typography>
                         </TableCell>
@@ -441,25 +446,39 @@ function RecordItemsContainer(props) {
               }
               </div> 
             </div> 
-            <div style={{minHeight:'30px'}}>
-              <CustomHeader type={'todo'} bind={0}/>
-            </div>  
-            <div className={classes.scrollbar}>
-              {
-                props.isLoading
+          </div>
+        {
+          recorditTab === 0 &&
+          <div className={classes.context}>
+            <div className={classes.tableContainer}>
+              <div className={`info-box ${classes.wrapper}`}>   
+                {
+                  !isExpanded 
                   ?
-                  <Loader/>
+                  <div style={{minHeight:'30px'}}>
+                    <CustomHeader type={'todo'} bind={0}/>
+                  </div>
                   :
-                  <PerfectScrollbar
-                    options={{
-                      suppressScrollX: true,
-                      minScrollbarLength: 20,
-                      maxScrollbarLength: 25
-                    }}
-                  >
-                    {renderItemList(0,'todo')}
-                  </PerfectScrollbar>
-              }
+                  ''
+                }
+                <div className={classes.scrollbar}>
+                  {
+                    props.isLoading
+                      ?
+                      <Loader/>
+                      :
+                      <PerfectScrollbar
+                        options={{
+                          suppressScrollX: true,
+                          minScrollbarLength: 20,
+                          maxScrollbarLength: 25
+                        }}
+                      >
+                        {renderItemList(0,'todo')}
+                      </PerfectScrollbar>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         }
@@ -467,55 +486,34 @@ function RecordItemsContainer(props) {
           recorditTab === 1 &&
           <div className={classes.context}>
             <div className={classes.tableContainer}>
-              <div className={classes.wrapper}>
+              <div className={`info-box ${classes.wrapper}`}>  
                 {
-                  props.isLoading
+                  !isExpanded 
                   ?
-                  <Loader/>
+                  <div style={{minHeight:'30px'}}>
+                    <CustomHeader type={'todo'} bind={1}/>
+                  </div>
                   :
-                  <TableContainer component={Paper}>
-                    <Table className={`head_box_table `} size="small" aria-label="a dense table">
-                      <TableBody>                    
-                        <TableRow key={1}>
-                          <TableCell align="center" colSpan={2} className={"head_box_heading green"}>{`Process: 471`}</TableCell>
-                        </TableRow>
-                        <TableRow key={2}>
-                          <TableCell align="left" className={"head_box_text"}>{'Fix: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.fixItemCount.toLocaleString()}</TableCell>
-                        </TableRow>
-                        <TableRow key={3}>
-                          <TableCell align="left" className={"head_box_text"}>{'Records: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.recordItemCount.toLocaleString()}</TableCell>
-                        </TableRow>     
-                        <TableRow key={4}>
-                          <TableCell align="left" className={"head_box_text"}>{'Complete: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.recordItemList['complete'].length}</TableCell>
-                        </TableRow>                  
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                }  
-                </div> 
-            </div>   
-            <div style={{minHeight:'30px'}}>
-              <CustomHeader type={'todo'} bind={1}/>
-            </div>       
-            <div className={classes.scrollbar}>
-              {
-                props.isLoading
-                  ?
-                  <Loader/>
-                  :
-                  <PerfectScrollbar
-                    options={{
-                      suppressScrollX: true,
-                      minScrollbarLength: 20,
-                      maxScrollbarLength: 25
-                    }}
-                  >
-                    {renderItemList(1,'todo')}
-                  </PerfectScrollbar>
-              }
+                  ''
+                }
+                <div className={classes.scrollbar}>
+                  {
+                    props.isLoading
+                      ?
+                      <Loader/>
+                      :
+                      <PerfectScrollbar
+                        options={{
+                          suppressScrollX: true,
+                          minScrollbarLength: 20,
+                          maxScrollbarLength: 25
+                        }}
+                      >
+                        {renderItemList(1,'todo')}
+                      </PerfectScrollbar>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         }
@@ -523,55 +521,34 @@ function RecordItemsContainer(props) {
           recorditTab === 2 &&
           <div className={classes.context}>
             <div className={classes.tableContainer}>
-              <div className={classes.wrapper}>
-              {
-                  props.isLoading
+              <div className={`info-box ${classes.wrapper}`}> 
+                {
+                  !isExpanded 
                   ?
-                  <Loader/>
+                  <div style={{minHeight:'30px'}}>
+                    <CustomHeader type={'todo'} bind={2}/>
+                  </div>
                   :
-                  <TableContainer component={Paper}>
-                    <Table className={`head_box_table `} size="small" aria-label="a dense table">
-                      <TableBody>                    
-                        <TableRow key={1}>
-                          <TableCell align="center" colSpan={2} className={"head_box_heading green"}>{`In Process`}</TableCell>
-                        </TableRow>
-                        <TableRow key={2}>
-                          <TableCell align="left" className={"head_box_text"}>{'Fix: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.fixItemCount.toLocaleString()}</TableCell>
-                        </TableRow>
-                        <TableRow key={3}>
-                          <TableCell align="left" className={"head_box_text"}>{'Records: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.recordItemCount.toLocaleString()}</TableCell>
-                        </TableRow>     
-                        <TableRow key={4}>
-                          <TableCell align="left" className={"head_box_text"}>{'Complete: '}</TableCell>
-                          <TableCell align="right" className={"head_box_number green"}>{props.recordItemList['complete'].length}</TableCell>
-                        </TableRow>                  
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                }  
-                </div> 
-            </div>  
-            <div style={{minHeight:'30px'}}>
-              <CustomHeader type={'todo'} bind={2}/>
-            </div> 
-            <div className={classes.scrollbar}>
-              {
-                props.isLoading
-                  ?
-                  <Loader/>
-                  :
-                  <PerfectScrollbar
-                    options={{
-                      suppressScrollX: true,
-                      minScrollbarLength: 20,
-                      maxScrollbarLength: 25
-                    }}
-                  >
-                    {renderItemList(2 ,'complete')}
-                  </PerfectScrollbar>
-              }
+                  ''
+                }
+                <div className={classes.scrollbar}>
+                  {
+                    props.isLoading
+                      ?
+                      <Loader/>
+                      :
+                      <PerfectScrollbar
+                        options={{
+                          suppressScrollX: true,
+                          minScrollbarLength: 20,
+                          maxScrollbarLength: 25
+                        }}
+                      >
+                        {renderItemList(2,'complete')}
+                      </PerfectScrollbar>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         }
@@ -617,6 +594,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getRecordItems,
   setRecordItTabIndex,
+  findRecord,
   completeRecord
 };
 

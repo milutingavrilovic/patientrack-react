@@ -157,12 +157,11 @@ span {
 }
 
 #pdfViewer {    
-  position: absolute;
+  position: relative;
   width: 536px;
   height: 628px;
   z-index: 1000;
-  /* right: 0; */
-  display: none;
+  display: none; 
 }
 
 .MuiDialog-root{

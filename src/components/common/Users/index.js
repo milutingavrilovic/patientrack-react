@@ -49,7 +49,9 @@ function Users(props) {
   const options = {
     paging: false,
     search: false,
-    maxBodyHeight: props.height * 39  / 100
+    maxBodyHeight: props.height * 39  / 100,
+    addRowPosition: 'first',
+    toolbarButtonAlignment: 'left'
   };
 
   useEffect(() => {
@@ -101,6 +103,11 @@ function Users(props) {
         >
           {      
             <MaterialTable
+              localization={{
+                header: {
+                  actions: '#'
+                }
+              }}
               title=""
               icons={tableIcons}
               columns={state.columns}

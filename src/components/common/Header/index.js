@@ -48,12 +48,14 @@ function Header(props) {
   const defaultValue = 0;
 
   const handleOpen = (t) => {
-    if(props.currentAsset !== "" || props.selectedRFID !== "") {
-      setHeader(t == 0 ? 'Correct a Record' : 'Record an Assignment');
-      setFormId( t );
+
+    setHeader(t == 0 ? 'Correct a Record' : 'Record an Assignment');
+    setFormId( t );
+    if((props.currentAsset !== "" || props.selectedRFID !== "") && t == 0) {
       setOpen(true);
-    }  else {
-      //alert("")
+    }  else if(t == 1){
+
+      setOpen(true);
     }  
   };
 
@@ -110,32 +112,21 @@ function Header(props) {
       selectedItem = props.currentAsset;
     }        
     let data = new FormData(form);    
-
     props.updateComment(data, method, type, selectedItem);
-
     setOpenComment( false );
   }
 
   const handleSubmit = ( form ) => {
-    console.log("lawyerID", form);
     let formData = new FormData( form );
-    
-    const asset = (props.currentAsset !== "") ? props.currentAsset : props.selectedRFID;
-    const option = (props.currentAsset !== "") ? 0 : 1;
-    formData.append( 'asset', asset );
-    formData.append( 'option', option );
-
-    console.log("formData",formData);
-
-    console.log("formData",formData.values());
-
+    if(formId == 0) {
+      const asset = (props.currentAsset !== "") ? props.currentAsset : props.selectedRFID;
+      const option = (props.currentAsset !== "") ? 0 : 1;
+      formData.append( 'asset', asset );
+      formData.append( 'option', option );
+    }    
     props.postRecordItems(formData, formId);
-
-    setOpen( false );
-   
+    setOpen( false );   
   };
-
-  
 
   return (
     
@@ -237,8 +228,7 @@ function Header(props) {
           <div
             className = {classes.profileMenu}
             style = {{
-              display: profileMenu ? 'initial' : 'none',
-              minWidth: 130
+              display: profileMenu ? 'initial' : 'none'
             }}
           >
             <div className={classes.profileMenuItem} onClick = {() => {
@@ -272,7 +262,9 @@ function Header(props) {
         <DialogContent>          
           <div>
             <form ref={ref} className={classes.root} noValidate autoComplete="off">
-              <Typography variant="h6" component="h6" className={"red"} align="right">
+            {
+              formId == 0 && 
+              <Typography variant="h6" component="h6" className={"red"} align="left">
                 { props.currentAsset !== ""
                   ? 
                   props.currentAsset 
@@ -280,11 +272,12 @@ function Header(props) {
                   props.selectedRFID
                 }
               </Typography>
+            } 
             <div>              
               <div className={"MuiFormControl-root MuiTextField-root"}>
                 <label className={"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"} >Select your professional to be assigned for this task:</label>
                 <div className={"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"}>
-                  <select value={lawyer}  onChange={handleChange} name="user_id" id="user_id" style={{width: '100%'}} className={"MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input"}>   
+                  <select value={lawyer}  onChange={handleChange} name="user_id" id="user_id"  className={`${classes.customSelect} MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input `}>   
                     <option value={defaultValue} disable={"true"}></option>           
                     {lawyers.map((option) => (
                       <option key={option.id} value={option.id}>{option.first_name} {option.first_name}</option>
@@ -298,7 +291,7 @@ function Header(props) {
                 <div className={"MuiFormControl-root MuiTextField-root"}>
                   <label className={"MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"} >Select the document to be used to record the assignment:</label>
                   <div className={"MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"}>
-                    <select value={document}  onChange={handleChangeDocument} name="document_id" id="document_id" style={{width: '100%'}} className={"MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input"}>   
+                    <select value={document}  onChange={handleChangeDocument} name="document_id" id="document_id" className={`${classes.customSelect} MuiSelect-root MuiSelect-select MuiInputBase-input MuiInput-input `}>   
                       <option value={defaultValue} disable={"true"}></option>           
                       {documents.map((option) => (
                         <option key={option.id} value={option.id}>{option.name}</option>
@@ -321,7 +314,7 @@ function Header(props) {
           <Button  onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button autoFocus  color="primary" onClick={() => {
+          <Button autoFocus  color="primary" className={classes.btn} onClick={() => {
             handleSubmit(ref.current)
           }}>
             Send
@@ -354,7 +347,7 @@ function Header(props) {
             <Button  onClick={handleCommentClose} color="secondary">
               Cancel
             </Button>
-            <Button autoFocus  color="primary" onClick={() => {
+            <Button autoFocus  color="primary" className={classes.btn} onClick={() => {
               handleSubmitComment(ref.current)
             }}>
               Save
