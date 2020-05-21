@@ -690,15 +690,16 @@ function RecordItemsContainer(props) {
                           </TableCell>
                         </TableRow>
                         <TableRow key={3}>
-                          <Typography
-                            variant="h6"
-                            component="h6"
-                            align="left"
-                            className={"green"}
-                          >
-                            {"Records: "}
-                          </Typography>
-
+                          <TableCell>
+                            <Typography
+                              variant="h6"
+                              component="h6"
+                              align="left"
+                              className={"green"}
+                            >
+                              {"Records: "}
+                            </Typography>
+                          </TableCell>
                           <TableCell
                             align="right"
                             className={"head_box_number green"}
@@ -707,15 +708,16 @@ function RecordItemsContainer(props) {
                           </TableCell>
                         </TableRow>
                         <TableRow key={4}>
-                          <Typography
-                            variant="h6"
-                            component="h6"
-                            align="left"
-                            className={"green"}
-                          >
-                            {"Complete: "}
-                          </Typography>
-
+                          <TableCell>
+                            <Typography
+                              variant="h6"
+                              component="h6"
+                              align="left"
+                              className={"green"}
+                            >
+                              {"Complete: "}
+                            </Typography>
+                          </TableCell>
                           <TableCell
                             align="right"
                             className={"head_box_number green"}
