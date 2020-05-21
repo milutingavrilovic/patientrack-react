@@ -199,14 +199,10 @@ function LevelsNestedTreeGrid(props) {
       </TreeView>
     );
   };
-
   const renderCustomersData = data => {
     if (props.isLoading) return <Loader />;
     return (
       <div className={classes.flexColumn}>
-        <Typography variant="h2" component="h2" align="center">
-          {isExpanded ? `Portfolios:12` : ""}
-        </Typography>
         {isExpanded ? (
           <CollapsibleTable data={data} props={props} />
         ) : (
