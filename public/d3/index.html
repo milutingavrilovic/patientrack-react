@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     ></script>
     <script
-      src="https://kit.fontawesome.com/ea2379d57d.js"
+      src="https://kit.fontawesome.com/d0697327eb.js"
       crossorigin="anonymous"
     ></script>
     <link href="jquery-ui.min.css" rel="stylesheet" type="text/css" />
@@ -256,8 +256,8 @@
 
       .buttons {
         position: fixed;
-        top: 72px;
-        left: 45px;
+        top: 80px;
+        left: 15px;
         width: 138px;
         z-index: 10;
       }
@@ -387,12 +387,15 @@
       .pdf-frame > iframe {
         border: 20px solid white;
       }
+      .row-b, .row-c{
+        margin-top:10px;
+      }
 
       #comment-img-0,
       #comment-img-1,
       #doc-img-0,
       #doc-img-1,
-      .container > img {
+      .container > img, .fas {
         cursor: pointer;
       }
 
@@ -469,7 +472,8 @@
 	.tab_btn.aform{margin-left:13px;}
 	#menu-toggle{color:#bdbdbd;}
 	.menu-contents, .top-bar{background: #000000 !important;color:#bdbdbd !important;}
-	.ui-state-default, .ui-widget-content .ui-state-default{background: #000000 !important;}
+  .ui-state-default, .ui-widget-content .ui-state-default{background: #000000 !important;}
+  .mrg20L{margin-left:20px;}
     </style>
   </head>
 
@@ -2229,7 +2233,7 @@
         .attr("width", global_width)
         .attr("height", global_height)
         .style("left", "10px")
-        .style("top", "0px")),
+        .style("top", "20px")),
         (wt = w.append("defs")),
         (ot = w.append("g")),
         (o = w.append("g")),
@@ -3168,14 +3172,14 @@
       /*
       TOOLBAR DEFINITION:
       */
-
+      var topBarWidth = window.innerWidth;
       l = container
         .append("div")
         .attr("class", "menu")
         .style("width", "10px")
         .style("height", global_height + "px");
       if (global_width < window.innerWidth - 190) {
-        var topBarWidth = window.innerWidth - 190;
+        topBarWidth = window.innerWidth - 190;
       }
 
       topBar = container
@@ -3186,7 +3190,6 @@
         .style("background-color", "#fff")
         .style("position", "fixed")
         .style("z-index", 200)
-        .style("display", "none");
 
       /* topBar
         .append("div")
@@ -3233,13 +3236,13 @@
         .append("div")
         .attr("class", "menu-contents")
         .attr("id", "menu-contents")
-        .style("width", "180px")
+        .style("width", "120px")
         .style("height", global_height - 40 + "px")
         /*.style("top", "40px")
         .style("left", "0px");*/
-		.style("top", "4px")
+		.style("top", "20px")
 		.style("z-index", 9999)
-        .style("left", "20px");
+        .style("left", "-20px");
 
       /* l.append("div")
         .style("top", "40px")
@@ -3259,9 +3262,9 @@
         .style("height", "48px")
         .style("position", "absolute")
         .style("z-index", 100)
-        .style("border-style", "solid")
+        /*.style("border-style", "solid")
         .style("border-width", "1px")
-        .style("border-radius", "10px");
+        .style("border-radius", "10px");*/
 
       menu_logo
         .append("img")
@@ -3270,6 +3273,7 @@
         .style("padding-bottom", "2px")
         .style("padding-top", "5px")
         .style("padding-left", "5px")
+        .style("float", "left")
         .attr("src", filePath1);
 
       menu_logo
@@ -3278,8 +3282,8 @@
         .attr("height", 32)
         .style("padding", "4px")
         .style("margin-top", "4px")
-        .style("margin-left", "5px")
-        .style("float", "right")
+        .style("margin-left", "10px")
+        .style("float", "left")
         .attr("src", filePath2);
 
       /* imgSVG
@@ -3310,7 +3314,7 @@
         .append("text")
         .text(data.general.patent_number)
         .style("top", "8px")
-        .style("left", "266px")
+        .style("left", "160px")
         .style("position", "absolute")
 		.style("text-decoration", "underline")
         .style("font-size", "16px");
@@ -3536,47 +3540,38 @@
       ttB = tt.append("div").attr("class", "button-rows row-b");
       ttC = tt.append("div").attr("class", "button-rows row-c");
 
-      ttA
-        .append("button")
-        .text("|<")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
-        .on("click", function() {
+      ttA.append('a')
+      .attr("class", "fas fa-arrow-alt-to-left")
+      .on("click", function() {
           //e > 0 && ((e = 0), stepControls());
           idIndex = -1;
           assignmentIndex = -1;
           stepID();
-        });
+      });
+
       ttA
-        .append("button")
-        .text(">|")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
+        .append("a")
+        .attr("class", "fas fa-arrow-alt-to-right mrg20L")
         .on("click", function() {
           idIndex = listOfID.length - 1;
           assignmentIndex = listOfAssignmentNumber1.length - 1;
           stepID();
           //e < f.length - 1 && ((e = f.length - 1), stepControls());
         });
-      ttB
-        .append("button")
-        .text("<<")
+        ttB
+        .append("a")
         .attr("id", "step-first")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
+        .attr("class", "fas fa-chevron-double-left")
         .on("click", function() {
           if (assignmentIndex >= 0) {
             assignmentIndex--;
             stepAssignment();
           }
         });
-      /*tt.append("button")
-        .text(">")
-        .on("click", function() {
-          e < f.length - 1 && (e++, stepControls());
-        });*/
-      ttB
-        .append("button")
-        .text(">>")
+        ttB
+        .append("a")
         .attr("id", "step-last")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
+        .attr("class", "fas fa-chevron-double-right mrg20L")
         .on("click", function() {
           if (assignmentIndex < listOfAssignmentNumber1.length) {
             assignmentIndex++;
@@ -3584,10 +3579,9 @@
           }
         });
 
-      ttC
-        .append("button")
-        .text("<")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
+        ttC
+        .append("a")
+        .attr("class", "fas fa-chevron-left")
         .on("click", function() {
           if (idIndex >= 0) {
             idIndex--;
@@ -3595,17 +3589,15 @@
           }
         });
 
-      ttC
-        .append("button")
-        .text(">")
-        .attr("class", "ui-button ui-widget ui-corner-all custom-button")
+        ttC
+        .append("a")
+        .attr("class", "fas fa-chevron-right mrg20L")
         .on("click", function() {
           if (idIndex < listOfID.length - 1) {
             idIndex++;
             stepID();
           }
         });
-
       tt2 = l.append("div").attr("class", "buttons2");
 
       var slider = menu_contents
@@ -3613,23 +3605,23 @@
         .attr("id", "slider3")
         .style("position", "absolute")
         .style("top", "548px")
-        .style("left", "40px")
-        .style("width", "108px");
+        .style("left", "30px")
+        .style("width", "85px");
 
       var ti = menu_contents
           .append("div")
           .attr("id", "slider1")
           .style("position", "absolute")
           .style("top", "251px")
-          .style("left", "40px")
-          .style("width", "108px"),
+          .style("left", "30px")
+          .style("width", "85px"),
         kt = menu_contents
           .append("div")
           .attr("id", "slider2")
           .style("position", "absolute")
           .style("top", "350px")
-          .style("left", "40px")
-          .style("width", "108px"),
+          .style("left", "30px")
+          .style("width", "85px"),
         sval1 = 0,
         sval2 = 0;
       $("#slider1").slider({
@@ -4483,11 +4475,11 @@
             .attr("class", "fas fa-chevron-right")
             .style("left", "10px");
           l.style("width", "10px");
-          w.style("left", 10 + "px").style("top", 0 + "px");
+          w.style("left", 10 + "px").style("top", 20 + "px");
           if (global_width < window.innerWidth - 190) {
             var topBarWidth = window.innerWidth - 190;
           }
-          topBar.style("width", topBarWidth + "px").style("display", "none");
+          topBar.style("width", topBarWidth + "px")/*.style("display", "none");*/
           initZoom = (window.innerWidth - 10) / global_width;
         } else {
           menuToggle = 1;

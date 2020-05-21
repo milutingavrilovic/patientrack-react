@@ -62,13 +62,14 @@
         modal.classList.remove('show');
         modal.querySelector("iframe").setAttribute('src', 'about:blank');
         window.pdf = '';
-      }
+      } 
     }
     window.openPatentWindow = ( pdf ) => {
       window.pdf = pdf;
       const element = document.getElementById("pdfViewer");
       const mainC = document.getElementById("ms23wd");   
-      const heightC = mainC.clientHeight - 32;   
+      const domHeight = window.innerHeight;
+      const heightC = domHeight - 106;   
       element.style.height = heightC+"px";
       element.style.width = (mainC.clientWidth + 1)+"px";
       element.style.display = 'block';

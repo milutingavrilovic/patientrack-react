@@ -139,6 +139,11 @@ function Documents(props) {
         >
           {
             <MaterialTable
+              localization={{
+                header: {
+                  actions: '#'
+                }
+              }}
               title=""
               icons={tableIcons}
               columns={state.columns}

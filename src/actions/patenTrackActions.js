@@ -237,7 +237,11 @@ export const postRecordItems = (data, type) => {
       .then(res => {        
         if(typeof res == "object") {
           if(typeof res.data !== "undefined" && typeof res.data.share_url !== "undefined") {
-            dispatch(getComments(res.data.option == '0' ? 'asset' : 'collection', res.data.patent_number));
+            if(type == '0') {
+              dispatch(getComments(res.data.option == '0' ? 'asset' : 'collection', res.data.patent_number));
+            } else if(type == '1') {
+              dispatch(findRecord(res.data.id));
+            }            
             //dispatch(setShareUrl( res.data.share_url ));
             let body  = `${res.data.comment} \n\n\n ${res.data.document} \n\n\n ${res.data.share_url}`;
             window.open(`mailto:${res.data.email_address}?subject=Fix it&body=${encodeURIComponent(body)}`,"_BLANK");
@@ -249,6 +253,52 @@ export const postRecordItems = (data, type) => {
         
         dispatch(getRecordItems(type, 'count', 1))
         dispatch(getRecordItems(type, 'list', 1))        
+      })
+      .catch(err => {
+        throw(err);
+      });
+  }
+};
+
+export const setRecord = (data) => {
+  return {
+    type: types.SET_RECORD,
+    data
+  };
+};
+
+export const findRecord = (ID) => {
+  return dispatch => {
+    dispatch(setCommentsLoading(true));
+    return PatenTrackApi
+      .findRecord(ID)
+      .then(res => {   
+        dispatch(setCommentsLoading(false));
+        dispatch(setComments([]));
+        dispatch(setRecord(null));
+        if(res.data.id > 0) {
+          if(res.data.patent_number != "" && res.data.type == "0") {
+            if( res.data.option == "1" ) {
+              dispatch(setCurrentCollectionID(res.data.patent_number));
+              dispatch(setCurrentAsset(''));
+              dispatch(setIllustrationUrl('about:blank'));
+              dispatch(getFilterTimeLine( 'Lookout Inc', res.data.patent_number, 2 ));
+              dispatch(getCollectionIllustration(res.data.patent_number));
+            } else {
+              dispatch(setCurrentAsset(res.data.patent_number));
+              dispatch(setCurrentCollectionID(''));
+              dispatch(setIllustrationUrl('about:blank'));
+              dispatch(getFilterTimeLine( 'Lookout Inc', res.data.patent_number, 3 ));
+              dispatch(getAssets(res.data.patent_number));
+              dispatch(getAssetsOutsource(res.data.patent_number));
+            }
+          }
+          if(res.data.type == "1"){             
+            dispatch(setRecord(res.data));
+          } else {
+            dispatch(getComments(res.data.option == '0' ? 'asset' : 'collection', res.data.patent_number));
+          }
+        }
       })
       .catch(err => {
         throw(err);

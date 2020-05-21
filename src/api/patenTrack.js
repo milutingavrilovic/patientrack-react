@@ -130,6 +130,10 @@ class PatenTrackApi {
     return axios.get(`${base_api_url}/site_logo`, getHeader());
   }
 
+  static findRecord(ID) {
+    return axios.get(`${base_api_url}/record_item/${ID}`, getHeader());
+  }
+
   static postRecordItems( data, type ) {
     return axios.post(`${base_api_url}/record_item/${type}`, data, getMultiFormUrlHeader());
   }

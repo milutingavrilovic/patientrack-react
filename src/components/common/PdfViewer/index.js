@@ -13,23 +13,29 @@ function PdfViewer(props) {
   const { pdfTab, setPdfTabIndex } = props;
   const classes = useStyles();
   const [showSwitcher, setShowSwitcher] = useState(0);
-
-
+  
+  console.log("props.display", props.display);
   const checkHeight = (t) => {
-      console.log("t", t);
+    console.log("t", t);
+    console.log("window.innerHeight", window.innerHeight);
     const containerName = t == 1 ? "iframe_agreement" : "iframe_form";
     const iframeElement = document.getElementById(containerName);
     const parentElement = document.getElementById("pdfViewer");
-    iframeElement.style.height = parentElement.clientHeight + "px";
+    const height = window.innerHeight - 111;
+    iframeElement.style.height = height + "px";
+    parentElement.style.height = height + "px";
   };
-  
+  let fullView = "";
+  if(props.display == 'true') {
+    fullView = classes.fullView;
+  }
   return (
     <div
       className     = {classes.pdfContainer}
       onMouseOver   = {() => {setShowSwitcher(true)}}
       onMouseLeave  = {() => {setShowSwitcher(false)}}
     >
-      <div className={classes.pdfWrapper} id={"pdfViewer"}>
+      <div className={`${classes.pdfWrapper} ${fullView}`} id={"pdfViewer"}  style={{display: props.display == 'true' ? 'block' : 'none'}}>
         <div className={classes.container}>
           {
             pdfTab === 0 &&

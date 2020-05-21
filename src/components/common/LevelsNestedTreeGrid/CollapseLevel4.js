@@ -20,15 +20,6 @@ const useRowStyles = makeStyles({
       borderBottom: "1px solid white !important",
     },
   },
-  tableCell1: {
-    width: "45%",
-  },
-  tableCell2: {
-    width: "40%",
-  },
-  tableCell3: {
-    width: "10%",
-  },
 });
 
 function RowWithoutCollapse(props) {
@@ -57,8 +48,8 @@ function RowWithoutCollapse(props) {
         <TableCell component="th" scope="row">
           {row ? row.id : ""}
         </TableCell>
-        <TableCell>{row ? row.name : ""}</TableCell>
-        <TableCell>{row ? row.level : ""}</TableCell>
+        <TableCell align="left">{row ? row.name : ""}</TableCell>
+        <TableCell align="left">{row ? row.level : ""}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell

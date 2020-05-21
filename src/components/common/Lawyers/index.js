@@ -46,11 +46,14 @@ function Lawyers(props) {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
+
   const options = {
     paging: false,
     search: false,
-    maxBodyHeight: props.height * 39  / 100
-  };
+    maxBodyHeight: props.height * 39  / 100,
+    addRowPosition: 'first',
+    toolbarButtonAlignment: 'left'
+  }; 
 
   useEffect(() => {
     if( props.lawyerList.length > 0 ) {
@@ -66,8 +69,7 @@ function Lawyers(props) {
         columns: columns,
         data: props.lawyerList
       });
-    }
-    
+    }    
   },[props.lawyerList]);
 
   const errorProcess = (err) => {
@@ -84,6 +86,11 @@ function Lawyers(props) {
         >
           {      
             <MaterialTable
+              localization={{
+                header: {
+                  actions: '#'
+                }
+              }}
               title=""
               icons={tableIcons}
               columns={state.columns}

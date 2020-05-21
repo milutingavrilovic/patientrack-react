@@ -8,8 +8,8 @@ export default makeStyles((theme) => ({
     zIndex: 9999
   },
   pdfWrapper: {
-    position: 'absolute',
-    top: 0,
+    position: 'relative',
+    top: '4px',
     left: 0,
     bottom: 0,
     right: 0,
@@ -35,6 +35,9 @@ export default makeStyles((theme) => ({
   outsource:{
     width: '100%',
     border: '0px'
+  },
+  fullView: {
+    width: '100% !important'
   }
 
 }));

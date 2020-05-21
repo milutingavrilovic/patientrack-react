@@ -176,24 +176,24 @@ function DashBoard(props) {
           >
             <Grid container style={{flexGrow: 1, height: '70%'}} id={"ms23wd"}>
               <Grid
-                item lg={6} md={6} sm={6} xs={6}
-                className={classes.flexColumn}
-              >
-                <FixItemsContainer/>
-              </Grid>
-              <Grid
-                item lg={6} md={6} sm={6} xs={6}
-                className={classes.flexColumn}
-              >
-                <RecordItemsContainer/>
-              </Grid>
-              <Grid
                 item lg={12} md={12} sm={12} xs={12}
-                className={classes.flexColumn}
-                style={{position: 'absolute', display:'none'}}
+                className={`${classes.flexColumn} ${classes.customIndex}`}
+                style={{position: 'relative', display:'none', zIndex:10001}}
               >
-                <PdfViewer/>
+                <PdfViewer display={"false"}/>
               </Grid>
+              <Grid
+                item lg={6} md={6} sm={6} xs={6}
+                className={classes.flexColumn}
+              >
+                <FixItemsContainer display={"false"}/>
+              </Grid>
+              <Grid
+                item lg={6} md={6} sm={6} xs={6}
+                className={classes.flexColumn}
+              >
+                <RecordItemsContainer display={"false"}/>
+              </Grid>              
             </Grid>
             <Grid container style={{ height: '30%'}}>
               <Charts/>
@@ -206,10 +206,10 @@ function DashBoard(props) {
       return <LevelsNestedTreeGrid/>
     }
     if(currentWidget === 'fixItems') {
-      return <FixItemsContainer/>
+      return <FixItemsContainer display={"true"}/>
     }
     if(currentWidget === 'recordItems') {
-      return <RecordItemsContainer/>
+      return <RecordItemsContainer display={"true"}/>
     }
     if(currentWidget === 'charts') {
       return <Charts/>
@@ -230,7 +230,7 @@ function DashBoard(props) {
       return <TransactionsContainer/>
     }
     if(currentWidget === 'agreement') {
-      return <PdfViewer/>
+      return <PdfViewer display={"true"}/>
     }
     if(currentWidget === 'settings') {      
       return <UserSettings/>
