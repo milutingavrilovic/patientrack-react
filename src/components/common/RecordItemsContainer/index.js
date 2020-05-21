@@ -570,8 +570,8 @@ function RecordItemsContainer(props) {
                       <TableRow key={1}>
                         <TableCell align="center" colSpan={2}>
                           <Typography
-                            variant="h2"
-                            component="h2"
+                            variant="h4"
+                            component="h4"
                             className={"green"}
                           >
                             {`InProcess: 345`}

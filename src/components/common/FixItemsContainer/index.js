@@ -331,7 +331,7 @@ function FixItemsContainer(props) {
                     <TableBody>                    
                       <TableRow key={1}>
                         <TableCell align="center" colSpan={2}>                            
-                          <Typography variant="h2" component="h2" className={"white"}>
+                          <Typography variant="h4" component="h4" className={"white"}>
                             {`Errors: 578`}
                           </Typography>  
                         </TableCell>
