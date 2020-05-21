@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
@@ -13,6 +14,12 @@ import TableRow from "@material-ui/core/TableRow";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import CollapseLevel3 from "./CollapseLevel3";
+import {
+  getFilterTimeLine,
+  getCustomersNameCollections,
+  setTimelineTabIndex,
+} from "../../../actions/patenTrackActions";
+import { signOut } from "../../../actions/authActions";
 
 const useRowStyles = makeStyles({
   root1: {
@@ -26,18 +33,86 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row } = props;
+  const { row2, parentNodeParent, parentNodeParent1 } = props;
+  const row = row2;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
+  const errorProcess = err => {
+    if (
+      err !== undefined &&
+      err.status === 401 &&
+      err.data === "Authorization error"
+    ) {
+      props.signOut();
+      return true;
+    }
+    return false;
+  };
+
+  const handleSelect = (
+    event,
+    nodeIds,
+    level1,
+    name,
+    parentCompany,
+    parentNodeId,
+    parentName,
+  ) => {
+    setOpen(!open);
+
+    if (nodeIds != "") {
+      const targetEvent = event.currentTarget;
+      const selectElement = "NODE";
+      if (selectElement != null && selectElement != undefined) {
+        const itemText = name;
+        const parentElement = targetEvent.parentNode;
+        if (parentElement != null) {
+          const level = parentElement.getAttribute("level");
+          const tabId = parentElement.getAttribute("tabid");
+          // eslint-disable-next-line default-case
+          switch (parseInt(level)) {
+            case 1:
+              props
+                .getCustomersNameCollections(
+                  itemText,
+                  tabId,
+                  parentNodeId,
+                  nodeIds,
+                )
+                .catch(err => errorProcess({ ...err }.response));
+              props
+                .getFilterTimeLine(parentName, itemText, 1)
+                .catch(err => errorProcess({ ...err }.response));
+              if (props.timelineTab == 1) {
+                props.setTimelineTabIndex(0);
+              }
+              break;
+          }
+        }
+      }
+    }
+  };
 
   return (
     <React.Fragment>
       <TableRow className={classes.root1}>
-        <TableCell>
+        <TableCell node1={row.id} level={row.level} tabid={0}>
           <IconButton
             aria-label="expand row"
             size="small"
-            onClick={() => setOpen(!open)}
+            // onClick={() => setOpen(!open)}
+            onClick={event =>
+              handleSelect(
+                event,
+                row.id,
+                row.level,
+                row.name,
+                parentNodeParent.name,
+                parentNodeParent.id,
+                parentNodeParent.name,
+              )
+            }
           >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
@@ -45,7 +120,9 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row ? row.id : ""}
         </TableCell>
-        <TableCell align="left">{row ? row.name : ""}</TableCell>
+        <TableCell setNodeName={row.name} align="left">
+          {row ? row.name : ""}
+        </TableCell>
         <TableCell align="left">{row ? row.level : ""}</TableCell>
       </TableRow>
       <TableRow>
@@ -67,7 +144,18 @@ function Row(props) {
                 <TableCell style={{ width: "7%" }}>Level</TableCell>
               </TableRow>
               <TableBody>
-                <CollapseLevel3 row={row.child ? row.child : []} />
+                {row.child ? (
+                  row.child.map(historyRow => (
+                    <CollapseLevel3
+                      row3={historyRow}
+                      parentNodeParent1={row}
+                      parentNodeParent={parentNodeParent}
+                      {...props}
+                    />
+                  ))
+                ) : (
+                  <CollapseLevel3 row3={[]} {...props} />
+                )}
               </TableBody>
             </Table>
           </Collapse>
@@ -77,11 +165,25 @@ function Row(props) {
   );
 }
 
-export default function CollapsibleTable(props) {
-  const { row } = props;
+function CollapsibleTable(props) {
+  const { row2, parentNodeParent } = props;
   return (
     <>
-      <Row key={row.name} row={row} />
+      <Row
+        key={row2.name}
+        row2={row2}
+        parentNodeParent={parentNodeParent}
+        {...props}
+      />
     </>
   );
 }
+
+const mapDispatchToProps = {
+  getFilterTimeLine,
+  getCustomersNameCollections,
+  setTimelineTabIndex,
+  signOut,
+};
+
+export default connect(null, mapDispatchToProps)(CollapsibleTable);

@@ -26,10 +26,11 @@ function Row(props) {
   const row = props.row;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+
   return (
     <React.Fragment>
       <TableRow className={classes.root}>
-        <TableCell>
+        <TableCell node1={row.id} name={row.name} level={row.level} tabid={0}>
           <IconButton
             aria-label="expand row"
             size="small"
@@ -64,7 +65,11 @@ function Row(props) {
               </TableRow>
               <TableBody>
                 {row.child.map(historyRow => (
-                  <CollapseLevel2 row={historyRow} />
+                  <CollapseLevel2
+                    row2={historyRow}
+                    parentNodeParent={row}
+                    {...props}
+                  />
                 ))}
               </TableBody>
             </Table>
@@ -91,7 +96,7 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {row.map(row => (
-            <Row key={row.name} row={row} />
+            <Row key={row.name} row={row} {...props} />
           ))}
         </TableBody>
       </Table>

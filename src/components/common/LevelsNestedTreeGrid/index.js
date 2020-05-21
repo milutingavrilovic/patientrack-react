@@ -208,7 +208,7 @@ function LevelsNestedTreeGrid(props) {
           {isExpanded ? `Portfolios:12` : ""}
         </Typography>
         {isExpanded ? (
-          <CollapsibleTable data={data} />
+          <CollapsibleTable data={data} props={props} />
         ) : (
           <DataTreeView treeItems={data} />
         )}

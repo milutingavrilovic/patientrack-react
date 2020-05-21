@@ -23,8 +23,9 @@ const useRowStyles = makeStyles({
 });
 
 function RowWithoutCollapse(props) {
-  const { row } = props;
+  const { row5 } = props;
   const [open, setOpen] = React.useState(false);
+  const row = row5;
 
   const classes = useRowStyles();
   return (
@@ -72,7 +73,7 @@ function RowWithoutCollapse(props) {
 }
 
 export default function CollapsibleTable(props) {
-  const { row } = props;
+  const { row4, parentNodeParent } = props;
   return (
     <>
       <TableRow>
@@ -86,7 +87,13 @@ export default function CollapsibleTable(props) {
         <TableCell style={{ width: "23%" }}>Name</TableCell>
         <TableCell style={{ width: "7%" }}>Level</TableCell>
       </TableRow>
-      {<RowWithoutCollapse key={row.name} row={row} />}
+      {
+        <RowWithoutCollapse
+          key={row4.name}
+          row5={row4}
+          parentNodeParent={parentNodeParent}
+        />
+      }
     </>
   );
 }
