@@ -142,11 +142,9 @@ function Users(props) {
   }, [props.userList]);
 
   useEffect(() => {
-    console.log(
-      document
-        .querySelector("#user_settings_add_new_user_button_header")
-        .parentElement.classList.remove("Mui-disabled"),
-    );
+    document
+      .querySelector("#user_settings_add_new_user_button_header")
+      .parentElement.classList.remove("Mui-disabled");
   });
 
   const errorProcess = err => {
