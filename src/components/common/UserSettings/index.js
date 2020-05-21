@@ -108,7 +108,7 @@ function UserSettings(props) {
                             <Grid
                             item
                             className={classes.flexColumn}
-                            style={{height: '85%'}}
+                            style={{height: '70%'}}
                             >
                             {
                                 props.settingTab === 0 &&
