@@ -133,11 +133,7 @@ export default function CollapsibleTable(props) {
         </TableHead>
         <TableBody>
           {row.map(row => (
-<<<<<<< HEAD
             <Row key={row.name} row={row} {...props} />
-=======
-            <Row key={row.name} row={row} />
->>>>>>> master-2
           ))}
         </TableBody>
       </Table>
