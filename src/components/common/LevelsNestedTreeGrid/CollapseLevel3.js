@@ -39,6 +39,15 @@ const useRowStyles = makeStyles({
       minWidth: 650,
     },
   },
+  tableCell1: {
+    width: "45%",
+  },
+  tableCell2: {
+    width: "40%",
+  },
+  tableCell3: {
+    width: "10%",
+  },
 });
 
 function RowWithoutCollapse(props) {

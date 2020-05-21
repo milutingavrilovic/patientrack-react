@@ -30,6 +30,15 @@ const useRowStyles = makeStyles({
       minWidth: 650,
     },
   },
+  tableCell1: {
+    width: "45%",
+  },
+  tableCell2: {
+    width: "40%",
+  },
+  tableCell3: {
+    width: "10%",
+  },
 });
 
 function Row(props) {
@@ -117,7 +126,7 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
+        <TableCell className={classes.tableCell1} component="th" scope="row">
           {row ? row.id : ""}
         </TableCell>
         <TableCell setNodeName={row.name} align="left">

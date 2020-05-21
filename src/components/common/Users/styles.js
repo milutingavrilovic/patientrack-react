@@ -1,61 +1,61 @@
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
-    userItemsContainer: {
-    position: 'relative',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+  userItemsContainer: {
+    position: "relative",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
     flexGrow: 1,
-    width: '100%',
-    zIndex: 1000
+    width: "100%",
+    zIndex: 1000,
   },
   container: {
-    color: 'white',
-    display: 'flex',
-    flexDirection: 'column',
+    color: "white",
+    display: "flex",
+    flexDirection: "column",
     flexGrow: 1,
-    alignItems: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    position: "absolute",
     top: 5,
     left: 5,
     right: 5,
-    bottom: 0
+    bottom: 0,
   },
   scrollbar: {
     flexGrow: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    width: '100%',
-    '& .MuiPaper-root': {
-      backgroundColor: 'inherit'
+    overflow: "hidden",
+    position: "relative",
+    width: "100%",
+    "& .MuiPaper-root": {
+      backgroundColor: "inherit",
     },
-    '& .MuiTableCell-head': {
-      backgroundColor: 'inherit'
+    "& .MuiTableCell-head": {
+      backgroundColor: "inherit",
     },
-    '& .MuiToolbar-regular': {
-      '& .MuiSvgIcon-root': {
-        color: theme.color.lightGray
-      }
-    }
+    "& .MuiToolbar-regular": {
+      "& .MuiSvgIcon-root": {
+        color: theme.color.lightGray,
+      },
+    },
   },
   table: {
     background: theme.color.background,
-    color: '#bdbdbd'
+    color: "#bdbdbd",
   },
   lookupEditCell: {
     padding: theme.spacing(1),
   },
   dialog: {
-    width: 'calc(100% - 16px)',
+    width: "calc(100% - 16px)",
   },
   inputRoot: {
-    width: '100%',
+    width: "100%",
   },
   selectMenu: {
-    position: 'absolute !important',
+    position: "absolute !important",
   },
   deleteIcon: {
-    color: theme.color.lightGray
-  }
+    color: theme.color.lightGray,
+  },
 }));
