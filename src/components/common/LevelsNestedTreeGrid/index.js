@@ -229,8 +229,8 @@ function LevelsNestedTreeGrid(props) {
       <div className={classes.container}>
         <div className={classes.context}>
           <Typography
-            variant="h3"
-            component="h3"
+            variant="h4"
+            component="h4"
             align="center"
             className={classes.customPadding}
           >

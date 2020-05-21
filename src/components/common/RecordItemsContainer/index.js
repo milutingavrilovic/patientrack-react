@@ -394,7 +394,7 @@ function RecordItemsContainer(props) {
                     <TableBody>                    
                       <TableRow key={1}>
                         <TableCell align="center" colSpan={2} >
-                          <Typography variant="h2" component="h2" className={"green"}>
+                          <Typography variant="h4" component="h4" className={"green"}>
                             {`Process: 345`}
                           </Typography>                           
                         </TableCell>
